@@ -71,10 +71,7 @@ async def job_shorts_notify():
     print(f"{'='*50}")
     try:
         from app.pipeline.shorts.pipeline import send_shorts_notification
-        from app.bot.config import get_bot_token
-        from telegram import Bot
-        bot = Bot(token=get_bot_token())
-        await send_shorts_notification(bot)
+        await send_shorts_notification()
         print(f"✅ 쇼츠 전송 완료")
     except Exception as e:
         print(f"❌ 쇼츠 전송 실패: {e}")

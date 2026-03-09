@@ -145,7 +145,7 @@ async def run_shorts_pipeline(target_date: date | None = None) -> dict:
     }
 
 
-async def send_shorts_notification(bot, target_date: date | None = None):
+async def send_shorts_notification(target_date: date | None = None):
     """DB에서 쇼츠 가져와서 오너에게 전송"""
     if target_date is None:
         target_date = date.today()
@@ -169,7 +169,7 @@ async def send_shorts_notification(bot, target_date: date | None = None):
         logger.error(f"MP4 파일 없음: {mp4_path}")
         return
 
-    await send_shorts_to_owner(bot, mp4_path, script)
+    await send_shorts_to_owner(mp4_path, script)
 
     # 상태 업데이트
     async with aiosqlite.connect(DB_PATH) as db:
