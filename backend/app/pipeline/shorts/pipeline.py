@@ -1,7 +1,8 @@
-"""쇼츠 전체 파이프라인 오케스트레이터 — US/KR 분리"""
+"""쇼츠 전체 파이프라인 오케스트레이터 — US/KR 분리, TTS 싱크"""
 import json
 import logging
 import os
+import math
 from datetime import date
 from pathlib import Path
 
@@ -18,7 +19,7 @@ DB_PATH = Path.home() / "stockread" / "backend" / "data" / "stockread.db"
 
 
 async def get_price_data_for_shorts(target_date: date) -> list[dict]:
-    """DB에서 쇼츠용 가격 데이터 가져오기 (전체)"""
+    """DB에서 쇼츠용 가격 데이터 가져오기"""
     async with aiosqlite.connect(DB_PATH) as db:
         db.row_factory = aiosqlite.Row
         rows = await db.execute_fetchall(
@@ -40,6 +41,38 @@ async def get_price_data_for_shorts(target_date: date) -> list[dict]:
     return result
 
 
+def sync_scenes_to_audio(script: dict, audio_duration: float) -> dict:
+    """scenes의 duration을 TTS 실제 길이에 비례 배분
+
+    LLM이 준 duration 비율은 유지하면서, 총합을 audio_duration에 맞춤
+    """
+    scenes = script["scenes"]
+    original_total = sum(s["duration"] for s in scenes)
+
+    if original_total <= 0:
+        return script
+
+    ratio = audio_duration / original_total
+
+    # 비례 배분 (최소 2초)
+    for scene in scenes:
+        scene["duration"] = max(2, round(scene["duration"] * ratio))
+
+    # 합계가 정확히 맞도록 마지막 씬 조정
+    new_total = sum(s["duration"] for s in scenes)
+    diff = round(audio_duration) - new_total
+    scenes[-1]["duration"] = max(2, scenes[-1]["duration"] + diff)
+
+    script["scenes"] = scenes
+    script["audioDurationSec"] = round(audio_duration)
+
+    logger.info(
+        f"씬 싱크 조정: 원래 {original_total}초 → TTS {audio_duration:.1f}초 "
+        f"(ratio {ratio:.2f})"
+    )
+    return script
+
+
 async def save_shorts_to_db(script: dict, mp4_path: str, target_date: date, market: str):
     """shorts_content 테이블에 저장"""
     async with aiosqlite.connect(DB_PATH) as db:
@@ -59,15 +92,7 @@ async def save_shorts_to_db(script: dict, mp4_path: str, target_date: date, mark
 
 
 async def run_shorts_pipeline(target_date: date | None = None, market: str = "US") -> dict:
-    """쇼츠 파이프라인 실행 (시장별)
-
-    Args:
-        target_date: 대상 날짜
-        market: "US" 또는 "KR"
-
-    Returns:
-        {"script": dict, "mp4_path": str, "has_audio": bool}
-    """
+    """쇼츠 파이프라인 실행 (시장별)"""
     if target_date is None:
         target_date = date.today()
 
@@ -78,9 +103,8 @@ async def run_shorts_pipeline(target_date: date | None = None, market: str = "US
     price_data = await get_price_data_for_shorts(target_date)
     if not price_data:
         raise RuntimeError("가격 데이터가 없습니다.")
-    logger.info(f"가격 데이터 {len(price_data)}건 조회")
 
-    # 2. 스크립트 생성 (시장별)
+    # 2. 스크립트 생성
     script = await generate_shorts_script(price_data, target_date, market=market)
     logger.info(f"스크립트 생성: {script['title']}")
 
@@ -95,7 +119,7 @@ async def run_shorts_pipeline(target_date: date | None = None, market: str = "US
         audio_path = audio_dir / f"tts_{target_date.isoformat()}_{market.lower()}.mp3"
 
         try:
-            await generate_tts(
+            audio_path, audio_duration = await generate_tts(
                 text=script["tts_script"],
                 output_path=audio_path,
                 api_key=openai_key,
@@ -103,15 +127,17 @@ async def run_shorts_pipeline(target_date: date | None = None, market: str = "US
                 speed=1.0,
             )
             has_audio = True
-            char_count = len(script["tts_script"])
-            estimated_sec = max(30, min(60, int(char_count / 4)))
-            script["audioDurationSec"] = estimated_sec
-            logger.info(f"TTS 생성 완료, 추정 길이: {estimated_sec}초")
+
+            # TTS 실제 길이에 맞춰 scenes duration 조정
+            script = sync_scenes_to_audio(script, audio_duration)
+            logger.info(f"TTS {audio_duration:.1f}초, 영상 {script['audioDurationSec']}초")
+
         except Exception as e:
             logger.warning(f"TTS 생성 실패 (오디오 없이 진행): {e}")
             audio_path = None
     else:
         logger.info("OPENAI_API_KEY 없음 — TTS 스킵")
+        script["audioDurationSec"] = sum(s["duration"] for s in script["scenes"])
 
     # 4. Remotion 렌더링
     mp4_path = await render_short(

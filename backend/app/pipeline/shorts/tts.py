@@ -1,8 +1,9 @@
-"""OpenAI TTS로 음성 mp3 생성"""
+"""OpenAI TTS로 음성 mp3 생성 + 길이 측정"""
 import logging
 from pathlib import Path
 
 import httpx
+from mutagen.mp3 import MP3
 
 logger = logging.getLogger(__name__)
 
@@ -16,19 +17,11 @@ async def generate_tts(
     voice: str = "onyx",
     model: str = "tts-1",
     speed: float = 1.0,
-) -> Path:
+) -> tuple[Path, float]:
     """OpenAI TTS API로 음성 mp3 생성
 
-    Args:
-        text: TTS 스크립트
-        output_path: 출력 mp3 경로
-        api_key: OpenAI API 키
-        voice: 음성 (onyx=남성 차분)
-        model: tts-1 또는 tts-1-hd
-        speed: 속도 (0.25~4.0)
-
     Returns:
-        mp3 파일 경로
+        (mp3 파일 경로, 오디오 길이 초)
     """
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -49,9 +42,12 @@ async def generate_tts(
             },
         )
         resp.raise_for_status()
-
         output_path.write_bytes(resp.content)
 
+    # mp3 실제 길이 측정
+    audio = MP3(str(output_path))
+    duration_sec = audio.info.length
+
     size_kb = output_path.stat().st_size / 1024
-    logger.info(f"TTS 생성 완료: {output_path} ({size_kb:.1f} KB)")
-    return output_path
+    logger.info(f"TTS 생성 완료: {output_path} ({size_kb:.1f} KB, {duration_sec:.1f}초)")
+    return output_path, duration_sec
