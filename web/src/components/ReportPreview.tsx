@@ -115,8 +115,8 @@ export default function ReportPreview() {
             <div className="flex items-center gap-[10px]">
               <span className="text-base">{stock.flag}</span>
               <div>
-                <span className="text-base font-bold">{stock.ticker}</span>
-                <span className="text-[13px] text-text-dim ml-[6px]">{stock.name}</span>
+                <span className="text-base font-bold">{stock.name}</span>
+                <span className="text-[13px] text-text-dim ml-[6px]">({stock.ticker})</span>
               </div>
             </div>
             <div className="text-right">
