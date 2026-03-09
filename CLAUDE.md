@@ -44,8 +44,8 @@ stockread/
 ## 환경변수
 - `StockRead_BOT_TOKEN` — 텔레그램 봇 토큰
 - `FINANCIALMODEL_API_KEY` — FMP API 키
-- `SUPABASE_URL` — Supabase 프로젝트 URL
-- `SUPABASE_KEY` — Supabase anon key
+
+
 - `ANTHROPIC_API_KEY` — Claude API 키
 - `OPENAI_API_KEY` — OpenAI TTS용
 
