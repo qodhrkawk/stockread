@@ -6,7 +6,7 @@ import httpx
 
 async def fetch_news(query: str, count: int = 3) -> list[dict]:
     """Brave Search로 종목 뉴스 검색"""
-    api_key = os.environ.get("BRAVE_SEARCH_API_KEY", "")
+    api_key = os.environ.get("BRAVESEARCH_API_KEY", "")
     if not api_key:
         return []
 
@@ -47,4 +47,4 @@ def build_news_query(ticker: str, name_ko: str, market: str) -> str:
     if market == "US":
         return f"{ticker} stock news"
     else:
-        return f"{name_ko} 주식 뉴스"
+        return f"{name_ko} 주가"
