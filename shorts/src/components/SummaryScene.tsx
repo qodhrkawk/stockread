@@ -6,7 +6,7 @@ import type { Scene } from "../types";
 export const SummaryScene: React.FC<{ scene: Scene }> = ({ scene }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const sectors = scene.sectors || [];
+  const segments = scene.visual_segments || [];
 
   const labelOpacity = interpolate(frame, [0, 10], [0, 1], { extrapolateRight: "clamp" });
 
@@ -26,7 +26,9 @@ export const SummaryScene: React.FC<{ scene: Scene }> = ({ scene }) => {
       </div>
 
       <div style={{ width: "100%", maxWidth: 900 }}>
-        {sectors.map((sector, i) => {
+        {segments.map((seg, i) => {
+          const sector = seg.sector;
+          if (!sector) return null;
           const progress = spring({ frame: frame - 10 - i * 12, fps, config: { damping: 14 } });
           const isUp = sector.direction === "up";
           return (
@@ -35,7 +37,6 @@ export const SummaryScene: React.FC<{ scene: Scene }> = ({ scene }) => {
               transform: `translateX(${interpolate(progress, [0, 1], [50, 0])}px)`,
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
               marginBottom: 24,
               background: theme.cardBg,
               border: `1px solid ${theme.cardBorder}`,
@@ -46,22 +47,24 @@ export const SummaryScene: React.FC<{ scene: Scene }> = ({ scene }) => {
               <span style={{ fontSize: 40, marginRight: 16 }}>{isUp ? "📈" : "📉"}</span>
               <span style={{
                 color: theme.textPrimary,
-                fontSize: 40,
+                fontSize: 38,
                 fontWeight: 700,
                 fontFamily: fonts.body,
                 wordBreak: "keep-all" as const,
+                flex: 1,
               }}>
                 {sector.name}
               </span>
-              <span style={{
-                marginLeft: "auto",
-                color: isUp ? theme.neonGreen : theme.neonRed,
-                fontSize: 36,
-                fontWeight: 800,
-                fontFamily: fonts.mono,
-              }}>
-                {isUp ? "▲" : "▼"}
-              </span>
+              {sector.change && (
+                <span style={{
+                  color: isUp ? theme.neonGreen : theme.neonRed,
+                  fontSize: 36,
+                  fontWeight: 800,
+                  fontFamily: fonts.mono,
+                }}>
+                  {sector.change}
+                </span>
+              )}
             </div>
           );
         })}

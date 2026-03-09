@@ -4,25 +4,31 @@ const CardSchema = z.object({
   name: z.string(),
   price: z.string().optional(),
   change: z.string().optional(),
-  indicators: z.array(z.string()).optional(),
   reason: z.string().optional(),
+  indicators: z.array(z.string()).optional(),
+});
+
+const VisualSegmentSchema = z.object({
+  start_sentence: z.number(),
+  card: CardSchema.optional(),
+  sector: z.object({
+    name: z.string(),
+    direction: z.enum(["up", "down"]),
+    change: z.string().optional(),
+  }).optional(),
+  flow_item: z.string().optional(),
 });
 
 const SceneSchema = z.object({
   label: z.enum(["hook", "summary", "detail", "context", "closing"]),
   tts_text: z.string(),
-  cards: z.array(CardSchema).optional(),
-  // hook용
-  headline: z.string().optional(),
+  visual_segments: z.array(VisualSegmentSchema).optional(),
+  // hook
+  event: z.string().optional(),
   number: z.string().optional(),
-  // summary용
-  sectors: z.array(z.object({
-    name: z.string(),
-    direction: z.enum(["up", "down"]),
-  })).optional(),
-  // context용
+  // context
   flow: z.array(z.string()).optional(),
-  // closing용
+  // closing
   message: z.string().optional(),
   duration: z.number(),
 });
@@ -36,5 +42,6 @@ export const ShortVideoSchema = z.object({
 });
 
 export type Card = z.infer<typeof CardSchema>;
+export type VisualSegment = z.infer<typeof VisualSegmentSchema>;
 export type Scene = z.infer<typeof SceneSchema>;
 export type ShortScript = z.infer<typeof ShortVideoSchema>;

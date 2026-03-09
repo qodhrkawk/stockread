@@ -72,33 +72,48 @@ closing (2문장)
 STEP2_SYSTEM = """주어진 TTS 나레이션에서 화면 표시용 데이터를 추출해.
 
 규칙:
-- TTS에서 실제로 말하는 내용만 추출 (없는 정보 추가 금지)
-- TTS에서 언급한 종목만 cards에 포함 (언급 안 한 종목 추가 금지)
-- flow의 각 항목은 TTS context에서 언급한 원인/결과만
+- TTS에서 실제로 말하는 종목/수치만 추출 (없는 정보 추가 금지)
+- 화면 데이터는 TTS보다 풍부하게 (지표, 이유 등 추가 가능)
+- start_sentence = TTS를 마침표 기준으로 나눈 문장 번호 (0부터)
 - JSON만 출력
 
 출력 형식:
 {
   "title": "영상 제목 (후킹용, 15자 이내)",
   "hook": {
-    "headline": "핵심 한줄 (TTS 첫 문장 기반)",
-    "number": "핵심 숫자 (부호 포함, 예: -9.5%)"
+    "event": "핵심 이벤트명 (크게 표시, 예: 서킷브레이커 발동)",
+    "number": "보조 숫자 (예: -9.5%)"
   },
   "summary": {
-    "sectors": [{"name": "섹터명", "direction": "up 또는 down"}]
+    "visual_segments": [
+      {"start_sentence": 0, "sector": {"name": "반도체", "direction": "down", "change": "-10%"}},
+      {"start_sentence": 1, "sector": {"name": "자동차", "direction": "down", "change": "-9%"}}
+    ]
   },
   "detail": {
-    "cards": [
-      {"name": "종목명", "price": "가격", "change": "등락% (부호 포함)", "indicators": ["지표1"]}
+    "visual_segments": [
+      {
+        "start_sentence": 0,
+        "card": {"name": "삼성전자", "price": "170,200원", "change": "-9.56%", "reason": "헬륨 공급 차질", "indicators": ["RSI 46.8", "52주 대비 76%"]}
+      },
+      {
+        "start_sentence": 2,
+        "card": {"name": "SK하이닉스", "price": "827,000원", "change": "-10.5%", "reason": "반도체 동반 하락", "indicators": ["RSI 44.8"]}
+      }
     ]
   },
   "context": {
-    "flow": ["원인1", "원인2", "결과"]
+    "flow": ["이란 사태", "헬륨 공급 차질", "반도체 타격"]
   },
   "closing": {
-    "message": "마무리 핵심 메시지"
+    "message": "마무리 핵심 메시지 (TTS 그대로)"
   }
-}"""
+}
+
+중요:
+- detail visual_segments의 card에 reason(한줄 이유)과 indicators(지표 1~3개) 반드시 포함
+- summary visual_segments의 sector에 change(등락%) 포함
+- hook의 event가 number보다 중요 (이벤트명이 크게 표시됨)"""
 
 MARKET_CONTEXT = {
     "US": {
@@ -312,18 +327,17 @@ JSON만 출력해. 다른 텍스트 없이."""
         }
         v = visual.get(label, {})
         if label == "hook":
-            scene["headline"] = v.get("headline", "")
+            scene["event"] = v.get("event", v.get("headline", ""))
             scene["number"] = v.get("number", "")
         elif label == "summary":
-            scene["sectors"] = v.get("sectors", [])
+            scene["visual_segments"] = v.get("visual_segments", [])
         elif label == "detail":
-            scene["cards"] = v.get("cards", [])
+            scene["visual_segments"] = v.get("visual_segments", [])
         elif label == "context":
             flow = v.get("flow", [])
-            # "→" 기호 제거 (빈 박스 방지)
             scene["flow"] = [f.strip().lstrip("→").strip() for f in flow if f.strip().lstrip("→").strip()]
         elif label == "closing":
-            scene["message"] = v.get("message", "")
+            scene["message"] = v.get("message", scene_tts[label])
         scenes.append(scene)
 
     script = {

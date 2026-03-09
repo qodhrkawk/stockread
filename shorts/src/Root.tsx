@@ -4,44 +4,42 @@ import { ShortVideoSchema, type ShortScript } from "./types";
 
 const DEFAULT_SCRIPT: ShortScript = {
   date: "2026-03-10",
-  title: "한국증시 대폭락",
+  title: "서킷브레이커 발동",
   tts_script: "test",
   scenes: [
     {
       label: "hook",
-      tts_text: "삼성전자가 9.5% 폭락했어요.",
-      headline: "삼성전자 17만원대 추락",
-      number: "-9.5%",
+      tts_text: "서킷브레이커가 발동됐어요.",
+      event: "서킷브레이커 발동",
+      number: "-8.5%",
       duration: 5,
     },
     {
       label: "summary",
-      tts_text: "반도체 급락, 방산 급등.",
-      sectors: [
-        { name: "반도체", direction: "down" },
-        { name: "방산", direction: "up" },
+      tts_text: "반도체 급락.",
+      visual_segments: [
+        { start_sentence: 0, sector: { name: "반도체", direction: "down", change: "-10%" } },
       ],
       duration: 10,
     },
     {
       label: "detail",
       tts_text: "삼성전자 170,200원.",
-      cards: [
-        { name: "삼성전자", price: "170,200원", change: "-9.56%", indicators: ["RSI 46.8"] },
-        { name: "SK하이닉스", price: "827,000원", change: "-10.5%", indicators: ["RSI 44.8"] },
+      visual_segments: [
+        { start_sentence: 0, card: { name: "삼성전자", price: "170,200원", change: "-9.56%", reason: "헬륨 공급 차질", indicators: ["RSI 46.8"] } },
       ],
       duration: 25,
     },
     {
       label: "context",
       tts_text: "이란 사태 때문이에요.",
-      flow: ["이란 사태", "헬륨 공급 차질", "반도체 제조 리스크"],
+      flow: ["이란 사태", "헬륨 공급 차질", "반도체 타격"],
       duration: 15,
     },
     {
       label: "closing",
       tts_text: "지켜보는 게 좋겠어요.",
-      message: "당분간 변동성 주의\n관망하며 지켜보세요",
+      message: "지켜보는 게 좋겠어요.",
       duration: 5,
     },
   ],
