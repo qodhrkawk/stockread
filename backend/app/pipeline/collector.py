@@ -32,10 +32,10 @@ async def collect_stock_data(ticker: str, name_ko: str, market: str) -> dict | N
     # 1. 시세
     if market == "US":
         quote = await fetch_us_quote(ticker)
-        history = await fetch_us_history(ticker, days=60)
+        history = await fetch_us_history(ticker, days=90)
     else:
         quote = await fetch_kr_quote(ticker)
-        history = await fetch_kr_history(ticker, days=60)
+        history = await fetch_kr_history(ticker, days=90)
 
     if not quote:
         print(f"  ❌ {name_ko} 시세 수집 실패")

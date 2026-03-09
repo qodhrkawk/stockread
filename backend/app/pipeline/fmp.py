@@ -42,7 +42,7 @@ async def fetch_us_quote(ticker: str) -> dict | None:
     return None
 
 
-async def fetch_us_history(ticker: str, days: int = 60) -> list[dict]:
+async def fetch_us_history(ticker: str, days: int = 90) -> list[dict]:
     """미국 종목 히스토리컬 가격 (RSI/이평선 계산용)"""
     date_from = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
     date_to = datetime.now().strftime("%Y-%m-%d")

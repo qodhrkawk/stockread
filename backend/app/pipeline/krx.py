@@ -73,7 +73,7 @@ async def fetch_kr_quote(stock_code: str) -> dict | None:
     }
 
 
-async def fetch_kr_history(stock_code: str, days: int = 60) -> list[dict]:
+async def fetch_kr_history(stock_code: str, days: int = 90) -> list[dict]:
     """한국 종목 히스토리컬 가격 (RSI/이평선 계산용)"""
     sb = _get_sb()
 
