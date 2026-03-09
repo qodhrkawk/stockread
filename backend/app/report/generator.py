@@ -111,7 +111,7 @@ async def generate_report(data: dict, risk_type: str) -> str:
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ],
-        max_tokens=800,
+        max_tokens=1500,
         temperature=0.7,
     )
 
