@@ -30,13 +30,13 @@ export default function ReportPreview() {
         </h2>
       </div>
 
-      {/* 종목 탭 */}
-      <div className="flex gap-[6px] overflow-x-auto pb-3 scrollbar-hide">
+      {/* 종목 탭 — 5개 균등 배분 */}
+      <div className="flex gap-1 pb-3">
         {tabKeys.map((key) => (
           <button
             key={key}
             onClick={() => setTab(key)}
-            className={`shrink-0 px-[14px] py-[7px] rounded-full text-[13px] font-medium border transition-all ${
+            className={`flex-1 py-[7px] rounded-full text-xs font-medium border transition-all text-center ${
               key === tab
                 ? "bg-text text-bg font-semibold border-text"
                 : "border-border text-text-secondary hover:bg-border hover:text-text"
