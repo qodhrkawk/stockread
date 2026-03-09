@@ -17,13 +17,27 @@ def risk_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([buttons])
 
 
+# 버튼용 짧은 이름 (텔레그램 인라인 버튼 글자수 제한 대응)
+SHORT_NAMES = {
+    "S&P 500 ETF": "S&P 500",
+    "나스닥 100 ETF": "나스닥100",
+    "반도체 ETF": "반도체ETF",
+    "마이크로소프트": "MS",
+    "삼성바이오로직스": "삼바",
+    "LG에너지솔루션": "LG에솔",
+    "에코프로비엠": "에코프로BM",
+    "KODEX 200": "KODEX200",
+    "KODEX 레버리지": "KODEX레버",
+    "TIGER 미국S&P500": "TIGER S&P",
+}
+
+
 def _stock_label(stock: dict, selected_tickers: list[str]) -> str:
     """종목 버튼 라벨 생성"""
     check = "✅ " if stock["ticker"] in selected_tickers else ""
-    name = stock["name_ko"]
-    # ETF/특수 종목은 짧게
-    if len(name) > 6:
-        name = name[:6]
+    name = SHORT_NAMES.get(stock["name_ko"], stock["name_ko"])
+    if len(name) > 8:
+        name = name[:8]
     return f"{check}{name}"
 
 
