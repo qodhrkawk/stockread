@@ -3,15 +3,30 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring } fr
 import { theme, fonts } from "../styles/theme";
 import type { Scene } from "../types";
 
+function splitSentences(text: string): string[] {
+  const result: string[] = [];
+  const pattern = /(?<!\d)([.!?])(?!\d)/g;
+  let lastIdx = 0;
+  let match;
+  while ((match = pattern.exec(text)) !== null) {
+    const end = match.index + 1;
+    const chunk = text.slice(lastIdx, end).trim();
+    if (chunk.length > 1) result.push(chunk);
+    lastIdx = end;
+  }
+  const rest = text.slice(lastIdx).trim();
+  if (rest.length > 1) result.push(rest);
+  return result.length > 0 ? result : [text];
+}
+
 export const ClosingScene: React.FC<{ scene: Scene }> = ({ scene }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const progress = spring({ frame: frame - 5, fps, config: { damping: 16 } });
 
-  // TTS 텍스트를 문장 단위로 분리해서 표시
   const tts = scene.tts_text || scene.message || "";
-  const sentences = tts.split(/(?<=[.?!요죠])\s*/g).filter(s => s.trim());
+  const sentences = splitSentences(tts);
 
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", padding: "0 60px" }}>
@@ -45,7 +60,6 @@ export const ClosingScene: React.FC<{ scene: Scene }> = ({ scene }) => {
         })}
       </div>
 
-      {/* 브랜딩 */}
       <div style={{
         opacity: interpolate(frame, [15, 30], [0, 0.5], { extrapolateRight: "clamp" }),
         marginTop: 40,

@@ -1,6 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, interpolate } from "remotion";
-import { theme, fonts } from "../styles/theme";
+import { fonts } from "../styles/theme";
 import type { Scene } from "../types";
 
 interface Props {
@@ -9,20 +9,36 @@ interface Props {
 }
 
 function splitSentences(text: string): string[] {
-  // 문장 끝 패턴으로 split하되, 마침표/물음표/느낌표를 포함한 채로
-  const raw = text.match(/[^.?!요죠]+[.?!요죠]+/g);
-  if (!raw) return [text];
-  // 빈 문장, 공백만 있는 것, 구두점만 있는 것 제거
-  return raw
-    .map(s => s.trim())
-    .filter(s => s.length > 1); // 1글자 이하(마침표 등) 제거
+  // 한국어 어미 뒤에서 분리 (요, 죠, 고요, 거든요 등)
+  // 숫자 속 마침표(17.5%)를 분리하지 않도록 주의
+  const result: string[] = [];
+  // 문장 종결 패턴: 한국어 어미 + 마침표/물음표/느낌표
+  // 숫자.숫자는 분리하지 않음
+  const pattern = /(?<!\d)([.!?])(?!\d)/g;
+  
+  let lastIdx = 0;
+  let match;
+  while ((match = pattern.exec(text)) !== null) {
+    const end = match.index + 1;
+    const chunk = text.slice(lastIdx, end).trim();
+    if (chunk.length > 1) {
+      result.push(chunk);
+    }
+    lastIdx = end;
+  }
+  // 남은 부분
+  const rest = text.slice(lastIdx).trim();
+  if (rest.length > 1) {
+    result.push(rest);
+  }
+  
+  return result.length > 0 ? result : [text];
 }
 
 export const Subtitle: React.FC<Props> = ({ scenes, sceneTimings }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // 현재 프레임이 어느 씬에 속하는지
   let currentIdx = -1;
   for (let i = 0; i < scenes.length; i++) {
     const { start, duration } = sceneTimings[i];

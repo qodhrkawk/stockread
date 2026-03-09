@@ -67,9 +67,9 @@ export const ShortVideo: React.FC<ShortScript> = (props) => {
       {props.scenes.map((scene, i) => {
         const { start, duration } = sceneTimings[i];
         const isLast = i === props.scenes.length - 1;
-        const overlap = isLast ? 0 : 15;
+        const overlap = 0;
         return (
-          <Sequence key={i} from={start} durationInFrames={duration + overlap}>
+          <Sequence key={i} from={start} durationInFrames={duration}>
             <SceneComponent scene={scene} />
           </Sequence>
         );
