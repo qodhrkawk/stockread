@@ -124,6 +124,9 @@ export default function ReportPreview() {
               <div className={`text-[13px] font-semibold ${stock.positive ? "text-green" : "text-red"}`}>
                 {stock.positive ? "▲" : "▼"} {stock.change}
               </div>
+              <div className="text-[10px] text-text-muted mt-[2px]">
+                {data.date.slice(5).replace("-", "/")} 종가
+              </div>
             </div>
           </div>
           <div className="flex gap-2">
