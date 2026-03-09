@@ -58,6 +58,15 @@ async def collect_stock_data(ticker: str, name_ko: str, market: str) -> dict | N
     if quote.get("year_high") and quote["year_high"] > 0:
         pct_from_high = round(quote["price"] / quote["year_high"] * 100, 1)
 
+    # 장 마감일 (trade_date)
+    trade_date = None
+    if market == "KR" and quote.get("trade_date"):
+        trade_date = quote["trade_date"]
+    elif history:
+        # 미국: 히스토리 최신 날짜 = 마지막 장 마감일
+        sorted_hist = sorted(history, key=lambda x: x["date"], reverse=True)
+        trade_date = sorted_hist[0]["date"]
+
     result = {
         "ticker": ticker,
         "name_ko": name_ko,
@@ -67,6 +76,7 @@ async def collect_stock_data(ticker: str, name_ko: str, market: str) -> dict | N
         "news": news,
         "disclosures": disclosures,
         "pct_from_high": pct_from_high,
+        "trade_date": trade_date,
         "collected_at": datetime.now().isoformat(),
     }
 

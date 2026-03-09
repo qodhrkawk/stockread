@@ -130,12 +130,24 @@ def format_report_message(
     risk_emoji = risk_emojis.get(risk_type, "⚖️")
     risk_label = risk_labels.get(risk_type, "중립형")
 
-    # 가격
+    # 장 마감일 (trade_date)
+    trade_date = data.get("trade_date")
+    if trade_date:
+        # "2026-03-07" → "03/07"
+        try:
+            td = datetime.strptime(trade_date, "%Y-%m-%d")
+            date_suffix = td.strftime("%m/%d")
+        except ValueError:
+            date_suffix = trade_date
+    else:
+        date_suffix = datetime.now().strftime("%m/%d")
+
+    # 가격 + 장 마감일 표기
     if data["market"] == "US":
-        price_str = f"${q['price']:,.2f} ({q['change_pct']:+.2f}%)"
+        price_str = f"${q['price']:,.2f} ({q['change_pct']:+.2f}%) · {date_suffix} 종가"
         flag = "🇺🇸"
     else:
-        price_str = f"{q['price']:,}원 ({q['change_pct']:+.2f}%)"
+        price_str = f"{q['price']:,}원 ({q['change_pct']:+.2f}%) · {date_suffix} 종가"
         flag = "🇰🇷"
 
     # 등락 색상 이모지
@@ -148,6 +160,7 @@ def format_report_message(
         f"\n"
         f"━━━━━━━━━━━━━━━\n"
         f"{color} {data['name_ko']} ({data['ticker']})\n"
+        f"{flag} {price_str}\n"
         f"━━━━━━━━━━━━━━━\n"
         f"\n"
         f"{report_text}\n"
