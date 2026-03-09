@@ -340,6 +340,56 @@ JSON만 출력해. 다른 텍스트 없이."""
             scene["message"] = v.get("message", scene_tts[label])
         scenes.append(scene)
 
+    # detail cards에 price가 빈 경우 실제 데이터에서 보정
+    # 이름 매핑 (영문↔한글)
+    NAME_ALIASES = {
+        "NAVER": "네이버", "네이버": "NAVER",
+        "LG에너지솔루션": "LG에너지", "LG에너지": "LG에너지솔루션",
+        "삼성바이오로직스": "삼성바이오", "삼성바이오": "삼성바이오로직스",
+        "에코프로비엠": "에코프로", "에코프로": "에코프로비엠",
+    }
+
+    price_map = {}
+    for item in filtered:
+        data = item.get("data_json", {})
+        if isinstance(data, str):
+            data = json.loads(data)
+        q = data.get("quote", {})
+        name = q.get("name", data.get("name_ko", ""))
+        price = q.get("price", 0)
+        change_pct = q.get("changesPercentage", q.get("change_pct", 0))
+        if name and price:
+            if market == "KR":
+                val = {"price": f"{int(price):,}원", "change": f"{change_pct:+.1f}%"}
+            else:
+                val = {"price": f"${price:,.2f}", "change": f"{change_pct:+.1f}%"}
+            price_map[name] = val
+            # 별칭도 등록
+            alias = NAME_ALIASES.get(name)
+            if alias:
+                price_map[alias] = val
+
+    for s in scenes:
+        if s["label"] == "detail" and "visual_segments" in s:
+            for seg in s["visual_segments"]:
+                card = seg.get("card")
+                if not card:
+                    continue
+                match = price_map.get(card["name"])
+                if not match:
+                    # 부분 매칭 시도 (네이버 ↔ NAVER 등)
+                    for k, v in price_map.items():
+                        if card["name"] in k or k in card["name"]:
+                            match = v
+                            break
+                if match:
+                    empty_prices = ("", "-", "미공개", "미표시", None)
+                    if not card.get("price") or card.get("price") in empty_prices:
+                        card["price"] = match["price"]
+                    # ~가 포함된 범위 change도 정확한 값으로 교체
+                    if "~" in (card.get("change") or ""):
+                        card["change"] = match["change"]
+
     script = {
         "date": target_date.isoformat(),
         "title": visual.get("title", "오늘의 증시"),
