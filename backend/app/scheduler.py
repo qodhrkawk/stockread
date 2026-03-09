@@ -11,7 +11,6 @@ from app.report.sender import generate_and_send_all
 from app.pipeline.landing_preview import generate_and_save as generate_landing
 
 
-# 수집된 데이터 임시 저장 (수집 → 발송 사이 공유)
 _collected_data: list[dict] = []
 
 
@@ -29,17 +28,17 @@ async def job_collect():
         _collected_data = []
 
 
-async def job_shorts():
-    """06:30 KST — 쇼츠 스크립트 + TTS + MP4 생성"""
+async def job_shorts_us():
+    """06:30 KST — 미국 쇼츠 생성 (어젯밤 미국 증시)"""
     print(f"\n{'='*50}")
-    print(f"⏰ [{datetime.now().strftime('%H:%M:%S')}] 쇼츠 파이프라인 시작")
+    print(f"⏰ [{datetime.now().strftime('%H:%M:%S')}] 🇺🇸 미국 쇼츠 생성 시작")
     print(f"{'='*50}")
     try:
         from app.pipeline.shorts.pipeline import run_shorts_pipeline
-        result = await run_shorts_pipeline()
-        print(f"✅ 쇼츠 완료: {result['mp4_path']} (오디오: {result['has_audio']})")
+        result = await run_shorts_pipeline(market="US")
+        print(f"✅ 미국 쇼츠 완료: {result['mp4_path']}")
     except Exception as e:
-        print(f"❌ 쇼츠 실패: {e}")
+        print(f"❌ 미국 쇼츠 실패: {e}")
 
 
 async def job_send():
@@ -53,6 +52,19 @@ async def job_send():
         print(f"❌ 발송 실패: {e}")
 
 
+async def job_shorts_us_notify():
+    """07:01 KST — 미국 쇼츠 윤재에게 전송"""
+    print(f"\n{'='*50}")
+    print(f"⏰ [{datetime.now().strftime('%H:%M:%S')}] 🇺🇸 미국 쇼츠 전송")
+    print(f"{'='*50}")
+    try:
+        from app.pipeline.shorts.pipeline import send_shorts_notification
+        await send_shorts_notification(market="US")
+        print(f"✅ 미국 쇼츠 전송 완료")
+    except Exception as e:
+        print(f"❌ 미국 쇼츠 전송 실패: {e}")
+
+
 async def job_landing():
     """07:10 KST — 랜딩 페이지 데이터 갱신"""
     print(f"\n{'='*50}")
@@ -64,24 +76,37 @@ async def job_landing():
         print(f"❌ 랜딩 데이터 실패: {e}")
 
 
-async def job_shorts_notify():
-    """09:00 KST — 쇼츠 MP4 윤재에게 전송"""
+async def job_shorts_kr():
+    """16:30 KST — 한국 쇼츠 생성 (오늘 한국 증시)"""
     print(f"\n{'='*50}")
-    print(f"⏰ [{datetime.now().strftime('%H:%M:%S')}] 쇼츠 알림 전송")
+    print(f"⏰ [{datetime.now().strftime('%H:%M:%S')}] 🇰🇷 한국 쇼츠 생성 시작")
+    print(f"{'='*50}")
+    try:
+        from app.pipeline.shorts.pipeline import run_shorts_pipeline
+        result = await run_shorts_pipeline(market="KR")
+        print(f"✅ 한국 쇼츠 완료: {result['mp4_path']}")
+    except Exception as e:
+        print(f"❌ 한국 쇼츠 실패: {e}")
+
+
+async def job_shorts_kr_notify():
+    """17:00 KST — 한국 쇼츠 윤재에게 전송"""
+    print(f"\n{'='*50}")
+    print(f"⏰ [{datetime.now().strftime('%H:%M:%S')}] 🇰🇷 한국 쇼츠 전송")
     print(f"{'='*50}")
     try:
         from app.pipeline.shorts.pipeline import send_shorts_notification
-        await send_shorts_notification()
-        print(f"✅ 쇼츠 전송 완료")
+        await send_shorts_notification(market="KR")
+        print(f"✅ 한국 쇼츠 전송 완료")
     except Exception as e:
-        print(f"❌ 쇼츠 전송 실패: {e}")
+        print(f"❌ 한국 쇼츠 전송 실패: {e}")
 
 
 def create_scheduler() -> AsyncIOScheduler:
     """스케줄러 생성"""
     scheduler = AsyncIOScheduler(timezone="Asia/Seoul")
 
-    # 매일 06:00 KST — 데이터 수집
+    # 매일 06:00 — 데이터 수집
     scheduler.add_job(
         job_collect,
         CronTrigger(hour=6, minute=0, timezone="Asia/Seoul"),
@@ -90,16 +115,16 @@ def create_scheduler() -> AsyncIOScheduler:
         replace_existing=True,
     )
 
-    # 매일 06:30 KST — 쇼츠 생성
+    # 매일 06:30 — 🇺🇸 미국 쇼츠 생성
     scheduler.add_job(
-        job_shorts,
+        job_shorts_us,
         CronTrigger(hour=6, minute=30, timezone="Asia/Seoul"),
-        id="daily_shorts",
-        name="매일 쇼츠 생성",
+        id="daily_shorts_us",
+        name="🇺🇸 미국 쇼츠 생성",
         replace_existing=True,
     )
 
-    # 매일 07:00 KST — 리포트 생성 + 발송
+    # 매일 07:00 — 리포트 발송
     scheduler.add_job(
         job_send,
         CronTrigger(hour=7, minute=0, timezone="Asia/Seoul"),
@@ -108,7 +133,16 @@ def create_scheduler() -> AsyncIOScheduler:
         replace_existing=True,
     )
 
-    # 매일 07:10 KST — 랜딩 페이지 갱신 (리포트 생성 후)
+    # 매일 07:01 — 🇺🇸 미국 쇼츠 전송
+    scheduler.add_job(
+        job_shorts_us_notify,
+        CronTrigger(hour=7, minute=1, timezone="Asia/Seoul"),
+        id="daily_shorts_us_notify",
+        name="🇺🇸 미국 쇼츠 전송",
+        replace_existing=True,
+    )
+
+    # 매일 07:10 — 랜딩 갱신
     scheduler.add_job(
         job_landing,
         CronTrigger(hour=7, minute=10, timezone="Asia/Seoul"),
@@ -117,12 +151,21 @@ def create_scheduler() -> AsyncIOScheduler:
         replace_existing=True,
     )
 
-    # 매일 09:00 KST — 쇼츠 MP4 오너에게 전송 (검토용)
+    # 매일 16:30 — 🇰🇷 한국 쇼츠 생성
     scheduler.add_job(
-        job_shorts_notify,
-        CronTrigger(hour=9, minute=0, timezone="Asia/Seoul"),
-        id="daily_shorts_notify",
-        name="쇼츠 오너 전송",
+        job_shorts_kr,
+        CronTrigger(hour=16, minute=30, timezone="Asia/Seoul"),
+        id="daily_shorts_kr",
+        name="🇰🇷 한국 쇼츠 생성",
+        replace_existing=True,
+    )
+
+    # 매일 17:00 — 🇰🇷 한국 쇼츠 전송
+    scheduler.add_job(
+        job_shorts_kr_notify,
+        CronTrigger(hour=17, minute=0, timezone="Asia/Seoul"),
+        id="daily_shorts_kr_notify",
+        name="🇰🇷 한국 쇼츠 전송",
         replace_existing=True,
     )
 
