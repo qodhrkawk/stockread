@@ -5,6 +5,8 @@ import {
   useVideoConfig,
   interpolate,
   Sequence,
+  Audio,
+  staticFile,
 } from "remotion";
 import { theme, fonts } from "./styles/theme";
 import { SceneRenderer } from "./components/SceneRenderer";
@@ -32,6 +34,9 @@ export const ShortVideo: React.FC<ShortScript> = (props) => {
         overflow: "hidden",
       }}
     >
+      {/* TTS 오디오 */}
+      <Audio src={staticFile("tts.mp3")} />
+
       {/* 배경 글로우 오브 */}
       <div
         style={{
@@ -64,7 +69,6 @@ export const ShortVideo: React.FC<ShortScript> = (props) => {
       {props.scenes.map((scene, i) => {
         const { start, duration } = sceneTimings[i];
         const isLast = i === props.scenes.length - 1;
-        // 다음 씬과 겹치기 위해 duration에 여유 추가
         const overlap = isLast ? 0 : 15;
 
         return (
@@ -78,7 +82,7 @@ export const ShortVideo: React.FC<ShortScript> = (props) => {
         );
       })}
 
-      {/* 워터마크 — 항상 표시 */}
+      {/* 워터마크 */}
       <Watermark />
     </AbsoluteFill>
   );
