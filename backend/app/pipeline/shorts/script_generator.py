@@ -70,6 +70,14 @@ BASE_SYSTEM_PROMPT = """너는 주식 초보(주린이)를 위한 YouTube Shorts
 ## 출력 형식
 JSON만 출력. 다른 텍스트 없이.
 
+⚠️ 절대 규칙: scenes에 "text" 필드를 넣지 마세요. 대신:
+- hook → headline, number
+- summary → sectors
+- detail → cards
+- context → flow
+- closing → message
+이 필드들을 반드시 사용하세요.
+
 중요:
 - tts_script = 모든 scenes의 tts_text를 순서대로 이어붙인 전체 나레이션
 - tts_script와 scenes.tts_text 내용이 불일치하면 안 됨
