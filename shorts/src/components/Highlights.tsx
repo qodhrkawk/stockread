@@ -109,6 +109,8 @@ export const Highlights: React.FC<Props> = ({ highlights }) => {
                   fontWeight: 600,
                   fontFamily: fonts.body,
                   lineHeight: 1.4,
+                  wordBreak: "keep-all" as const,
+                  overflowWrap: "break-word" as const,
                 }}
               >
                 {item}

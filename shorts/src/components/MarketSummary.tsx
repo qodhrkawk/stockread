@@ -81,6 +81,8 @@ export const MarketSummary: React.FC<Props> = ({ summary }) => {
             fontFamily: fonts.title,
             textAlign: "center",
             lineHeight: 1.5,
+            wordBreak: "keep-all" as const,
+            overflowWrap: "break-word" as const,
           }}
         >
           {summary}

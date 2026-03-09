@@ -75,6 +75,8 @@ export const Interpretation: React.FC<Props> = ({ text }) => {
             fontFamily: fonts.body,
             textAlign: "center",
             lineHeight: 1.6,
+            wordBreak: "keep-all" as const,
+            overflowWrap: "break-word" as const,
           }}
         >
           {text}

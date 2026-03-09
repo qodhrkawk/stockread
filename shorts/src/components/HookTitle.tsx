@@ -78,6 +78,8 @@ export const HookTitle: React.FC<Props> = ({ title, date }) => {
           fontFamily: fonts.title,
           textAlign: "center",
           lineHeight: 1.3,
+          wordBreak: "keep-all" as const,
+          overflowWrap: "break-word" as const,
           letterSpacing: -1,
         }}
       >
