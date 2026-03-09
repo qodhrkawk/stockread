@@ -103,6 +103,16 @@ async def run_shorts_pipeline(target_date: date | None = None, market: str = "US
                     scene["duration"] = math.ceil(scene_durations[i])
 
             total_sec = sum(s["duration"] for s in script["scenes"])
+            
+            # 70초 초과 시 비례 축소 (영상이 잘리지 않도록)
+            MAX_SEC = 65
+            if total_sec > MAX_SEC:
+                ratio = MAX_SEC / total_sec
+                logger.warning(f"TTS 총 {total_sec}초 > {MAX_SEC}초, 비례 축소 (ratio={ratio:.2f})")
+                for s in script["scenes"]:
+                    s["duration"] = max(3, math.ceil(s["duration"] * ratio))
+                total_sec = sum(s["duration"] for s in script["scenes"])
+            
             script["audioDurationSec"] = total_sec
             audio_path = merged_path
 

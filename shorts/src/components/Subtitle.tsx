@@ -1,5 +1,5 @@
 import React from "react";
-import { useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
+import { useCurrentFrame, useVideoConfig, interpolate } from "remotion";
 import { theme, fonts } from "../styles/theme";
 import type { Scene } from "../types";
 
@@ -8,36 +8,42 @@ interface Props {
   sceneTimings: { start: number; duration: number }[];
 }
 
+function splitSentences(text: string): string[] {
+  // 문장 끝 패턴으로 split하되, 마침표/물음표/느낌표를 포함한 채로
+  const raw = text.match(/[^.?!요죠]+[.?!요죠]+/g);
+  if (!raw) return [text];
+  // 빈 문장, 공백만 있는 것, 구두점만 있는 것 제거
+  return raw
+    .map(s => s.trim())
+    .filter(s => s.length > 1); // 1글자 이하(마침표 등) 제거
+}
+
 export const Subtitle: React.FC<Props> = ({ scenes, sceneTimings }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // 현재 프레임이 어느 씬에 속하는지 찾기
-  let currentScene: Scene | null = null;
+  // 현재 프레임이 어느 씬에 속하는지
+  let currentIdx = -1;
   for (let i = 0; i < scenes.length; i++) {
     const { start, duration } = sceneTimings[i];
     if (frame >= start && frame < start + duration) {
-      currentScene = scenes[i];
+      currentIdx = i;
       break;
     }
   }
+  if (currentIdx < 0) return null;
 
-  if (!currentScene) return null;
-
+  const currentScene = scenes[currentIdx];
   const ttsText = currentScene.tts_text || "";
   if (!ttsText) return null;
 
-  // 문장 단위로 분리
-  const sentences = ttsText.split(/(?<=[.?!요죠])\s*/g).filter(s => s.trim());
+  const sentences = splitSentences(ttsText);
   if (sentences.length === 0) return null;
 
-  // 씬 시작 기준 현재 프레임
-  const sceneIdx = scenes.indexOf(currentScene);
-  const sceneStart = sceneTimings[sceneIdx].start;
-  const sceneDuration = sceneTimings[sceneIdx].duration;
+  const sceneStart = sceneTimings[currentIdx].start;
+  const sceneDuration = sceneTimings[currentIdx].duration;
   const localFrame = frame - sceneStart;
 
-  // 문장별 표시 타이밍 (균등 분배)
   const framesPerSentence = Math.floor(sceneDuration / sentences.length);
   const currentSentenceIdx = Math.min(
     Math.floor(localFrame / framesPerSentence),
@@ -45,10 +51,9 @@ export const Subtitle: React.FC<Props> = ({ scenes, sceneTimings }) => {
   );
   const currentSentence = sentences[currentSentenceIdx];
 
-  // 문장 전환 애니메이션
   const sentenceStart = currentSentenceIdx * framesPerSentence;
   const sentenceFrame = localFrame - sentenceStart;
-  const fadeIn = interpolate(sentenceFrame, [0, 8], [0, 1], { extrapolateRight: "clamp" });
+  const fadeIn = interpolate(sentenceFrame, [0, 6], [0, 1], { extrapolateRight: "clamp" });
 
   return (
     <div style={{

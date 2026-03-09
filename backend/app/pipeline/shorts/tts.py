@@ -1,5 +1,6 @@
-"""OpenAI TTS — 섹션별 생성 + 합치기"""
+"""OpenAI TTS — 섹션별 생성 + 합치기 + 한국어 숫자 전처리"""
 import logging
+import re
 import subprocess
 from pathlib import Path
 
@@ -9,6 +10,51 @@ from mutagen.mp3 import MP3
 logger = logging.getLogger(__name__)
 
 OPENAI_TTS_URL = "https://api.openai.com/v1/audio/speech"
+
+
+def normalize_korean_numbers(text: str) -> str:
+    """TTS용 숫자 전처리: comma 포함 숫자를 한국어 읽기로 변환
+    
+    500,000원 → 50만원
+    170,200원 → 17만 200원
+    82만 7천원 → 그대로 (이미 한국어)
+    1,234,567원 → 123만 4567원
+    -9.56% → 마이너스 9.56%
+    """
+    # 이미 "만", "천", "억" 있으면 변환 안 함
+    def convert_won(match):
+        raw = match.group(1).replace(",", "")
+        suffix = match.group(2)  # 원, 달러 등
+        num = int(raw)
+        
+        if num >= 100_000_000:  # 억
+            eok = num // 100_000_000
+            remainder = num % 100_000_000
+            if remainder >= 10_000:
+                man = remainder // 10_000
+                rest = remainder % 10_000
+                if rest > 0:
+                    return f"{eok}억 {man}만 {rest}{suffix}"
+                return f"{eok}억 {man}만{suffix}"
+            elif remainder > 0:
+                return f"{eok}억 {remainder}{suffix}"
+            return f"{eok}억{suffix}"
+        elif num >= 10_000:  # 만
+            man = num // 10_000
+            remainder = num % 10_000
+            if remainder > 0:
+                return f"{man}만 {remainder}{suffix}"
+            return f"{man}만{suffix}"
+        else:
+            return f"{num}{suffix}"
+
+    # 패턴: comma 포함 숫자 + 원/달러/주
+    text = re.sub(r'(\d{1,3}(?:,\d{3})+)(원|달러|주)', convert_won, text)
+    
+    # 단독 comma 숫자 (단위 없는 것) — comma 제거
+    text = re.sub(r'(\d{1,3}),(\d{3})', lambda m: m.group(1) + m.group(2), text)
+    
+    return text
 
 
 async def generate_tts_single(
@@ -23,6 +69,11 @@ async def generate_tts_single(
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
+    # 한국어 숫자 전처리
+    processed_text = normalize_korean_numbers(text)
+    if processed_text != text:
+        logger.info(f"  TTS 숫자 변환: {text[:60]}... → {processed_text[:60]}...")
+
     async with httpx.AsyncClient(timeout=60) as client:
         resp = await client.post(
             OPENAI_TTS_URL,
@@ -32,7 +83,7 @@ async def generate_tts_single(
             },
             json={
                 "model": model,
-                "input": text,
+                "input": processed_text,
                 "voice": voice,
                 "response_format": "mp3",
                 "speed": speed,
@@ -54,11 +105,7 @@ async def generate_tts_per_scene(
     model: str = "tts-1",
     speed: float = 1.0,
 ) -> tuple[Path, list[float]]:
-    """섹션별 TTS 생성 → 합친 mp3 + 각 섹션 길이 리스트
-
-    Returns:
-        (합친 mp3 경로, [hook 길이, summary 길이, ...])
-    """
+    """섹션별 TTS 생성 → 합친 mp3 + 각 섹션 길이 리스트"""
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -68,7 +115,6 @@ async def generate_tts_per_scene(
     for i, scene in enumerate(scenes):
         tts_text = scene.get("tts_text", scene.get("text", ""))
         if not tts_text.strip():
-            # 텍스트 없으면 빈 구간 (0.5초 무음 대체)
             scene_durations.append(0.5)
             continue
 
@@ -103,8 +149,6 @@ async def generate_tts_per_scene(
         capture_output=True,
         check=True,
     )
-
-    # 정리
     concat_file.unlink(missing_ok=True)
 
     total = sum(scene_durations)
