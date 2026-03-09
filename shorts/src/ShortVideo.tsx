@@ -4,16 +4,10 @@ import {
   useCurrentFrame,
   useVideoConfig,
   interpolate,
-  spring,
   Sequence,
-  Audio,
-  staticFile,
 } from "remotion";
 import { theme, fonts } from "./styles/theme";
-import { HookTitle } from "./components/HookTitle";
-import { MarketSummary } from "./components/MarketSummary";
-import { Highlights } from "./components/Highlights";
-import { Interpretation } from "./components/Interpretation";
+import { SceneRenderer } from "./components/SceneRenderer";
 import { Watermark } from "./components/Watermark";
 import type { ShortScript } from "./types";
 
@@ -21,21 +15,14 @@ export const ShortVideo: React.FC<ShortScript> = (props) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
-  // 섹션별 타이밍 (프레임 단위, 30fps 기준)
-  const hookStart = 0;
-  const hookDuration = Math.round(3 * fps); // 0~3초
-
-  const summaryStart = hookDuration;
-  const summaryDuration = Math.round(7 * fps); // 3~10초
-
-  const highlightsStart = summaryStart + summaryDuration;
-  const highlightsDuration = Math.round(10 * fps); // 10~20초
-
-  const interpStart = highlightsStart + highlightsDuration;
-  const interpDuration = durationInFrames - interpStart; // 나머지
-
-  // 배경 그라데이션 애니메이션
-  const bgShift = interpolate(frame, [0, durationInFrames], [0, 30]);
+  // 씬별 시작 프레임 계산
+  let currentFrame = 0;
+  const sceneTimings = props.scenes.map((scene) => {
+    const start = currentFrame;
+    const duration = scene.duration * fps;
+    currentFrame += duration;
+    return { start, duration };
+  });
 
   return (
     <AbsoluteFill
@@ -73,28 +60,26 @@ export const ShortVideo: React.FC<ShortScript> = (props) => {
         }}
       />
 
-      {/* 섹션들 */}
-      <Sequence from={hookStart} durationInFrames={hookDuration + 15}>
-        <HookTitle title={props.title} date={props.date} />
-      </Sequence>
+      {/* 씬 시퀀스 */}
+      {props.scenes.map((scene, i) => {
+        const { start, duration } = sceneTimings[i];
+        const isLast = i === props.scenes.length - 1;
+        // 다음 씬과 겹치기 위해 duration에 여유 추가
+        const overlap = isLast ? 0 : 15;
 
-      <Sequence from={summaryStart} durationInFrames={summaryDuration + 15}>
-        <MarketSummary summary={props.market_summary} />
-      </Sequence>
-
-      <Sequence from={highlightsStart} durationInFrames={highlightsDuration + 15}>
-        <Highlights highlights={props.highlights} />
-      </Sequence>
-
-      <Sequence from={interpStart} durationInFrames={interpDuration}>
-        <Interpretation text={props.interpretation} />
-      </Sequence>
+        return (
+          <Sequence
+            key={i}
+            from={start}
+            durationInFrames={duration + overlap}
+          >
+            <SceneRenderer scene={scene} isLast={isLast} />
+          </Sequence>
+        );
+      })}
 
       {/* 워터마크 — 항상 표시 */}
       <Watermark />
-
-      {/* TTS 오디오 (파일이 있을 때만) */}
-      {/* <Audio src={staticFile("tts.mp3")} /> */}
     </AbsoluteFill>
   );
 };
