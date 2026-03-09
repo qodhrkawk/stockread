@@ -249,6 +249,36 @@ JSON만 출력해. 다른 텍스트 없이."""
     script["date"] = target_date.isoformat()
     script["market"] = market
 
+    # Claude가 구조화 필드를 문자열로 줄 수 있으므로 후처리
+    for scene in script.get("scenes", []):
+        # sectors: 문자열 → 배열
+        if "sectors" in scene and isinstance(scene["sectors"], str):
+            lines = [l.strip() for l in scene["sectors"].split("\n") if l.strip()]
+            scene["sectors"] = [
+                {"name": l, "direction": "down" if any(w in l for w in ["하락", "급락", "↓", "빠", "폭락", "-", "약세"]) else "up"}
+                for l in lines
+            ]
+        # cards: 문자열 → 배열
+        if "cards" in scene and isinstance(scene["cards"], str):
+            lines = [l.strip() for l in scene["cards"].split("\n") if l.strip()]
+            cards = []
+            for l in lines:
+                parts = l.replace("·", "|").replace("•", "|").split("|")
+                name_change = parts[0].strip()
+                price = parts[1].strip() if len(parts) > 1 else ""
+                # "삼성전자 -9.6%" 파싱
+                tokens = name_change.rsplit(" ", 1)
+                name = tokens[0].strip()
+                change = tokens[1].strip() if len(tokens) > 1 else ""
+                cards.append({"name": name, "price": price, "change": change, "indicators": []})
+            scene["cards"] = cards
+        # flow: 문자열 → 배열
+        if "flow" in scene and isinstance(scene["flow"], str):
+            scene["flow"] = [l.strip() for l in scene["flow"].split("\n") if l.strip()]
+        # message: 줄바꿈 유지
+        if "message" in scene and isinstance(scene["message"], str):
+            scene["message"] = scene["message"].replace("\n", "\n")
+
     total_sec = sum(s["duration"] for s in script["scenes"])
     script["audioDurationSec"] = max(30, min(70, total_sec))
 
