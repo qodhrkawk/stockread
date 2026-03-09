@@ -37,3 +37,9 @@ Thumbs.db
 *.wav
 backend/.venv/
 backend/data/*.db
+
+# Shorts
+shorts/node_modules/
+shorts/out/
+shorts/public/tts.mp3
+backend/data/shorts/

@@ -29,6 +29,19 @@ async def job_collect():
         _collected_data = []
 
 
+async def job_shorts():
+    """06:30 KST — 쇼츠 스크립트 + TTS + MP4 생성"""
+    print(f"\n{'='*50}")
+    print(f"⏰ [{datetime.now().strftime('%H:%M:%S')}] 쇼츠 파이프라인 시작")
+    print(f"{'='*50}")
+    try:
+        from app.pipeline.shorts.pipeline import run_shorts_pipeline
+        result = await run_shorts_pipeline()
+        print(f"✅ 쇼츠 완료: {result['mp4_path']} (오디오: {result['has_audio']})")
+    except Exception as e:
+        print(f"❌ 쇼츠 실패: {e}")
+
+
 async def job_send():
     """07:00 KST — 리포트 생성 + 발송"""
     print(f"\n{'='*50}")
@@ -51,6 +64,22 @@ async def job_landing():
         print(f"❌ 랜딩 데이터 실패: {e}")
 
 
+async def job_shorts_notify():
+    """09:00 KST — 쇼츠 MP4 윤재에게 전송"""
+    print(f"\n{'='*50}")
+    print(f"⏰ [{datetime.now().strftime('%H:%M:%S')}] 쇼츠 알림 전송")
+    print(f"{'='*50}")
+    try:
+        from app.pipeline.shorts.pipeline import send_shorts_notification
+        from app.bot.config import get_bot_token
+        from telegram import Bot
+        bot = Bot(token=get_bot_token())
+        await send_shorts_notification(bot)
+        print(f"✅ 쇼츠 전송 완료")
+    except Exception as e:
+        print(f"❌ 쇼츠 전송 실패: {e}")
+
+
 def create_scheduler() -> AsyncIOScheduler:
     """스케줄러 생성"""
     scheduler = AsyncIOScheduler(timezone="Asia/Seoul")
@@ -61,6 +90,15 @@ def create_scheduler() -> AsyncIOScheduler:
         CronTrigger(hour=6, minute=0, timezone="Asia/Seoul"),
         id="daily_collect",
         name="매일 데이터 수집",
+        replace_existing=True,
+    )
+
+    # 매일 06:30 KST — 쇼츠 생성
+    scheduler.add_job(
+        job_shorts,
+        CronTrigger(hour=6, minute=30, timezone="Asia/Seoul"),
+        id="daily_shorts",
+        name="매일 쇼츠 생성",
         replace_existing=True,
     )
 
@@ -79,6 +117,15 @@ def create_scheduler() -> AsyncIOScheduler:
         CronTrigger(hour=7, minute=10, timezone="Asia/Seoul"),
         id="daily_landing",
         name="랜딩 데이터 갱신",
+        replace_existing=True,
+    )
+
+    # 매일 09:00 KST — 쇼츠 MP4 오너에게 전송 (검토용)
+    scheduler.add_job(
+        job_shorts_notify,
+        CronTrigger(hour=9, minute=0, timezone="Asia/Seoul"),
+        id="daily_shorts_notify",
+        name="쇼츠 오너 전송",
         replace_existing=True,
     )
 
