@@ -1,4 +1,4 @@
-"""쇼츠 전체 파이프라인 오케스트레이터 — US/KR 분리, TTS 싱크"""
+"""쇼츠 전체 파이프라인 — 섹션별 TTS 싱크"""
 import json
 import logging
 import os
@@ -9,7 +9,7 @@ from pathlib import Path
 import aiosqlite
 
 from .script_generator import generate_shorts_script
-from .tts import generate_tts
+from .tts import generate_tts_per_scene
 from .renderer import render_short
 from .notifier import send_shorts_to_owner
 
@@ -41,38 +41,6 @@ async def get_price_data_for_shorts(target_date: date) -> list[dict]:
     return result
 
 
-def sync_scenes_to_audio(script: dict, audio_duration: float) -> dict:
-    """scenes의 duration을 TTS 실제 길이에 비례 배분
-
-    LLM이 준 duration 비율은 유지하면서, 총합을 audio_duration에 맞춤
-    """
-    scenes = script["scenes"]
-    original_total = sum(s["duration"] for s in scenes)
-
-    if original_total <= 0:
-        return script
-
-    ratio = audio_duration / original_total
-
-    # 비례 배분 (최소 2초)
-    for scene in scenes:
-        scene["duration"] = max(2, round(scene["duration"] * ratio))
-
-    # 합계가 정확히 맞도록 마지막 씬 조정
-    new_total = sum(s["duration"] for s in scenes)
-    diff = round(audio_duration) - new_total
-    scenes[-1]["duration"] = max(2, scenes[-1]["duration"] + diff)
-
-    script["scenes"] = scenes
-    script["audioDurationSec"] = round(audio_duration)
-
-    logger.info(
-        f"씬 싱크 조정: 원래 {original_total}초 → TTS {audio_duration:.1f}초 "
-        f"(ratio {ratio:.2f})"
-    )
-    return script
-
-
 async def save_shorts_to_db(script: dict, mp4_path: str, target_date: date, market: str):
     """shorts_content 테이블에 저장"""
     async with aiosqlite.connect(DB_PATH) as db:
@@ -88,7 +56,6 @@ async def save_shorts_to_db(script: dict, mp4_path: str, target_date: date, mark
             ),
         )
         await db.commit()
-    logger.info(f"쇼츠 DB 저장 완료: {target_date} [{market}]")
 
 
 async def run_shorts_pipeline(target_date: date | None = None, market: str = "US") -> dict:
@@ -111,32 +78,42 @@ async def run_shorts_pipeline(target_date: date | None = None, market: str = "US
         script = await generate_shorts_script(price_data, target_date, market=market)
     logger.info(f"스크립트 생성: {script['title']} ({len(script['tts_script'])}자)")
 
-    # 3. TTS
+    # 3. 섹션별 TTS
     openai_key = os.environ.get("OPENAI_API_KEY", "")
     audio_path = None
     has_audio = False
 
     if openai_key:
-        audio_dir = Path.home() / "stockread" / "backend" / "data" / "shorts"
+        audio_dir = Path.home() / "stockread" / "backend" / "data" / "shorts" / f"{target_date.isoformat()}_{market.lower()}"
         audio_dir.mkdir(parents=True, exist_ok=True)
-        audio_path = audio_dir / f"tts_{target_date.isoformat()}_{market.lower()}.mp3"
 
         try:
-            audio_path, audio_duration = await generate_tts(
-                text=script["tts_script"],
-                output_path=audio_path,
+            merged_path, scene_durations = await generate_tts_per_scene(
+                scenes=script["scenes"],
+                output_dir=audio_dir,
                 api_key=openai_key,
                 voice="onyx",
                 speed=1.0,
             )
             has_audio = True
 
-            # TTS 실제 길이에 맞춰 scenes duration 조정
-            script = sync_scenes_to_audio(script, audio_duration)
-            logger.info(f"TTS {audio_duration:.1f}초, 영상 {script['audioDurationSec']}초")
+            # 각 scene의 duration을 실제 TTS 길이로 설정
+            for i, scene in enumerate(script["scenes"]):
+                if i < len(scene_durations):
+                    scene["duration"] = math.ceil(scene_durations[i])
+
+            total_sec = sum(s["duration"] for s in script["scenes"])
+            script["audioDurationSec"] = total_sec
+            audio_path = merged_path
+
+            logger.info(f"섹션별 TTS 완료: 총 {total_sec}초")
+            for i, s in enumerate(script["scenes"]):
+                logger.info(f"  {s['label']}: {s['duration']}초")
 
         except Exception as e:
             logger.warning(f"TTS 생성 실패 (오디오 없이 진행): {e}")
+            import traceback
+            traceback.print_exc()
             audio_path = None
     else:
         logger.info("OPENAI_API_KEY 없음 — TTS 스킵")
@@ -193,5 +170,3 @@ async def send_shorts_notification(market: str = "US", target_date: date | None 
             (target_date.isoformat(), market),
         )
         await db.commit()
-
-    logger.info(f"쇼츠 전송 완료: {target_date} [{market}]")

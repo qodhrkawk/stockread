@@ -3,6 +3,7 @@ import { z } from "zod";
 const SceneSchema = z.object({
   label: z.enum(["hook", "summary", "detail", "context", "closing"]),
   text: z.string(),
+  tts_text: z.string().optional(),
   duration: z.number(),
 });
 

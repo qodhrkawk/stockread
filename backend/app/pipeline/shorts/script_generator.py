@@ -63,11 +63,11 @@ JSON만 출력. 다른 텍스트 없이.
   "title": "영상 제목 (후킹용, 15자 이내)",
   "tts_script": "전체 나레이션 스크립트 (350~450자, 300자 미만 금지)",
   "scenes": [
-    {"label": "hook", "text": "화면 핵심 문구", "duration": 5},
-    {"label": "summary", "text": "시장 요약 문구", "duration": 10},
-    {"label": "detail", "text": "종목별 수치 (종목명 ±N% · 가격)", "duration": 20},
-    {"label": "context", "text": "배경 설명 키워드", "duration": 15},
-    {"label": "closing", "text": "마무리 한 줄", "duration": 10}
+    {"label": "hook", "text": "화면 핵심 문구", "tts_text": "해당 섹션 TTS 나레이션", "duration": 5},
+    {"label": "summary", "text": "시장 요약 문구", "tts_text": "해당 섹션 TTS 나레이션", "duration": 10},
+    {"label": "detail", "text": "종목별 수치", "tts_text": "해당 섹션 TTS 나레이션 (가장 길게)", "duration": 20},
+    {"label": "context", "text": "배경 설명", "tts_text": "해당 섹션 TTS 나레이션", "duration": 15},
+    {"label": "closing", "text": "마무리 한 줄", "tts_text": "해당 섹션 TTS 나레이션", "duration": 10}
   ]
 }
 
