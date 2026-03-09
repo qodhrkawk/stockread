@@ -84,7 +84,7 @@ export const ClosingScene: React.FC<{ scene: Scene }> = ({ scene }) => {
           fontWeight: 600,
           textShadow: theme.glowGreen,
         }}>
-          📊 주읽이 StockRead
+          📊 주읽이
         </div>
       </div>
     </AbsoluteFill>

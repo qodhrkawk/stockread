@@ -151,8 +151,12 @@ async def generate_tts_per_scene(
     )
     concat_file.unlink(missing_ok=True)
 
+    # 씬 사이 무음 1초를 각 씬 duration에 반영 (마지막 제외)
+    for i in range(len(scene_durations) - 1):
+        scene_durations[i] += 1.0
+
     total = sum(scene_durations)
-    logger.info(f"TTS 합치기 완료: {merged_path} (총 {total:.1f}초, {len(scenes)}개 섹션)")
+    logger.info(f"TTS 합치기 완료: {merged_path} (총 {total:.1f}초, {len(scenes)}개 섹션, 씬간 1초 무음 포함)")
 
     return merged_path, scene_durations
 

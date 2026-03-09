@@ -29,7 +29,7 @@ export const Watermark: React.FC = () => {
           letterSpacing: 2,
         }}
       >
-        주읽이 StockRead
+        주읽이
       </div>
     </div>
   );
