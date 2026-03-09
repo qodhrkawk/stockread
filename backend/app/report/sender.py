@@ -122,6 +122,21 @@ async def generate_and_send_all():
     print(f"🎉 발송 완료! 성공: {sent_count}건, 실패: {error_count}건")
     print(f"   캐시 히트: {cache_hit}건, 신규 생성: {cache_miss}건")
 
+    # 오너에게 발송 요약 알림
+    OWNER_ID = "7923407207"
+    summary = (
+        f"📋 주읽이 발송 완료 ({today})\n"
+        f"\n"
+        f"👥 구독자: {len(user_subs)}명\n"
+        f"✅ 발송 성공: {sent_count}건\n"
+        f"❌ 발송 실패: {error_count}건\n"
+        f"🤖 신규 생성: {cache_miss}건 / 💾 캐시: {cache_hit}건"
+    )
+    try:
+        await bot.send_message(chat_id=OWNER_ID, text=summary)
+    except Exception as e:
+        print(f"   ⚠️ 오너 알림 실패: {e}")
+
 
 async def send_test_report(telegram_id: str, ticker: str, risk_type: str = "중립"):
     """테스트용 단일 리포트 발송"""
