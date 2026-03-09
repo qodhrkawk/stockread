@@ -22,10 +22,12 @@ export default function ReportPreview() {
     <section className="px-6 py-10">
       {/* 섹션 제목 */}
       <div className="mb-5">
-        <h2 className="text-xl font-bold mb-1">이런 리포트를 받아요</h2>
-        <p className="text-sm text-text-secondary">
-          종목과 성향을 바꿔보세요
+        <p className="text-xs font-semibold text-green uppercase tracking-wide mb-[6px]">
+          LIVE PREVIEW
         </p>
+        <h2 className="text-[22px] font-bold tracking-tight">
+          오늘의 리포트 미리보기
+        </h2>
       </div>
 
       {/* 종목 탭 */}

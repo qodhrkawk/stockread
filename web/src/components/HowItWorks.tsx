@@ -2,29 +2,33 @@ const steps = [
   {
     num: 1,
     title: "텔레그램 봇 시작",
-    desc: "가입 없이 텔레그램에서 /start",
+    desc: "/start 입력하면 바로 시작돼요",
   },
   {
     num: 2,
     title: "성향 & 종목 선택",
-    desc: "투자 성향 + 관심 종목 3개 선택",
+    desc: "투자 성향 고르고, 관심 종목 3개 선택",
   },
   {
     num: 3,
     title: "매일 아침 리포트 수신",
-    desc: "매일 7시, AI 해석 리포트 도착!",
+    desc: "다음 날 아침 7시부터 리포트가 와요",
   },
 ];
 
 export default function HowItWorks() {
   return (
     <section className="px-6 py-10">
-      <h2 className="text-xl font-bold mb-2">어떻게 시작하나요?</h2>
-      <p className="text-sm text-text-secondary mb-6">3단계면 끝이에요</p>
+      <p className="text-xs font-semibold text-green uppercase tracking-wide mb-[6px]">
+        HOW IT WORKS
+      </p>
+      <h2 className="text-[22px] font-bold tracking-tight mb-6">
+        30초면 시작
+      </h2>
 
       <div className="flex flex-col">
         {steps.map((step, i) => (
-          <div key={i} className="flex gap-4 mb-6">
+          <div key={i} className={`flex gap-4 ${i < steps.length - 1 ? "mb-6" : "mb-2"}`}>
             {/* 넘버 + 연결선 */}
             <div className="flex flex-col items-center">
               <div className="w-8 h-8 rounded-full bg-green text-bg flex items-center justify-center text-sm font-bold">
@@ -44,7 +48,9 @@ export default function HowItWorks() {
             {/* 텍스트 */}
             <div className="pb-2">
               <h3 className="text-[15px] font-bold mb-1">{step.title}</h3>
-              <p className="text-[13px] text-text-secondary">{step.desc}</p>
+              <p className="text-[13px] text-text-secondary leading-5">
+                {step.desc}
+              </p>
             </div>
           </div>
         ))}
