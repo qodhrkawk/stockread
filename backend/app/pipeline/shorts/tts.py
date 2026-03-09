@@ -151,8 +151,9 @@ async def generate_tts_per_scene(
     )
     concat_file.unlink(missing_ok=True)
 
-    # 씬 사이 무음 1초를 각 씬 duration에 반영 (마지막 제외)
-    for i in range(len(scene_durations) - 1):
+    # 씬 사이 무음 1초를 다음 씬 duration에 반영 (첫 번째 제외)
+    # → 화면은 바로 전환, TTS는 1초 후 시작
+    for i in range(1, len(scene_durations)):
         scene_durations[i] += 1.0
 
     total = sum(scene_durations)
