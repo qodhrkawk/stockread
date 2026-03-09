@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import {
   reports,
   tabLabels,
@@ -11,9 +11,39 @@ import {
   type RiskKey,
 } from "@/lib/report-data";
 
+function useDragScroll() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    isDragging.current = true;
+    startX.current = e.pageX - (ref.current?.offsetLeft || 0);
+    scrollLeft.current = ref.current?.scrollLeft || 0;
+    if (ref.current) ref.current.style.cursor = "grabbing";
+  }, []);
+
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging.current || !ref.current) return;
+    e.preventDefault();
+    const x = e.pageX - ref.current.offsetLeft;
+    const walk = (x - startX.current) * 1.5;
+    ref.current.scrollLeft = scrollLeft.current - walk;
+  }, []);
+
+  const onMouseUp = useCallback(() => {
+    isDragging.current = false;
+    if (ref.current) ref.current.style.cursor = "grab";
+  }, []);
+
+  return { ref, onMouseDown, onMouseMove, onMouseUp, onMouseLeave: onMouseUp };
+}
+
 export default function ReportPreview() {
   const [tab, setTab] = useState<TabKey>("nvda");
   const [risk, setRisk] = useState<RiskKey>("mid");
+  const drag = useDragScroll();
 
   const r = reports[tab];
   const rm = riskMeta[risk];
@@ -30,13 +60,21 @@ export default function ReportPreview() {
         </h2>
       </div>
 
-      {/* 종목 탭 — 5개 균등 배분 */}
-      <div className="flex gap-1 pb-3">
+      {/* 종목 탭 — 드래그 스크롤 */}
+      <div
+        ref={drag.ref}
+        onMouseDown={drag.onMouseDown}
+        onMouseMove={drag.onMouseMove}
+        onMouseUp={drag.onMouseUp}
+        onMouseLeave={drag.onMouseLeave}
+        className="flex gap-[6px] overflow-x-auto pb-3 scrollbar-hide select-none"
+        style={{ cursor: "grab" }}
+      >
         {tabKeys.map((key) => (
           <button
             key={key}
             onClick={() => setTab(key)}
-            className={`flex-1 py-[7px] rounded-full text-xs font-medium border transition-all text-center ${
+            className={`shrink-0 px-[14px] py-[7px] rounded-full text-[13px] font-medium border transition-all ${
               key === tab
                 ? "bg-text text-bg font-semibold border-text"
                 : "border-border text-text-secondary hover:bg-border hover:text-text"
