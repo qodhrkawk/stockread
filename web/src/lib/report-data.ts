@@ -16,6 +16,7 @@ export interface StockData {
   change: string;
   positive: boolean;
   high52: string;
+  tradeDate: string;
   sections: Record<RiskKey, SectionData>;
 }
 

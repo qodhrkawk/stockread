@@ -125,7 +125,7 @@ export default function ReportPreview() {
                 {stock.positive ? "▲" : "▼"} {stock.change}
               </div>
               <div className="text-[10px] text-text-muted mt-[2px]">
-                {data.date.slice(5).replace("-", "/")} 종가
+                {stock.tradeDate ? `${stock.tradeDate.slice(5).replace("-", "/")} 종가` : ""}
               </div>
             </div>
           </div>

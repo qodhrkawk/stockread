@@ -99,6 +99,12 @@ async def generate_and_save():
             if q.get("year_high") and q["year_high"] > 0:
                 pct_from_high = round(q["price"] / q["year_high"] * 100, 1)
             
+            # 장 마감일
+            trade_date = price_data.get("trade_date", "")
+            if not trade_date and market == "US":
+                # fallback: price_date 사용
+                trade_date = today
+
             stock_entry = {
                 "ticker": ticker,
                 "name": price_data["name_ko"],
@@ -107,6 +113,7 @@ async def generate_and_save():
                 "change": f"{q['change_pct']:+.1f}%",
                 "positive": q["change_pct"] >= 0,
                 "high52": f"{pct_from_high}%",
+                "tradeDate": trade_date,
                 "sections": {},
             }
             
