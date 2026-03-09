@@ -1,6 +1,7 @@
-"""쇼츠 스크립트 생성 — 풍부한 데이터 + 개선된 프롬프트"""
+"""쇼츠 스크립트 생성 — 2단계: TTS 먼저 → 화면 데이터 추출"""
 import json
 import logging
+import re
 from datetime import date
 
 from openai import AsyncOpenAI
@@ -13,7 +14,8 @@ client = AsyncOpenAI(
 )
 MODEL = "claude-sonnet-4-20250514"
 
-BASE_SYSTEM_PROMPT = """너는 주식 초보(주린이)를 위한 YouTube Shorts 나레이션 작가야.
+# ========== STEP 1: TTS 스크립트 생성 ==========
+STEP1_SYSTEM = """너는 주식 초보(주린이)를 위한 YouTube Shorts 나레이션 작가야.
 
 ## 말투
 - 존댓말 (해요체)
@@ -21,8 +23,8 @@ BASE_SYSTEM_PROMPT = """너는 주식 초보(주린이)를 위한 YouTube Shorts
 - 짧은 문장 위주 (한 문장 40자 이내)
 
 ## 뉴스 활용 (필수!!!)
-- 뉴스 헤드라인에 나온 핵심 이벤트(서킷 브레이커, 급등/급락 이유 등)를 반드시 반영
-- 여러 종목 뉴스에 공통적으로 등장하는 키워드가 있으면 context의 핵심 원인으로 활용
+- 뉴스 헤드라인에 나온 핵심 이벤트(서킷 브레이커, 급등/급락 이유 등)를 반드시 스크립트에 반영
+- 여러 종목 뉴스에 공통적으로 등장하는 키워드 → context의 핵심 원인으로 활용
 - 뉴스에서 언급된 구체적 사건/수치가 있으면 나레이션에 포함
 
 ## 절대 금지
@@ -34,78 +36,67 @@ BASE_SYSTEM_PROMPT = """너는 주식 초보(주린이)를 위한 YouTube Shorts
 ## 필수 규칙
 - 수치 반드시 포함 (%, 원, 달러)
 - RSI, SMA 등 지표 쓸 때 바로 풀어서 설명
-  예: "RSI가 72예요. 70 넘으면 과열 신호로 봐요"
 - summary와 detail 내용이 겹치면 안 됨
-  - summary = 전체 시장 분위기 (숲)
+  - summary = 전체 시장 분위기 (숲, 개별 종목명 X)
   - detail = 개별 종목 분석 (나무)
 
-## 스크립트 구조 & 문장 수 (엄격히 지킬 것)
+## 구조 (5파트, 각 파트를 --- 로 구분)
 
-① hook (5초, 2문장)
-   - 가장 임팩트 있는 숫자/사건으로 시작
-   - 질문형 필수: "~했는데, 왜 그런 걸까요?"
+hook (2문장)
+- 가장 임팩트 있는 숫자/사건으로 시작
+- 질문형 필수: "~했는데, 왜 그런 걸까요?"
+---
+summary (3문장)
+- 시장 전체 분위기만 (개별 종목명 X)
+- 어떤 섹터가 올랐고 빠졌는지
+---
+detail (6문장 이상, 가장 길게!)
+- 핵심 종목 2~3개, 종목당 최소 2문장
+- 종목당: 가격 + 등락% + 왜 올랐는지/빠졌는지 이유
+- detail에서 언급하는 종목만 나중에 화면에 표시됨
+- TTS에서 언급하지 않는 종목은 절대 넣지 마세요
+---
+context (3문장)
+- 왜 이런 일이 벌어졌는지 배경/원인
+- 원인→결과 인과관계가 명확하게
+---
+closing (2문장)
+- "~해 보여요", "지켜보는 게 좋겠어요" 톤
 
-② summary (10초, 3문장)
-   - 시장 전체 분위기만 (개별 종목 X)
-   - 어떤 섹터가 올랐고 빠졌는지
+## 분량: 350~450자 (한국어), 300자 미만 절대 금지
+## 출력: 5파트를 --- 로 구분. 다른 텍스트 없이 나레이션만."""
 
-③ detail (25초, 6문장 이상)
-   - 핵심 종목 2~3개, 종목당 최소 2문장
-   - 종목당 반드시: 가격 + 등락% + 왜 올랐는지/빠졌는지 이유 1줄
-   - 이유 없이 숫자만 나열 금지
-   - 기술지표(RSI, SMA) 언급 시 쉽게 풀어서
-   - 여기가 전체의 40% — 가장 길고 구체적이어야 함
-   - 좋은 예: "현대모비스는 12만원대로 10% 넘게 급락했어요. 자동차 부품 수출 차질 우려가 반영된 거예요."
-   - 나쁜 예: "현대모비스는 10% 넘게 급락했고, 네이버와 카카오도 5% 이상 빠졌어요."
+# ========== STEP 2: 화면 데이터 추출 ==========
+STEP2_SYSTEM = """주어진 TTS 나레이션에서 화면 표시용 데이터를 추출해.
 
-④ context (15초, 3문장)
-   - 왜 이런 일이 벌어졌는지 배경/원인
-   - 초보자가 인과관계를 이해할 수 있게
+규칙:
+- TTS에서 실제로 말하는 내용만 추출 (없는 정보 추가 금지)
+- TTS에서 언급한 종목만 cards에 포함 (언급 안 한 종목 추가 금지)
+- flow의 각 항목은 TTS context에서 언급한 원인/결과만
+- JSON만 출력
 
-⑤ closing (5초, 2문장)
-   - 앞으로 어떻게 볼 수 있는지
-   - "~해 보여요", "지켜보는 게 좋겠어요" 톤
-
-## 분량 (매우 중요!!!)
-- tts_script: 350~450자 (한국어 기준)
-- 300자 미만 절대 금지
-- 합계 최소 16문장
-- detail의 tts_text가 가장 길어야 함
-
-## 출력 형식
-JSON만 출력. 다른 텍스트 없이.
-
-⚠️ 절대 규칙: scenes에 "text" 필드를 넣지 마세요. 대신:
-- hook → headline, number
-- summary → sectors
-- detail → cards
-- context → flow
-- closing → message
-이 필드들을 반드시 사용하세요.
-
-중요:
-- tts_script = 모든 scenes의 tts_text를 순서대로 이어붙인 전체 나레이션
-- tts_script와 scenes.tts_text 내용이 불일치하면 안 됨
-
+출력 형식:
 {
-  "date": "YYYY-MM-DD",
   "title": "영상 제목 (후킹용, 15자 이내)",
-  "tts_script": "전체 나레이션 (350~450자)",
-  "scenes": [
-    {"label": "hook", "text": "화면 문구 (줄바꿈)", "tts_text": "TTS 2문장", "duration": 5},
-    {"label": "summary", "text": "화면 문구", "tts_text": "TTS 3문장", "duration": 10},
-    {"label": "detail", "text": "종목별 수치", "tts_text": "TTS 6문장 이상", "duration": 25},
-    {"label": "context", "text": "배경 키워드", "tts_text": "TTS 3문장", "duration": 15},
-    {"label": "closing", "text": "마무리", "tts_text": "TTS 2문장", "duration": 5}
-  ]
-}
-
-## scenes.text 규칙 (화면용)
-- 핵심 키워드/수치만 (TTS 전체 넣지 않음)
-- 줄바꿈(\\n)으로 구분, 3줄 이내
-- hook: 핵심 숫자 크게 (예: "-8%")
-- detail: 종목별 한 줄씩 "삼성전자 -8% · 170,200원"
-- 숫자와 등락률 필수 포함"""
+  "hook": {
+    "headline": "핵심 한줄 (TTS 첫 문장 기반)",
+    "number": "핵심 숫자 (부호 포함, 예: -9.5%)"
+  },
+  "summary": {
+    "sectors": [{"name": "섹터명", "direction": "up 또는 down"}]
+  },
+  "detail": {
+    "cards": [
+      {"name": "종목명", "price": "가격", "change": "등락% (부호 포함)", "indicators": ["지표1"]}
+    ]
+  },
+  "context": {
+    "flow": ["원인1", "원인2", "결과"]
+  },
+  "closing": {
+    "message": "마무리 핵심 메시지"
+  }
+}"""
 
 MARKET_CONTEXT = {
     "US": {
@@ -120,9 +111,6 @@ MARKET_CONTEXT = {
     },
 }
 
-US_TICKERS = ["NVDA", "TSLA", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "AMD", "SPY", "JPM"]
-KR_TICKERS = ["005930", "000660", "373220", "035420", "035720", "006400", "012330"]
-
 
 def format_stock_data(item: dict, market: str) -> str:
     """종목 데이터를 프롬프트용 텍스트로 포맷"""
@@ -135,7 +123,6 @@ def format_stock_data(item: dict, market: str) -> str:
     ticker = item.get("ticker", "")
     name = quote.get("name", data.get("name_ko", ticker))
 
-    # 가격
     price = quote.get("price", 0)
     change_pct = quote.get("changesPercentage", quote.get("change_pct", 0))
     change = quote.get("change", 0)
@@ -152,14 +139,11 @@ def format_stock_data(item: dict, market: str) -> str:
     lines.append(f"- 종가: {price_str} ({change_pct:+.2f}%) {change_str}")
     lines.append(f"- 거래량: {volume:,}")
 
-    # 52주 고저
     year_high = quote.get("year_high", 0)
-    year_low = quote.get("year_low", 0)
     pct_from_high = data.get("pct_from_high", 0)
     if year_high:
         lines.append(f"- 52주 고점: {year_high:,} (현재 고점 대비 {pct_from_high:.1f}%)")
 
-    # 기술지표
     rsi = indicators.get("rsi_14")
     sma20 = indicators.get("sma_20")
     sma50 = indicators.get("sma_50")
@@ -172,7 +156,6 @@ def format_stock_data(item: dict, market: str) -> str:
         above50 = "위" if indicators.get("above_sma50") else "아래"
         lines.append(f"- 50일 이평선: {sma50:,.0f} (현재가 {above50})")
 
-    # PER, PBR
     per = quote.get("per")
     pbr = quote.get("pbr")
     if per:
@@ -180,14 +163,12 @@ def format_stock_data(item: dict, market: str) -> str:
     if pbr:
         lines.append(f"- PBR: {pbr}")
 
-    # 뉴스 (최대 3개)
     news = data.get("news", [])[:3]
     if news:
         lines.append("- 뉴스:")
         for n in news:
             lines.append(f"  · {n.get('title', '')[:80]}")
 
-    # 공시 (최대 2개)
     disclosures = data.get("disclosures", [])[:2]
     if disclosures:
         lines.append("- 공시:")
@@ -202,13 +183,12 @@ async def generate_shorts_script(
     target_date: date | None = None,
     market: str = "US",
 ) -> dict:
-    """시장별 쇼츠 스크립트 JSON 생성"""
+    """2단계 생성: TTS 나레이션 → 화면 데이터 추출"""
     if target_date is None:
         target_date = date.today()
 
     ctx = MARKET_CONTEXT[market]
 
-    # 해당 시장 종목만 필터링
     filtered = []
     for item in price_data:
         ticker = item.get("ticker", "")
@@ -219,76 +199,144 @@ async def generate_shorts_script(
     if not filtered:
         raise RuntimeError(f"{ctx['label']} 가격 데이터가 없습니다.")
 
-    # 풍부한 종목 데이터 텍스트
-    stock_texts = []
-    for item in filtered:
-        stock_texts.append(format_stock_data(item, market))
+    stock_texts = [format_stock_data(item, market) for item in filtered]
 
-    system_prompt = BASE_SYSTEM_PROMPT + f"\n\n## 이번 영상\n{ctx['flag']} {ctx['intro']}\n{ctx['label']} 데이터만 다뤄."
+    # ===== STEP 1: TTS 나레이션 생성 =====
+    step1_system = STEP1_SYSTEM + f"\n\n## 이번 영상\n{ctx['flag']} {ctx['intro']}\n{ctx['label']} 데이터만 다뤄."
 
-    user_prompt = f"""오늘 날짜: {target_date.isoformat()}
+    step1_user = f"""오늘 날짜: {target_date.isoformat()}
 
 ## {ctx['flag']} {ctx['label']} 주요 종목 데이터
 
 {chr(10).join(stock_texts)}
 
-위 데이터를 기반으로 쇼츠 스크립트 JSON을 생성해줘.
-기술지표, 뉴스, 52주 고저 등을 활용해서 풍부하게 작성해.
+위 데이터를 기반으로 나레이션을 작성해줘.
+기술지표, 뉴스, 52주 고저 등을 활용해서 풍부하게.
+5파트를 --- 로 구분해서 출력."""
+
+    logger.info(f"[STEP1] TTS 생성 시작 [{market}]")
+    resp1 = await client.chat.completions.create(
+        model=MODEL, max_tokens=2048,
+        messages=[
+            {"role": "system", "content": step1_system},
+            {"role": "user", "content": step1_user},
+        ],
+    )
+    tts_raw = resp1.choices[0].message.content.strip()
+    logger.info(f"[STEP1] TTS 원본:\n{tts_raw}")
+
+    # --- 로 파트 분리
+    parts = re.split(r'\n-{3,}\n', tts_raw)
+    if len(parts) < 5:
+        # 줄바꿈 패턴 다시 시도
+        parts = re.split(r'-{3,}', tts_raw)
+    
+    labels = ["hook", "summary", "detail", "context", "closing"]
+    scene_tts = {}
+    for i, label in enumerate(labels):
+        scene_tts[label] = parts[i].strip() if i < len(parts) else ""
+
+    tts_script = " ".join(scene_tts[l] for l in labels)
+    total_chars = len(tts_script.replace(" ", ""))
+    logger.info(f"[STEP1] TTS 완성: {total_chars}자")
+
+    # 300자 미만이면 재생성
+    if total_chars < 300:
+        logger.warning(f"TTS 분량 부족 ({total_chars}자), 재생성")
+        resp1 = await client.chat.completions.create(
+            model=MODEL, max_tokens=2048,
+            messages=[
+                {"role": "system", "content": step1_system},
+                {"role": "user", "content": step1_user + "\n\n⚠️ 반드시 350자 이상 작성해줘!"},
+            ],
+        )
+        tts_raw = resp1.choices[0].message.content.strip()
+        parts = re.split(r'\n-{3,}\n', tts_raw)
+        if len(parts) < 5:
+            parts = re.split(r'-{3,}', tts_raw)
+        for i, label in enumerate(labels):
+            scene_tts[label] = parts[i].strip() if i < len(parts) else ""
+        tts_script = " ".join(scene_tts[l] for l in labels)
+
+    # ===== STEP 2: 화면 데이터 추출 =====
+    step2_user = f"""아래 TTS 나레이션에서 화면 표시용 데이터를 추출해줘.
+
+## TTS 나레이션 (5파트)
+
+[hook]
+{scene_tts['hook']}
+
+[summary]
+{scene_tts['summary']}
+
+[detail]
+{scene_tts['detail']}
+
+[context]
+{scene_tts['context']}
+
+[closing]
+{scene_tts['closing']}
+
 JSON만 출력해. 다른 텍스트 없이."""
 
-    response = await client.chat.completions.create(
-        model=MODEL,
-        max_tokens=2048,
+    logger.info(f"[STEP2] 화면 데이터 추출 시작")
+    resp2 = await client.chat.completions.create(
+        model=MODEL, max_tokens=1024,
         messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
+            {"role": "system", "content": STEP2_SYSTEM},
+            {"role": "user", "content": step2_user},
         ],
     )
 
-    text = response.choices[0].message.content.strip()
-    if text.startswith("```"):
-        text = text.split("\n", 1)[1]
-        text = text.rsplit("```", 1)[0]
+    text2 = resp2.choices[0].message.content.strip()
+    if text2.startswith("```"):
+        text2 = text2.split("\n", 1)[1]
+        text2 = text2.rsplit("```", 1)[0]
 
-    script = json.loads(text)
-    script["date"] = target_date.isoformat()
-    script["market"] = market
+    visual = json.loads(text2)
+    logger.info(f"[STEP2] 화면 데이터 추출 완료")
 
-    # Claude가 구조화 필드를 문자열로 줄 수 있으므로 후처리
-    for scene in script.get("scenes", []):
-        # sectors: 문자열 → 배열
-        if "sectors" in scene and isinstance(scene["sectors"], str):
-            lines = [l.strip() for l in scene["sectors"].split("\n") if l.strip()]
-            scene["sectors"] = [
-                {"name": l, "direction": "down" if any(w in l for w in ["하락", "급락", "↓", "빠", "폭락", "-", "약세"]) else "up"}
-                for l in lines
-            ]
-        # cards: 문자열 → 배열
-        if "cards" in scene and isinstance(scene["cards"], str):
-            lines = [l.strip() for l in scene["cards"].split("\n") if l.strip()]
-            cards = []
-            for l in lines:
-                parts = l.replace("·", "|").replace("•", "|").split("|")
-                name_change = parts[0].strip()
-                price = parts[1].strip() if len(parts) > 1 else ""
-                # "삼성전자 -9.6%" 파싱
-                tokens = name_change.rsplit(" ", 1)
-                name = tokens[0].strip()
-                change = tokens[1].strip() if len(tokens) > 1 else ""
-                cards.append({"name": name, "price": price, "change": change, "indicators": []})
-            scene["cards"] = cards
-        # flow: 문자열 → 배열
-        if "flow" in scene and isinstance(scene["flow"], str):
-            scene["flow"] = [l.strip() for l in scene["flow"].split("\n") if l.strip()]
-        # message: 줄바꿈 유지
-        if "message" in scene and isinstance(scene["message"], str):
-            scene["message"] = scene["message"].replace("\n", "\n")
+    # ===== 최종 JSON 조립 =====
+    # 기본 duration 비율
+    durations = {"hook": 5, "summary": 10, "detail": 25, "context": 15, "closing": 5}
 
-    total_sec = sum(s["duration"] for s in script["scenes"])
+    scenes = []
+    for label in labels:
+        scene = {
+            "label": label,
+            "tts_text": scene_tts[label],
+            "duration": durations[label],
+        }
+        v = visual.get(label, {})
+        if label == "hook":
+            scene["headline"] = v.get("headline", "")
+            scene["number"] = v.get("number", "")
+        elif label == "summary":
+            scene["sectors"] = v.get("sectors", [])
+        elif label == "detail":
+            scene["cards"] = v.get("cards", [])
+        elif label == "context":
+            flow = v.get("flow", [])
+            # "→" 기호 제거 (빈 박스 방지)
+            scene["flow"] = [f.strip().lstrip("→").strip() for f in flow if f.strip().lstrip("→").strip()]
+        elif label == "closing":
+            scene["message"] = v.get("message", "")
+        scenes.append(scene)
+
+    script = {
+        "date": target_date.isoformat(),
+        "title": visual.get("title", "오늘의 증시"),
+        "tts_script": tts_script,
+        "scenes": scenes,
+        "market": market,
+    }
+
+    total_sec = sum(s["duration"] for s in scenes)
     script["audioDurationSec"] = max(30, min(70, total_sec))
 
     logger.info(
         f"쇼츠 스크립트 생성 [{market}]: {script['title']} "
-        f"({len(script['tts_script'])}자, {script['audioDurationSec']}초)"
+        f"({len(tts_script)}자, {script['audioDurationSec']}초)"
     )
     return script
