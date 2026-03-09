@@ -23,3 +23,12 @@
     @apply bg-bg text-text font-sans antialiased;
   }
 }
+
+/* 스크롤바 숨김 */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
