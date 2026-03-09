@@ -17,10 +17,20 @@ def risk_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([buttons])
 
 
+def _stock_label(stock: dict, selected_tickers: list[str]) -> str:
+    """종목 버튼 라벨 생성"""
+    check = "✅ " if stock["ticker"] in selected_tickers else ""
+    name = stock["name_ko"]
+    # ETF/특수 종목은 짧게
+    if len(name) > 6:
+        name = name[:6]
+    return f"{check}{name}"
+
+
 def stock_keyboard(
     stocks: list[dict], selected_tickers: list[str]
 ) -> InlineKeyboardMarkup:
-    """종목 선택 키보드 (토글 방식)"""
+    """종목 선택 키보드 (토글 방식, 2열)"""
     us_stocks = [s for s in stocks if s["market"] == "US"]
     kr_stocks = [s for s in stocks if s["market"] == "KR"]
 
@@ -28,41 +38,35 @@ def stock_keyboard(
 
     # 🇺🇸 미국
     rows.append([InlineKeyboardButton("🇺🇸 미국", callback_data="noop")])
-    us_row = []
+    row = []
     for s in us_stocks:
-        check = "✅ " if s["ticker"] in selected_tickers else ""
-        label = s.get("name_ko", s["ticker"])
-        # ETF는 티커 그대로
-        if s["ticker"] in ("SPY", "QQQ"):
-            label = s["ticker"]
-        us_row.append(
+        row.append(
             InlineKeyboardButton(
-                f"{check}{label}",
+                _stock_label(s, selected_tickers),
                 callback_data=f"{STOCK_PREFIX}{s['ticker']}",
             )
         )
-        if len(us_row) == 3:
-            rows.append(us_row)
-            us_row = []
-    if us_row:
-        rows.append(us_row)
+        if len(row) == 3:
+            rows.append(row)
+            row = []
+    if row:
+        rows.append(row)
 
     # 🇰🇷 한국
     rows.append([InlineKeyboardButton("🇰🇷 한국", callback_data="noop")])
-    kr_row = []
+    row = []
     for s in kr_stocks:
-        check = "✅ " if s["ticker"] in selected_tickers else ""
-        kr_row.append(
+        row.append(
             InlineKeyboardButton(
-                f"{check}{s['name_ko']}",
+                _stock_label(s, selected_tickers),
                 callback_data=f"{STOCK_PREFIX}{s['ticker']}",
             )
         )
-        if len(kr_row) == 3:
-            rows.append(kr_row)
-            kr_row = []
-    if kr_row:
-        rows.append(kr_row)
+        if len(row) == 3:
+            rows.append(row)
+            row = []
+    if row:
+        rows.append(row)
 
     # 완료 버튼
     rows.append(

@@ -99,18 +99,47 @@ CREATE TABLE IF NOT EXISTS price_cache (
 """
 
 SEED_DATA = """
--- MVP 지원 종목 (미국 6 + 한국 6)
+-- MVP 지원 종목 (미국 15 + 한국 15)
 INSERT OR IGNORE INTO stocks (ticker, name_ko, name_en, market) VALUES
-    ('AAPL',    '애플',         'Apple',            'US'),
-    ('NVDA',    '엔비디아',      'NVIDIA',           'US'),
-    ('TSLA',    '테슬라',       'Tesla',            'US'),
-    ('MSFT',    '마이크로소프트',  'Microsoft',        'US'),
-    ('SPY',     'S&P 500 ETF', 'SPDR S&P 500',     'US'),
-    ('QQQ',     '나스닥 100 ETF','Invesco QQQ',      'US'),
-    ('005930',  '삼성전자',      'Samsung Electronics','KR'),
-    ('000660',  'SK하이닉스',    'SK Hynix',         'KR'),
-    ('035420',  'NAVER',       'NAVER',            'KR'),
-    ('035720',  '카카오',       'Kakao',            'KR'),
-    ('373220',  'LG에너지솔루션', 'LG Energy Solution','KR'),
-    ('005380',  '현대차',       'Hyundai Motor',    'KR');
+    -- 🇺🇸 미국 빅테크
+    ('AAPL',    '애플',           'Apple',              'US'),
+    ('MSFT',    '마이크로소프트',    'Microsoft',          'US'),
+    ('GOOGL',   '구글',           'Alphabet',           'US'),
+    ('AMZN',    '아마존',          'Amazon',             'US'),
+    ('META',    '메타',           'Meta Platforms',     'US'),
+    -- 🇺🇸 AI/반도체
+    ('NVDA',    '엔비디아',        'NVIDIA',             'US'),
+    ('AMD',     'AMD',           'AMD',                'US'),
+    ('AVGO',    '브로드컴',        'Broadcom',           'US'),
+    -- 🇺🇸 전기차
+    ('TSLA',    '테슬라',         'Tesla',              'US'),
+    -- 🇺🇸 ETF
+    ('SPY',     'S&P 500 ETF',   'SPDR S&P 500',       'US'),
+    ('QQQ',     '나스닥 100 ETF',  'Invesco QQQ',        'US'),
+    ('SOXX',    '반도체 ETF',      'iShares Semiconductor','US'),
+    -- 🇺🇸 금융/기타
+    ('JPM',     'JP모건',         'JPMorgan Chase',     'US'),
+    ('V',       '비자',           'Visa',               'US'),
+    ('COST',    '코스트코',        'Costco',             'US'),
+    -- 🇰🇷 대형
+    ('005930',  '삼성전자',        'Samsung Electronics', 'KR'),
+    ('000660',  'SK하이닉스',      'SK Hynix',           'KR'),
+    ('005380',  '현대차',         'Hyundai Motor',      'KR'),
+    -- 🇰🇷 플랫폼
+    ('035420',  'NAVER',         'NAVER',              'KR'),
+    ('035720',  '카카오',         'Kakao',              'KR'),
+    -- 🇰🇷 2차전지
+    ('373220',  'LG에너지솔루션',   'LG Energy Solution', 'KR'),
+    ('006400',  '삼성SDI',        'Samsung SDI',        'KR'),
+    ('247540',  '에코프로비엠',     'Ecopro BM',          'KR'),
+    -- 🇰🇷 바이오
+    ('207940',  '삼성바이오로직스',  'Samsung Biologics',   'KR'),
+    ('068270',  '셀트리온',        'Celltrion',          'KR'),
+    -- 🇰🇷 금융/기타
+    ('105560',  'KB금융',         'KB Financial',       'KR'),
+    ('012330',  '현대모비스',       'Hyundai Mobis',      'KR'),
+    -- 🇰🇷 ETF
+    ('069500',  'KODEX 200',     'KODEX 200',          'KR'),
+    ('122630',  'KODEX 레버리지',  'KODEX Leverage',     'KR'),
+    ('360750',  'TIGER 미국S&P500','TIGER US S&P500',   'KR');
 """
