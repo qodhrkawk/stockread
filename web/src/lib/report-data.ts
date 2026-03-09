@@ -1,6 +1,13 @@
 export type RiskKey = "safe" | "mid" | "aggr";
 export type TabKey = "nvda" | "tsla" | "samsung" | "aapl" | "hynix";
 
+export interface SectionData {
+  section1: string;
+  section2: string;
+  section3: string;
+  interpret: string;
+}
+
 export interface StockData {
   ticker: string;
   name: string;
@@ -9,11 +16,7 @@ export interface StockData {
   change: string;
   positive: boolean;
   high52: string;
-  rsi: number | null;
-  rsi_text: string;
-  sma_text: string;
-  news: string[];
-  interpret: Record<RiskKey, string>;
+  sections: Record<RiskKey, SectionData>;
 }
 
 export interface LandingData {

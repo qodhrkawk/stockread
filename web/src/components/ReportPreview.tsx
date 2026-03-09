@@ -8,30 +8,8 @@ import {
   riskKeys,
   type TabKey,
   type RiskKey,
+  type LandingData,
 } from "@/lib/report-data";
-
-interface SectionData {
-  section1: string;
-  section2: string;
-  section3: string;
-  interpret: string;
-}
-
-interface StockData {
-  ticker: string;
-  name: string;
-  flag: string;
-  price: string;
-  change: string;
-  positive: boolean;
-  high52: string;
-  sections: Record<RiskKey, SectionData>;
-}
-
-interface LandingData {
-  date: string;
-  stocks: Record<TabKey, StockData>;
-}
 
 function useDragScroll() {
   const ref = useRef<HTMLDivElement>(null);
@@ -76,13 +54,14 @@ export default function ReportPreview() {
       .catch(() => {});
   }, []);
 
+  // 로딩 or 데이터 없음
   if (!data || !data.stocks[tab]) {
     return (
       <section className="px-6 py-10">
         <p className="text-xs font-semibold text-green uppercase tracking-wide mb-[6px]">LIVE PREVIEW</p>
         <h2 className="text-[22px] font-bold tracking-tight mb-4">오늘의 리포트 미리보기</h2>
         <div className="bg-bg-card border border-border rounded-2xl p-8 text-center text-text-secondary text-sm">
-          리포트 로딩 중...
+          리포트를 준비 중이에요 ☕
         </div>
       </section>
     );
@@ -157,10 +136,10 @@ export default function ReportPreview() {
           </div>
         </div>
 
-        {/* 본문 3섹션 */}
+        {/* 본문 */}
         <div className="px-5 py-5">
           {sectionMeta.map(({ key, emoji, title }) => {
-            const text = sec[key as keyof SectionData];
+            const text = sec[key as keyof typeof sec];
             if (!text) return null;
             return (
               <div key={key} className="mb-4">
@@ -168,7 +147,7 @@ export default function ReportPreview() {
                   <span className="text-sm">{emoji}</span>
                   <span className="text-[13px] font-semibold text-text-secondary">{title}</span>
                 </div>
-                <p className="text-sm leading-[22px] text-neutral-300 pl-[22px]">{text}</p>
+                <p className="text-sm leading-[22px] text-neutral-300 pl-[22px] whitespace-pre-line">{text}</p>
               </div>
             );
           })}
@@ -180,7 +159,7 @@ export default function ReportPreview() {
                 <span className="text-sm">💡</span>
                 <span className="text-[13px] font-semibold text-green">이렇게 보시면 돼요 ({rm.emoji} {rm.name})</span>
               </div>
-              <p className="text-sm leading-[22px] text-neutral-300 pl-[22px]">{sec.interpret}</p>
+              <p className="text-sm leading-[22px] text-neutral-300 pl-[22px] whitespace-pre-line">{sec.interpret}</p>
             </div>
           )}
         </div>
