@@ -106,14 +106,16 @@ STEP2_SYSTEM = """주어진 TTS 나레이션에서 화면 표시용 데이터를
     "flow": ["이란 사태", "헬륨 공급 차질", "반도체 타격"]
   },
   "closing": {
-    "message": "마무리 핵심 메시지 (TTS 그대로)"
+    "message": "키워드 요약 2줄 (줄바꿈으로 구분)\n예: 변동성 주의\n중동 상황 주시"
   }
 }
 
 중요:
 - detail visual_segments의 card에 reason(한줄 이유)과 indicators(지표 1~3개) 반드시 포함
 - summary visual_segments의 sector에 change(등락%) 포함
-- hook의 event가 number보다 중요 (이벤트명이 크게 표시됨)"""
+- hook의 event가 number보다 중요 (이벤트명이 크게 표시됨)
+- closing message는 TTS를 그대로 쓰지 말고, 핵심 키워드 1~2줄로 요약 (예: "변동성 주의\n중동 상황 주시")
+- 화면 하단에 자막이 별도로 TTS 전문을 보여주므로 message는 짧게"""
 
 MARKET_CONTEXT = {
     "US": {
@@ -337,7 +339,7 @@ JSON만 출력해. 다른 텍스트 없이."""
             flow = v.get("flow", [])
             scene["flow"] = [f.strip().lstrip("→").strip() for f in flow if f.strip().lstrip("→").strip()]
         elif label == "closing":
-            scene["message"] = v.get("message", scene_tts[label])
+            scene["message"] = v.get("message", "")
         scenes.append(scene)
 
     # detail cards에 price가 빈 경우 실제 데이터에서 보정

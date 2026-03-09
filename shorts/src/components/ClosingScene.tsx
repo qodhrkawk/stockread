@@ -3,73 +3,89 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring } fr
 import { theme, fonts } from "../styles/theme";
 import type { Scene } from "../types";
 
-function splitSentences(text: string): string[] {
-  const result: string[] = [];
-  const pattern = /(?<!\d)([.!?])(?!\d)/g;
-  let lastIdx = 0;
-  let match;
-  while ((match = pattern.exec(text)) !== null) {
-    const end = match.index + 1;
-    const chunk = text.slice(lastIdx, end).trim();
-    if (chunk.length > 1) result.push(chunk);
-    lastIdx = end;
-  }
-  const rest = text.slice(lastIdx).trim();
-  if (rest.length > 1) result.push(rest);
-  return result.length > 0 ? result : [text];
-}
-
 export const ClosingScene: React.FC<{ scene: Scene }> = ({ scene }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const progress = spring({ frame: frame - 5, fps, config: { damping: 16 } });
+  const message = scene.message || "";
 
-  const tts = scene.tts_text || scene.message || "";
-  const sentences = splitSentences(tts);
+  // 라인 분리
+  const lines = message.split("\n").filter(l => l.trim());
+
+  // 전체 등장
+  const containerProgress = spring({ frame: frame - 3, fps, config: { damping: 16 } });
+
+  // 글로우 펄스
+  const pulse = interpolate(frame, [0, 60], [0, Math.PI * 2]);
+  const glowOpacity = 0.15 + Math.sin(pulse) * 0.05;
 
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", padding: "0 60px" }}>
+      {/* 배경 글로우 원 */}
       <div style={{
-        opacity: progress,
-        transform: `translateY(${interpolate(progress, [0, 1], [30, 0])}px)`,
-        background: `linear-gradient(135deg, rgba(0,255,136,0.06), rgba(0,212,255,0.04))`,
-        border: `1px solid rgba(0,255,136,0.15)`,
-        borderRadius: 24,
-        padding: "50px 44px",
-        maxWidth: 900,
-        width: "100%",
+        position: "absolute",
+        width: 400,
+        height: 400,
+        borderRadius: "50%",
+        background: `radial-gradient(circle, rgba(0,255,136,${glowOpacity}) 0%, transparent 70%)`,
+        filter: "blur(60px)",
+      }} />
+
+      {/* 메인 키워드 */}
+      <div style={{
+        opacity: containerProgress,
+        transform: `scale(${interpolate(containerProgress, [0, 1], [0.9, 1])})`,
+        display: "flex",
+        flexDirection: "column" as const,
+        alignItems: "center",
+        gap: 20,
       }}>
-        {sentences.map((sentence, i) => {
-          const lineProgress = spring({ frame: frame - 8 - i * 12, fps, config: { damping: 14 } });
+        {lines.map((line, i) => {
+          const lineProgress = spring({ frame: frame - 6 - i * 10, fps, config: { damping: 14 } });
+          const isFirst = i === 0;
           return (
             <div key={i} style={{
               opacity: lineProgress,
-              color: theme.textPrimary,
-              fontSize: 42,
-              fontWeight: 700,
-              fontFamily: fonts.body,
+              transform: `translateY(${interpolate(lineProgress, [0, 1], [20, 0])}px)`,
+              color: isFirst ? theme.neonGreen : theme.textPrimary,
+              fontSize: isFirst ? 56 : 40,
+              fontWeight: isFirst ? 800 : 600,
+              fontFamily: isFirst ? fonts.title : fonts.body,
               textAlign: "center",
-              lineHeight: 1.6,
+              lineHeight: 1.4,
               wordBreak: "keep-all" as const,
-              marginBottom: i < sentences.length - 1 ? 20 : 0,
+              textShadow: isFirst ? theme.glowGreen : "none",
+              letterSpacing: isFirst ? 2 : 0,
             }}>
-              {sentence}
+              {line}
             </div>
           );
         })}
       </div>
 
+      {/* 하단 구분선 + 브랜딩 */}
       <div style={{
-        opacity: interpolate(frame, [15, 30], [0, 0.5], { extrapolateRight: "clamp" }),
-        marginTop: 40,
-        color: theme.neonGreen,
-        fontSize: 26,
-        fontFamily: fonts.mono,
-        fontWeight: 600,
-        textShadow: theme.glowGreen,
+        opacity: interpolate(frame, [20, 35], [0, 0.6], { extrapolateRight: "clamp" }),
+        marginTop: 60,
+        display: "flex",
+        flexDirection: "column" as const,
+        alignItems: "center",
+        gap: 16,
       }}>
-        📊 주읽이 StockRead
+        <div style={{
+          width: 60,
+          height: 2,
+          background: `linear-gradient(90deg, transparent, ${theme.neonGreen}, transparent)`,
+        }} />
+        <div style={{
+          color: theme.neonGreen,
+          fontSize: 26,
+          fontFamily: fonts.mono,
+          fontWeight: 600,
+          textShadow: theme.glowGreen,
+        }}>
+          📊 주읽이 StockRead
+        </div>
       </div>
     </AbsoluteFill>
   );
