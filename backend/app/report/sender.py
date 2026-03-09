@@ -12,6 +12,39 @@ from .generator import generate_report, format_report_message
 BOT_TOKEN = os.environ.get("StockRead_BOT_TOKEN", "")
 
 
+async def _get_or_generate_report(data: dict, risk_type: str, today: str) -> str | None:
+    """DB 캐시 먼저 확인 → 없으면 Claude 호출 → DB 저장"""
+    ticker = data["ticker"]
+
+    # 1. DB 캐시 확인
+    cached = await db.get_report(ticker, today, risk_type)
+    if cached and cached.get("report_json"):
+        try:
+            report_data = json.loads(cached["report_json"])
+            text = report_data.get("text")
+            if text:
+                print(f"   💾 캐시 사용: {data['name_ko']} ({risk_type})")
+                return text
+        except (json.JSONDecodeError, KeyError):
+            pass
+
+    # 2. Claude 호출
+    print(f"   🤖 리포트 생성: {data['name_ko']} ({risk_type})")
+    try:
+        text = await generate_report(data, risk_type)
+    except Exception as e:
+        print(f"   ❌ 생성 실패 ({ticker}/{risk_type}): {e}")
+        return None
+
+    # 3. DB 저장
+    await db.save_report(
+        ticker, today, risk_type,
+        json.dumps({"text": text}, ensure_ascii=False),
+    )
+
+    return text
+
+
 async def generate_and_send_all():
     """전체 파이프라인: 데이터 수집 → 리포트 생성 → 발송"""
     bot = Bot(token=BOT_TOKEN)
@@ -44,9 +77,11 @@ async def generate_and_send_all():
     print("📝 [3/3] 리포트 생성 + 발송...")
     sent_count = 0
     error_count = 0
+    cache_hit = 0
+    cache_miss = 0
 
-    # 리포트 캐시 (같은 종목+성향은 1번만 생성)
-    report_cache = {}
+    # 메모리 캐시 (같은 실행 내 중복 방지)
+    mem_cache: dict[str, str] = {}
 
     for tg_id, info in user_subs.items():
         risk_type = info["risk_type"]
@@ -57,37 +92,26 @@ async def generate_and_send_all():
                 continue
 
             data = data_map[ticker]
-            cache_key = f"{ticker}:{risk_type}"
+            cache_key = f"{ticker}:{risk_type}:{today}"
 
-            # 캐시 확인
-            if cache_key not in report_cache:
-                try:
-                    # AI 리포트 생성
-                    report_text = await generate_report(data, risk_type)
-                    report_cache[cache_key] = report_text
-
-                    # DB 저장
-                    await db.save_report(
-                        ticker, today, risk_type,
-                        json.dumps({"text": report_text}, ensure_ascii=False),
-                    )
-                except Exception as e:
-                    print(f"   ❌ 리포트 생성 실패 ({ticker}/{risk_type}): {e}")
+            # 메모리 캐시 확인 (같은 실행 내)
+            if cache_key in mem_cache:
+                report_text = mem_cache[cache_key]
+                cache_hit += 1
+            else:
+                # DB 캐시 or Claude 호출
+                report_text = await _get_or_generate_report(data, risk_type, today)
+                if report_text:
+                    mem_cache[cache_key] = report_text
+                    cache_miss += 1
+                else:
                     error_count += 1
                     continue
 
-            report_text = report_cache[cache_key]
-
-            # 텔레그램 메시지 포맷
+            # 텔레그램 발송
             message = format_report_message(data, risk_type, report_text)
-
-            # 발송
             try:
-                await bot.send_message(
-                    chat_id=tg_id,
-                    text=message,
-                    parse_mode=None,  # 플레인 텍스트
-                )
+                await bot.send_message(chat_id=tg_id, text=message)
                 sent_count += 1
                 print(f"   ✅ {tg_id} ← {data['name_ko']}")
             except Exception as e:
@@ -96,6 +120,7 @@ async def generate_and_send_all():
 
     print()
     print(f"🎉 발송 완료! 성공: {sent_count}건, 실패: {error_count}건")
+    print(f"   캐시 히트: {cache_hit}건, 신규 생성: {cache_miss}건")
 
 
 async def send_test_report(telegram_id: str, ticker: str, risk_type: str = "중립"):
@@ -105,6 +130,7 @@ async def send_test_report(telegram_id: str, ticker: str, risk_type: str = "중�
 
     await init_db()
     bot = Bot(token=BOT_TOKEN)
+    today = datetime.now().strftime("%Y-%m-%d")
 
     # 종목 정보 조회
     stocks = await db.get_all_stocks()
@@ -119,13 +145,13 @@ async def send_test_report(telegram_id: str, ticker: str, risk_type: str = "중�
         print("❌ 데이터 수집 실패")
         return
 
-    # 리포트 생성
-    print(f"📝 리포트 생성 중 ({stock['name_ko']}, {risk_type})...")
-    report_text = await generate_report(data, risk_type)
+    # DB 캐시 or 생성
+    report_text = await _get_or_generate_report(data, risk_type, today)
+    if not report_text:
+        print("❌ 리포트 생성 실패")
+        return
 
-    # 메시지 포맷
+    # 메시지 포맷 + 발송
     message = format_report_message(data, risk_type, report_text)
-
-    # 발송
     await bot.send_message(chat_id=telegram_id, text=message)
     print(f"✅ 발송 완료! → {telegram_id}")
