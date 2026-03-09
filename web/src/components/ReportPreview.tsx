@@ -36,10 +36,10 @@ export default function ReportPreview() {
           <button
             key={key}
             onClick={() => setTab(key)}
-            className={`shrink-0 px-[14px] py-[7px] rounded-full text-[13px] font-medium transition-all ${
+            className={`shrink-0 px-[14px] py-[7px] rounded-full text-[13px] font-medium border transition-all ${
               key === tab
-                ? "bg-text text-bg font-semibold"
-                : "text-text-secondary hover:bg-border hover:text-text"
+                ? "bg-text text-bg font-semibold border-text"
+                : "border-border text-text-secondary hover:bg-border hover:text-text"
             }`}
           >
             {tabLabels[key]}
