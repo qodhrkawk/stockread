@@ -104,9 +104,12 @@ async def run_shorts_pipeline(target_date: date | None = None, market: str = "US
     if not price_data:
         raise RuntimeError("가격 데이터가 없습니다.")
 
-    # 2. 스크립트 생성
+    # 2. 스크립트 생성 (300자 미만이면 1회 재생성)
     script = await generate_shorts_script(price_data, target_date, market=market)
-    logger.info(f"스크립트 생성: {script['title']}")
+    if len(script.get('tts_script', '')) < 300:
+        logger.warning(f"스크립트 너무 짧음 ({len(script['tts_script'])}자), 재생성...")
+        script = await generate_shorts_script(price_data, target_date, market=market)
+    logger.info(f"스크립트 생성: {script['title']} ({len(script['tts_script'])}자)")
 
     # 3. TTS
     openai_key = os.environ.get("OPENAI_API_KEY", "")
