@@ -93,7 +93,7 @@ async def run_shorts_pipeline(target_date: date | None = None, market: str = "US
                 output_dir=audio_dir,
                 api_key=openai_key,
                 voice="onyx",
-                speed=1.0,
+                speed=1.15,
             )
             has_audio = True
 
