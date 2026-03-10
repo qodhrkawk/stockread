@@ -1,7 +1,8 @@
-"""랜딩 페이지용 데이터 생성 — DB에서 가격 + 리포트 읽어서 JSON 저장"""
+"""랜딩 페이지용 데이터 생성 — DB에서 가격 + 리포트 읽어서 JSON 저장 + auto push"""
 
 import json
 import os
+import subprocess
 from datetime import datetime
 from app.db.database import get_db
 
@@ -16,21 +17,11 @@ PREVIEW_STOCKS = [
 
 RISK_MAP = {"안정": "safe", "중립": "mid", "공격": "aggr"}
 OUTPATH = os.path.expanduser("~/stockread/web/public/landing-data.json")
+REPO_ROOT = os.path.expanduser("~/stockread")
 
 
 def _parse_report_sections(text: str) -> dict:
-    """리포트 텍스트에서 4개 섹션 파싱
-    
-    형식:
-    1️⃣ 지금 어디쯤이에요?
-    • ...
-    2️⃣ 차트가 말해주는 것
-    • ...
-    3️⃣ 무슨 일이 있었나요?
-    • ...
-    4️⃣ 이렇게 보시면 돼요 (...)
-    ...
-    """
+    """리포트 텍스트에서 4개 섹션 파싱"""
     sections = {"section1": "", "section2": "", "section3": "", "interpret": ""}
     
     markers = [
@@ -45,13 +36,11 @@ def _parse_report_sections(text: str) -> dict:
         if start < 0:
             continue
         
-        # 마커 줄 제목 스킵 → 다음 줄부터
         newline = text.find("\n", start)
         if newline < 0:
             continue
         content_start = newline + 1
         
-        # 다음 마커까지
         end = len(text)
         for j in range(i + 1, len(markers)):
             next_pos = text.find(markers[j][1], content_start)
@@ -64,8 +53,38 @@ def _parse_report_sections(text: str) -> dict:
     return sections
 
 
+def _auto_push(today: str):
+    """landing-data.json 변경 시 자동 commit + push"""
+    try:
+        # 변경 확인
+        result = subprocess.run(
+            ["git", "diff", "--name-only", "web/public/landing-data.json"],
+            cwd=REPO_ROOT, capture_output=True, text=True,
+        )
+        if not result.stdout.strip():
+            print("   📌 landing-data.json 변경 없음, push 스킵")
+            return
+
+        # commit + push
+        subprocess.run(
+            ["git", "add", "web/public/landing-data.json"],
+            cwd=REPO_ROOT, check=True,
+        )
+        subprocess.run(
+            ["git", "commit", "-m", f"data: 랜딩 데이터 갱신 ({today})"],
+            cwd=REPO_ROOT, check=True,
+        )
+        subprocess.run(
+            ["git", "push"],
+            cwd=REPO_ROOT, check=True,
+        )
+        print("   🚀 auto push 완료 → Vercel 배포 트리거")
+    except Exception as e:
+        print(f"   ⚠️ auto push 실패: {e}")
+
+
 async def generate_and_save():
-    """price_cache + daily_reports → landing-data.json"""
+    """price_cache + daily_reports → landing-data.json → auto push"""
     today = datetime.now().strftime("%Y-%m-%d")
     result = {"date": today, "stocks": {}}
     
@@ -75,7 +94,6 @@ async def generate_and_save():
             ticker = s["ticker"]
             tab_key = s["tab_key"]
             
-            # 1) price_cache에서 가격
             cursor = await db.execute(
                 "SELECT data_json FROM price_cache WHERE ticker = ? AND price_date = ?",
                 (ticker, today),
@@ -94,15 +112,12 @@ async def generate_and_save():
             else:
                 price_str = f"{q['price']:,}원"
             
-            # 52주 고점 대비
             pct_from_high = 0
             if q.get("year_high") and q["year_high"] > 0:
                 pct_from_high = round(q["price"] / q["year_high"] * 100, 1)
             
-            # 장 마감일
             trade_date = price_data.get("trade_date", "")
             if not trade_date and market == "US":
-                # fallback: price_date 사용
                 trade_date = today
 
             stock_entry = {
@@ -117,7 +132,6 @@ async def generate_and_save():
                 "sections": {},
             }
             
-            # 2) daily_reports에서 성향별 리포트
             for risk_ko, risk_key in RISK_MAP.items():
                 cursor = await db.execute(
                     "SELECT report_json FROM daily_reports WHERE ticker = ? AND report_date = ? AND risk_type = ?",
@@ -144,3 +158,6 @@ async def generate_and_save():
         json.dump(result, f, ensure_ascii=False, indent=2)
     
     print(f"\n📄 landing-data.json 저장 ({len(result['stocks'])}개 종목)")
+    
+    # 자동 push
+    _auto_push(today)
