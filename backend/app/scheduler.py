@@ -6,9 +6,10 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from app.db.database import init_db
-from app.pipeline.collector import collect_all_stocks
+from app.pipeline.collector import collect_all_stocks, collect_stock_data
 from app.report.sender import generate_and_send_all
 from app.pipeline.landing_preview import generate_and_save as generate_landing
+from app.db import queries as db
 
 
 _collected_data: list[dict] = []
@@ -26,6 +27,28 @@ async def job_collect():
     except Exception as e:
         print(f"❌ 수집 실패: {e}")
         _collected_data = []
+
+
+async def job_collect_kr():
+    """16:20 KST — 한국 종목만 재수집 (장 마감 후 최신 데이터)"""
+    print(f"\n{'='*50}")
+    print(f"⏰ [{datetime.now().strftime('%H:%M:%S')}] 🇰🇷 한국 종목 재수집 시작")
+    print(f"{'='*50}")
+    try:
+        stocks = await db.get_all_stocks()
+        kr_stocks = [s for s in stocks if s["market"] == "KR"]
+        count = 0
+        for stock in kr_stocks:
+            data = await collect_stock_data(
+                ticker=stock["ticker"],
+                name_ko=stock["name_ko"],
+                market=stock["market"],
+            )
+            if data:
+                count += 1
+        print(f"✅ 한국 종목 재수집 완료: {count}/{len(kr_stocks)}개")
+    except Exception as e:
+        print(f"❌ 한국 종목 재수집 실패: {e}")
 
 
 async def job_shorts_us():
@@ -148,6 +171,15 @@ def create_scheduler() -> AsyncIOScheduler:
         CronTrigger(hour=7, minute=10, timezone="Asia/Seoul"),
         id="daily_landing",
         name="랜딩 데이터 갱신",
+        replace_existing=True,
+    )
+
+    # 매일 16:20 — 🇰🇷 한국 종목 재수집 (장 마감 후)
+    scheduler.add_job(
+        job_collect_kr,
+        CronTrigger(hour=16, minute=20, timezone="Asia/Seoul"),
+        id="daily_collect_kr",
+        name="🇰🇷 한국 종목 재수집",
         replace_existing=True,
     )
 
