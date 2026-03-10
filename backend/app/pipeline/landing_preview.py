@@ -54,7 +54,7 @@ def _parse_report_sections(text: str) -> dict:
 
 
 def _auto_push(today: str):
-    """landing-data.json 변경 시 자동 commit + push"""
+    """landing-data.json 변경 시 자동 commit + push + Vercel deploy"""
     try:
         # 변경 확인
         result = subprocess.run(
@@ -63,24 +63,35 @@ def _auto_push(today: str):
         )
         if not result.stdout.strip():
             print("   📌 landing-data.json 변경 없음, push 스킵")
-            return
+            # 변경 없어도 Vercel 배포는 확인 (이전 push가 배포 안 됐을 수 있음)
+        else:
+            # commit + push
+            subprocess.run(
+                ["git", "add", "web/public/landing-data.json"],
+                cwd=REPO_ROOT, check=True,
+            )
+            subprocess.run(
+                ["git", "commit", "-m", f"data: 랜딩 데이터 갱신 ({today})"],
+                cwd=REPO_ROOT, check=True,
+            )
+            subprocess.run(
+                ["git", "push"],
+                cwd=REPO_ROOT, check=True,
+            )
+            print("   🚀 auto push 완료")
 
-        # commit + push
-        subprocess.run(
-            ["git", "add", "web/public/landing-data.json"],
-            cwd=REPO_ROOT, check=True,
+        # Vercel prod deploy
+        WEB_DIR = os.path.join(REPO_ROOT, "web")
+        deploy = subprocess.run(
+            ["/opt/homebrew/bin/vercel", "--prod", "--yes"],
+            cwd=WEB_DIR, capture_output=True, text=True, timeout=120,
         )
-        subprocess.run(
-            ["git", "commit", "-m", f"data: 랜딩 데이터 갱신 ({today})"],
-            cwd=REPO_ROOT, check=True,
-        )
-        subprocess.run(
-            ["git", "push"],
-            cwd=REPO_ROOT, check=True,
-        )
-        print("   🚀 auto push 완료 → Vercel 배포 트리거")
+        if deploy.returncode == 0:
+            print("   🚀 Vercel 배포 완료")
+        else:
+            print(f"   ⚠️ Vercel 배포 실패: {deploy.stderr[:200]}")
     except Exception as e:
-        print(f"   ⚠️ auto push 실패: {e}")
+        print(f"   ⚠️ auto push/deploy 실패: {e}")
 
 
 async def generate_and_save():
