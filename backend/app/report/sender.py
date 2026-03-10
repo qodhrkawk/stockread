@@ -11,6 +11,10 @@ from .generator import generate_report, format_report_message
 
 BOT_TOKEN = os.environ.get("StockRead_BOT_TOKEN", "")
 
+# 랜딩 페이지 프리뷰 종목 (구독 여부 무관하게 매일 리포트 생성)
+LANDING_STOCKS = ["NVDA", "TSLA", "005930", "AAPL", "000660"]
+LANDING_RISK_TYPES = ["안정", "중립", "공격"]
+
 
 async def _get_or_generate_report(data: dict, risk_type: str, today: str) -> str | None:
     """DB 캐시 먼저 확인 → 없으면 Claude 호출 → DB 저장"""
@@ -45,8 +49,47 @@ async def _get_or_generate_report(data: dict, risk_type: str, today: str) -> str
     return text
 
 
+async def _generate_landing_reports(data_map: dict, today: str):
+    """랜딩 페이지용 5종목 × 3성향 리포트 자동 생성 (구독 여부 무관)"""
+    print("\n🌐 [4/4] 랜딩 프리뷰 리포트 생성...")
+    generated = 0
+    cached = 0
+
+    for ticker in LANDING_STOCKS:
+        if ticker not in data_map:
+            print(f"   ⚠️ {ticker} 데이터 없음, 스킵")
+            continue
+
+        data = data_map[ticker]
+        for risk_type in LANDING_RISK_TYPES:
+            # DB에 이미 있으면 스킵
+            existing = await db.get_report(ticker, today, risk_type)
+            if existing and existing.get("report_json"):
+                try:
+                    rd = json.loads(existing["report_json"])
+                    if rd.get("text"):
+                        cached += 1
+                        continue
+                except (json.JSONDecodeError, KeyError):
+                    pass
+
+            # 생성
+            print(f"   🤖 랜딩용: {data['name_ko']} ({risk_type})")
+            try:
+                text = await generate_report(data, risk_type)
+                await db.save_report(
+                    ticker, today, risk_type,
+                    json.dumps({"text": text}, ensure_ascii=False),
+                )
+                generated += 1
+            except Exception as e:
+                print(f"   ❌ 실패 ({ticker}/{risk_type}): {e}")
+
+    print(f"   ✅ 랜딩 리포트: 신규 {generated}건, 캐시 {cached}건")
+
+
 async def generate_and_send_all():
-    """전체 파이프라인: 데이터 수집 → 리포트 생성 → 발송"""
+    """전체 파이프라인: 데이터 수집 → 리포트 생성 → 발송 → 랜딩 리포트"""
     bot = Bot(token=BOT_TOKEN)
     today = datetime.now().strftime("%Y-%m-%d")
 
@@ -61,17 +104,16 @@ async def generate_and_send_all():
 
     if not subscribers:
         print("⚠️ 구독자가 없습니다")
-        return
-
+    
     # 유저별 그룹핑
     user_subs = {}
-    for s in subscribers:
+    for s in (subscribers or []):
         tg_id = s["telegram_id"]
         if tg_id not in user_subs:
             user_subs[tg_id] = {"risk_type": s["risk_type"], "tickers": []}
         user_subs[tg_id]["tickers"].append(s["ticker"])
 
-    print(f"   {len(user_subs)}명, 총 {len(subscribers)}건 발송 예정")
+    print(f"   {len(user_subs)}명, 총 {len(subscribers or [])}건 발송 예정")
 
     # 3. 리포트 생성 + 발송
     print("📝 [3/3] 리포트 생성 + 발송...")
@@ -121,6 +163,9 @@ async def generate_and_send_all():
     print()
     print(f"🎉 발송 완료! 성공: {sent_count}건, 실패: {error_count}건")
     print(f"   캐시 히트: {cache_hit}건, 신규 생성: {cache_miss}건")
+
+    # 4. 랜딩 페이지용 리포트 생성
+    await _generate_landing_reports(data_map, today)
 
     # 오너에게 발송 요약 알림
     OWNER_ID = "7923407207"
