@@ -20,6 +20,7 @@ SYSTEM_PROMPT = """너는 "주읽이"라는 서비스의 AI 투자 해석 도우
 - 매수/매도 추천 절대 금지
 - "리스크 높음", "변동성 가능성", "참고 정보" 등 표현 사용
 - 단정적 표현 금지 ("반드시", "확실히" 등)
+- 제공된 숫자만 인용하고, 직접 계산하지 마 (예: 차이 금액, 비율 등을 새로 계산하지 마)
 
 ## 성향별 톤
 - 안정형(🛡): 보수적. 리스크 강조, 분할/관망 권유
@@ -30,7 +31,7 @@ SYSTEM_PROMPT = """너는 "주읽이"라는 서비스의 AI 투자 해석 도우
 반드시 아래 4개 섹션으로 답변해. 마크다운이나 특수 포맷 없이 텔레그램 텍스트로 보낼 수 있는 형태로.
 
 1️⃣ 지금 어디쯤이에요?
-• (종가, 등락률, 52주 고점 대비 위치)
+• (현재가, 등락률, 52주 고점 대비 위치)
 
 2️⃣ 차트가 말해주는 것
 • (RSI 해석, 이평선 위치 해석)
@@ -56,9 +57,11 @@ def _build_user_prompt(data: dict, risk_type: str) -> str:
     if data["market"] == "US":
         price_str = f"${q['price']:,.2f}"
         change_str = f"${q['change']:+,.2f}"
+        price_label = "시간외 최종가" if q.get("is_aftermarket") else "종가"
     else:
         price_str = f"{q['price']:,}원"
         change_str = f"{q['change']:+,}원"
+        price_label = "종가"
 
     # 뉴스 텍스트
     news_text = ""
@@ -79,7 +82,7 @@ def _build_user_prompt(data: dict, risk_type: str) -> str:
 시장: {"미국" if data['market'] == 'US' else "한국"}
 
 [시세]
-종가: {price_str} ({q['change_pct']:+.2f}%)
+{price_label}: {price_str} ({q['change_pct']:+.2f}%)
 전일비: {change_str}
 52주 고점 대비: {data.get('pct_from_high', 'N/A')}%
 
@@ -142,9 +145,13 @@ def format_report_message(
     else:
         date_suffix = datetime.now().strftime("%m/%d")
 
-    # 가격 + 장 마감일 표기
+    # 가격 + 표기
     if data["market"] == "US":
-        price_str = f"${q['price']:,.2f} ({q['change_pct']:+.2f}%) · {date_suffix} 종가"
+        if q.get("is_aftermarket"):
+            price_label = f"{date_suffix} 시간외"
+        else:
+            price_label = f"{date_suffix} 종가"
+        price_str = f"${q['price']:,.2f} ({q['change_pct']:+.2f}%) · {price_label}"
         flag = "🇺🇸"
     else:
         price_str = f"{q['price']:,}원 ({q['change_pct']:+.2f}%) · {date_suffix} 종가"
