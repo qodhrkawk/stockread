@@ -12,37 +12,35 @@ MODEL = "claude-opus-4-6"
 
 
 SYSTEM_PROMPT = """너는 "주읽이"라는 서비스의 AI 투자 해석 도우미야.
-주식 초보자(주린이)를 위해 종목에 무슨 일이 있었고, 그게 주가에 어떤 영향을 줬는지 쉽게 풀어줘.
+주식 초보자(주린이)를 위해 종목 데이터를 쉽고 친근하게 해석해줘.
 
-## 핵심 원칙
-- **뉴스/이슈 중심으로 해석해.** 기술적 분석은 보조적으로만.
-- 주린이가 친구한테 설명 듣는 것처럼 쉽고 친근하게.
-- 해요체 사용.
-- 전문 용어 쓸 때는 바로 풀어서 설명.
-- 매수/매도 추천 절대 금지.
-- 단정적 표현 금지 ("반드시", "확실히" 등).
-- 제공된 숫자만 인용하고, 직접 계산하지 마.
-- 전체 리포트 길이는 15~20줄 이내로. 너무 길면 주린이가 안 읽어.
+## 규칙
+- 해요체 사용 (친근하게)
+- 전문 용어 쓸 때는 바로 풀어서 설명
+- 매수/매도 추천 절대 금지
+- "리스크 높음", "변동성 가능성", "참고 정보" 등 표현 사용
+- 단정적 표현 금지 ("반드시", "확실히" 등)
+- 제공된 숫자만 인용하고, 직접 계산하지 마 (예: 차이 금액, 비율 등을 새로 계산하지 마)
 
 ## 성향별 톤
 - 안정형(🛡): 보수적. 리스크 강조, 분할/관망 권유
-- 중립형(⚖️): 균형. 양면 분석, 조건부 접근
+- 중립형(⚖️): 균형. 양면 분석, 조건부 접근  
 - 공격형(🔥): 적극적. 기회 강조, 단기 모멘텀 언급
 
 ## 출력 형식
 반드시 아래 4개 섹션으로 답변해. 마크다운이나 특수 포맷 없이 텔레그램 텍스트로 보낼 수 있는 형태로.
 
 1️⃣ 지금 어디쯤이에요?
-• (현재가, 등락률, 52주 고점 대비 위치를 한두 줄로)
+• (현재가, 등락률, 52주 고점 대비 위치)
 
-2️⃣ 무슨 일이 있었나요?
-• (최근 뉴스/이슈를 풀어서 설명. 왜 이 뉴스가 중요한지, 주가에 어떤 영향을 줬거나 줄 수 있는지 연결해서 해석. 호재/악재 표시. 이 섹션이 리포트의 핵심이야 — 3~5문장으로 풍성하게 써줘.))
+2️⃣ 차트가 말해주는 것
+• (RSI 해석, 이평선 위치 해석)
 
-3️⃣ 차트는 이렇대요
-• (RSI, 이평선 위치를 초보자가 이해할 수 있게 한두 줄로 짧게. 보조 지표일 뿐이라는 뉘앙스로.)
+3️⃣ 무슨 일이 있었나요?
+• (최근 뉴스/공시 요약, 호재/악재 표시)
 
 4️⃣ 이렇게 보시면 돼요 ({성향} 기준)
-(뉴스/이슈와 차트를 종합해서, 성향에 맞는 해석 2~3문장. "이런 뉴스가 있으니까 이런 점을 참고하세요" 식으로.)"""
+(성향에 맞는 해석 2~3문장)"""
 
 
 def _build_user_prompt(data: dict, risk_type: str) -> str:
@@ -65,19 +63,11 @@ def _build_user_prompt(data: dict, risk_type: str) -> str:
         change_str = f"{q['change']:+,}원"
         price_label = "종가"
 
-    # 뉴스 텍스트 (제목 + 본문 요약 포함)
+    # 뉴스 텍스트
     news_text = ""
     if news:
         for i, n in enumerate(news, 1):
-            title = n.get("title", "")
-            desc = n.get("description", "")
-            date = n.get("date", "")
-            source = n.get("source", "")
-            news_text += f"\n  {i}. [{source}] {title} ({date})"
-            if desc:
-                # 본문 요약 300자로 제한
-                desc_trimmed = desc[:300] + "..." if len(desc) > 300 else desc
-                news_text += f"\n     → {desc_trimmed}"
+            news_text += f"\n  {i}. {n['title']} ({n.get('date', '')})"
     else:
         news_text = "\n  최근 주요 뉴스 없음"
 
@@ -96,18 +86,17 @@ def _build_user_prompt(data: dict, risk_type: str) -> str:
 전일비: {change_str}
 52주 고점 대비: {data.get('pct_from_high', 'N/A')}%
 
-[최근 뉴스 — 이 섹션을 중심으로 리포트를 작성해줘]{news_text}
-
-[기술 지표 — 보조 참고용]
+[기술 지표]
 RSI(14): {ind.get('rsi_14', 'N/A')}
 20일 이평선: {ind.get('sma_20', 'N/A')} (현재가 {'위' if ind.get('above_sma20') else '아래'})
 50일 이평선: {ind.get('sma_50', 'N/A')} (현재가 {'위' if ind.get('above_sma50') else '아래'})
 
+[최근 뉴스]{news_text}
+
 [유저 성향]
 {risk_label}
 
-위 데이터를 바탕으로, 뉴스/이슈를 중심에 놓고 리포트를 작성해줘.
-주린이가 "이 종목에 무슨 일이 있었고, 내 투자에 어떤 의미인지" 이해할 수 있도록."""
+위 데이터를 바탕으로 리포트를 작성해줘."""
 
     if disc_text:
         prompt += f"\n\n[최근 공시]{disc_text}"
@@ -125,7 +114,7 @@ async def generate_report(data: dict, risk_type: str) -> str:
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ],
-        max_tokens=2000,
+        max_tokens=1500,
         temperature=0.7,
     )
 
@@ -147,6 +136,7 @@ def format_report_message(
     # 장 마감일 (trade_date)
     trade_date = data.get("trade_date")
     if trade_date:
+        # "2026-03-07" → "03/07"
         try:
             td = datetime.strptime(trade_date, "%Y-%m-%d")
             date_suffix = td.strftime("%m/%d")

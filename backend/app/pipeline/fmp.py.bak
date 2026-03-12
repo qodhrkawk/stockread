@@ -109,32 +109,3 @@ async def fetch_us_history(ticker: str, days: int = 90) -> list[dict]:
         except Exception as e:
             print(f"    ⚠️ FMP history 예외 ({ticker}): {e}")
     return []
-
-
-async def fetch_us_news(ticker: str, limit: int = 5) -> list[dict]:
-    """FMP Stock News API — 종목별 뉴스 수집"""
-    url = f"{BASE_URL}/news/stock?symbol={ticker}&limit={limit}&apikey={FMP_KEY}"
-    async with httpx.AsyncClient(timeout=10) as client:
-        try:
-            resp = await client.get(url)
-            if resp.status_code != 200 or not resp.text.strip():
-                print(f"    ⚠️ FMP news 실패 ({ticker}): status={resp.status_code}")
-                return []
-            data = resp.json()
-            if isinstance(data, list):
-                return [
-                    {
-                        "title": d.get("title", ""),
-                        "description": d.get("text", ""),
-                        "url": d.get("url", ""),
-                        "date": d.get("publishedDate", ""),
-                        "source": d.get("site", d.get("publisher", "")),
-                    }
-                    for d in data[:limit]
-                ]
-            elif isinstance(data, str) and "Restricted" in data:
-                print(f"    ⚠️ FMP news 제한 ({ticker}): 플랜 업그레이드 필요")
-                return []
-        except Exception as e:
-            print(f"    ⚠️ FMP news 예외 ({ticker}): {e}")
-    return []

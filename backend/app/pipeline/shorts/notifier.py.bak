@@ -7,7 +7,7 @@ from telegram import Bot
 
 logger = logging.getLogger(__name__)
 
-SHORTS_CHAT_ID = "-5189910610"
+OWNER_CHAT_ID = "7923407207"
 
 
 def _get_openclaw_bot() -> Bot:
@@ -46,11 +46,11 @@ async def send_shorts_to_owner(
 
     with open(mp4_path, "rb") as f:
         await bot.send_video(
-            chat_id=SHORTS_CHAT_ID,
+            chat_id=OWNER_CHAT_ID,
             video=f,
             caption=caption,
             supports_streaming=True,
             write_timeout=60,
         )
 
-    logger.info(f"쇼츠 MP4 전송 완료 (OpenClaw 봇): {mp4_path.name} → 쇼츠방")
+    logger.info(f"쇼츠 MP4 전송 완료 (OpenClaw 봇): {mp4_path.name} → 오너")

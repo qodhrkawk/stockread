@@ -1,0 +1,2575 @@
+[
+  {
+    "id": "science-001",
+    "category": "science",
+    "emoji": "🔬",
+    "question": "물은 정말 무색무취일까?",
+    "hook": "우리가 매일 마시는 물에 대한 충격적인 진실!",
+    "keywords": [
+      "물",
+      "순수",
+      "불순물"
+    ],
+    "twist": "순수한 H2O는 실제로 미세한 파란색을 띤다",
+    "summary": "순수한 물은 사실 아주 옅은 파란색이다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-002",
+    "category": "science",
+    "emoji": "🧬",
+    "question": "인간과 바나나의 DNA가 얼마나 비슷할까?",
+    "hook": "당신이 바나나와 형제라는 사실을 알고 계셨나요?",
+    "keywords": [
+      "DNA",
+      "유전자",
+      "바나나"
+    ],
+    "twist": "인간과 바나나는 약 60%의 DNA를 공유한다",
+    "summary": "인간과 바나나는 DNA의 60%를 공유한다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-003",
+    "category": "science",
+    "emoji": "🌟",
+    "question": "태양은 무슨 색깔일까?",
+    "hook": "당신이 평생 잘못 알고 있던 태양의 진짜 색깔!",
+    "keywords": [
+      "태양",
+      "빛",
+      "스펙트럼"
+    ],
+    "twist": "태양은 노란색이 아니라 하얀색이다",
+    "summary": "태양의 실제 색깔은 하얀색이다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-004",
+    "category": "science",
+    "emoji": "🦕",
+    "question": "공룡은 정말 멸종했을까?",
+    "hook": "공룡이 사실 지금도 우리 주변에 살고 있다?",
+    "keywords": [
+      "공룡",
+      "새",
+      "진화"
+    ],
+    "twist": "새는 공룡의 직계 후손으로 공룡이 완전히 멸종하지 않았다",
+    "summary": "새는 공룡의 후손으로 공룡은 완전히 멸종하지 않았다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-005",
+    "category": "science",
+    "emoji": "🧠",
+    "question": "뇌는 고통을 느낄 수 있을까?",
+    "hook": "뇌수술을 마취 없이 한다는 충격적인 이유!",
+    "keywords": [
+      "뇌",
+      "고통",
+      "수용체"
+    ],
+    "twist": "뇌 자체에는 통증 수용체가 없어서 아프지 않다",
+    "summary": "뇌 자체는 통증을 느끼지 못한다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-006",
+    "category": "science",
+    "emoji": "💎",
+    "question": "다이아몬드보다 단단한 것이 있을까?",
+    "hook": "다이아몬드가 가장 단단하다는 건 이제 옛말!",
+    "keywords": [
+      "다이아몬드",
+      "경도",
+      "재료"
+    ],
+    "twist": "그래핀과 론스데일라이트 등이 다이아몬드보다 단단하다",
+    "summary": "다이아몬드보다 단단한 물질들이 발견되었다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-007",
+    "category": "science",
+    "emoji": "🌙",
+    "question": "달이 지구에서 멀어지고 있다?",
+    "hook": "달이 매년 지구를 떠나고 있다는 충격적인 사실!",
+    "keywords": [
+      "달",
+      "거리",
+      "조석력"
+    ],
+    "twist": "달은 매년 3.8cm씩 지구에서 멀어지고 있다",
+    "summary": "달은 매년 3.8cm씩 지구에서 멀어진다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-008",
+    "category": "science",
+    "emoji": "🐙",
+    "question": "문어의 심장은 몇 개일까?",
+    "hook": "문어가 인간보다 2개나 더 많은 것을 가지고 있다!",
+    "keywords": [
+      "문어",
+      "심장",
+      "혈액순환"
+    ],
+    "twist": "문어는 3개의 심장을 가지고 있다",
+    "summary": "문어는 총 3개의 심장을 가지고 있다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-009",
+    "category": "science",
+    "emoji": "⚡",
+    "question": "번개는 정말 같은 곳에 두 번 떨어지지 않을까?",
+    "hook": "번개에 대한 가장 큰 오해가 밝혀진다!",
+    "keywords": [
+      "번개",
+      "확률",
+      "전기"
+    ],
+    "twist": "번개는 같은 곳에 여러 번 떨어질 수 있다",
+    "summary": "번개는 같은 곳에 여러 번 떨어질 수 있다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-010",
+    "category": "science",
+    "emoji": "🔥",
+    "question": "불은 물질의 상태일까?",
+    "hook": "고체, 액체, 기체... 그럼 불은 뭘까요?",
+    "keywords": [
+      "불",
+      "플라즈마",
+      "물질상태"
+    ],
+    "twist": "불은 플라즈마 상태의 기체로 제4의 물질상태다",
+    "summary": "불은 플라즈마 상태로 제4의 물질상태다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-011",
+    "category": "science",
+    "emoji": "🍯",
+    "question": "꿀벌이 사라지면 인류도 멸종할까?",
+    "hook": "작은 벌 한 마리가 인류의 운명을 좌우한다!",
+    "keywords": [
+      "꿀벌",
+      "수분",
+      "생태계"
+    ],
+    "twist": "꿀벌이 사라지면 농작물의 1/3이 사라져 식량난이 온다",
+    "summary": "꿀벌 멸종은 심각한 식량 위기를 불러올 수 있다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-012",
+    "category": "science",
+    "emoji": "🌊",
+    "question": "바닷물을 마시면 왜 더 목이 마를까?",
+    "hook": "갈증을 해결하려다 더 목마른 이상한 현상!",
+    "keywords": [
+      "염분",
+      "삼투압",
+      "탈수"
+    ],
+    "twist": "염분 때문에 세포에서 물이 빠져나가 탈수가 가속화된다",
+    "summary": "염분이 세포의 물을 빼앗아 탈수를 악화시킨다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-013",
+    "category": "science",
+    "emoji": "🪐",
+    "question": "토성이 물에 뜰 수 있을까?",
+    "hook": "거대한 행성이 물에 둥둥 떠다닐 수 있다?",
+    "keywords": [
+      "토성",
+      "밀도",
+      "부력"
+    ],
+    "twist": "토성의 밀도는 0.687g/cm³로 물보다 가벼워 뜰 수 있다",
+    "summary": "토성은 물보다 밀도가 낮아 물에 뜰 수 있다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-014",
+    "category": "science",
+    "emoji": "🔊",
+    "question": "우주에서 폭발소리가 들릴까?",
+    "hook": "SF영화가 우리를 속였다! 우주의 진짜 모습은?",
+    "keywords": [
+      "우주",
+      "소리",
+      "진공"
+    ],
+    "twist": "우주는 진공 상태라 소리가 전달될 매질이 없어 무음이다",
+    "summary": "우주에서는 매질이 없어 소리가 들리지 않는다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-015",
+    "category": "science",
+    "emoji": "🐧",
+    "question": "펭귄의 무릎은 어디에 있을까?",
+    "hook": "펭귄이 무릎 없이 걷는다고 생각했다면 큰 오산!",
+    "keywords": [
+      "펭귄",
+      "무릎",
+      "해부학"
+    ],
+    "twist": "펭귄의 무릎은 몸 안에 숨겨져 있어 보이지 않는다",
+    "summary": "펭귄의 무릎은 몸 안쪽에 숨겨져 있다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-016",
+    "category": "science",
+    "emoji": "🌈",
+    "question": "무지개는 정말 7가지 색일까?",
+    "hook": "무지개 색깔 개수에 숨겨진 놀라운 비밀!",
+    "keywords": [
+      "무지개",
+      "스펙트럼",
+      "색깔"
+    ],
+    "twist": "무지개는 연속적인 스펙트럼으로 무한한 색깔이 있다",
+    "summary": "무지개는 무한한 색깔의 연속적 스펙트럼이다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-017",
+    "category": "science",
+    "emoji": "🦈",
+    "question": "상어는 암에 걸리지 않는다?",
+    "hook": "상어가 가진 불멸의 비밀이 밝혀진다!",
+    "keywords": [
+      "상어",
+      "암",
+      "면역"
+    ],
+    "twist": "상어도 암에 걸리며, 암에 안 걸린다는 건 잘못된 믿음이다",
+    "summary": "상어도 암에 걸릴 수 있다는 게 사실이다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-018",
+    "category": "science",
+    "emoji": "❄️",
+    "question": "뜨거운 물이 차가운 물보다 빨리 얼까?",
+    "hook": "상식을 뒤엎는 물의 신기한 성질!",
+    "keywords": [
+      "음펭가효과",
+      "얼음",
+      "온도"
+    ],
+    "twist": "특정 조건에서 뜨거운 물이 차가운 물보다 빨리 얼 수 있다",
+    "summary": "뜨거운 물이 차가운 물보다 빨리 얼 수도 있다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-019",
+    "category": "science",
+    "emoji": "🍌",
+    "question": "바나나는 방사능을 가지고 있다?",
+    "hook": "매일 먹는 바나나가 사실은 방사성 물질?",
+    "keywords": [
+      "바나나",
+      "방사능",
+      "칼륨"
+    ],
+    "twist": "바나나는 칼륨-40 때문에 자연 방사능을 방출한다",
+    "summary": "바나나는 자연 방사능을 가진 과일이다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-020",
+    "category": "science",
+    "emoji": "🕷️",
+    "question": "거미줄이 강철보다 강하다?",
+    "hook": "거미가 만든 실이 인간이 만든 강철을 이긴다!",
+    "keywords": [
+      "거미줄",
+      "강도",
+      "단백질"
+    ],
+    "twist": "거미줄은 같은 굵기의 강철보다 5배 강하다",
+    "summary": "거미줄은 같은 굵기 강철보다 5배 더 강하다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-021",
+    "category": "science",
+    "emoji": "💨",
+    "question": "방귀에는 정말 냄새가 있을까?",
+    "hook": "방귀 냄새의 정체가 드디어 밝혀진다!",
+    "keywords": [
+      "방귀",
+      "황화수소",
+      "가스"
+    ],
+    "twist": "방귀의 99%는 무취이고 1%의 황 화합물이 냄새를 만든다",
+    "summary": "방귀의 1%만이 냄새를 만들어낸다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-022",
+    "category": "science",
+    "emoji": "🧊",
+    "question": "얼음은 정말 미끄러울까?",
+    "hook": "얼음이 미끄러운 진짜 이유는 당신이 생각하는 것과 다르다!",
+    "keywords": [
+      "얼음",
+      "마찰",
+      "압력"
+    ],
+    "twist": "얼음 표면의 얇은 물 층 때문에 미끄럽다",
+    "summary": "얼음은 표면의 물 층 때문에 미끄럽다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-023",
+    "category": "science",
+    "emoji": "🦴",
+    "question": "뼈는 강철보다 강할까?",
+    "hook": "인간의 뼈가 강철을 이길 수 있다는 충격적 사실!",
+    "keywords": [
+      "뼈",
+      "강도",
+      "칼슘"
+    ],
+    "twist": "뼈는 같은 무게의 강철보다 4배 강하다",
+    "summary": "뼈는 같은 무게 강철보다 4배 더 강하다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-024",
+    "category": "science",
+    "emoji": "🌋",
+    "question": "화산이 지구를 식힐 수 있을까?",
+    "hook": "뜨거운 화산이 지구를 차갑게 만든다는 역설!",
+    "keywords": [
+      "화산",
+      "기후",
+      "에어로졸"
+    ],
+    "twist": "화산재가 태양빛을 차단해 지구 온도를 낮출 수 있다",
+    "summary": "화산 폭발은 지구 온도를 일시적으로 낮출 수 있다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "science-025",
+    "category": "science",
+    "emoji": "🐜",
+    "question": "개미가 사람보다 강할까?",
+    "hook": "작은 개미가 인간을 압도하는 놀라운 능력!",
+    "keywords": [
+      "개미",
+      "근력",
+      "비율"
+    ],
+    "twist": "개미는 자기 체중의 10-50배 무게를 들 수 있다",
+    "summary": "개미는 자신의 체중보다 훨씬 무거운 것을 들 수 있다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-001",
+    "category": "history",
+    "emoji": "🏛️",
+    "question": "로마 제국이 정말 하루 만에 멸망했을까?",
+    "hook": "476년 9월 4일, 서로마 제국 마지막 황제가 폐위당했지만...",
+    "keywords": [
+      "로마제국",
+      "멸망",
+      "오도아케르"
+    ],
+    "twist": "사실 동로마 제국은 1453년까지 1000년간 더 지속되었다",
+    "summary": "서로마 제국 멸망 후에도 동로마 제국이 천 년간 계속됐다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-002",
+    "category": "history",
+    "emoji": "🗿",
+    "question": "이스터 섬 모아이 석상에 몸통이 있다고?",
+    "hook": "머리만 있는 줄 알았던 모아이 석상을 파보니...",
+    "keywords": [
+      "이스터섬",
+      "모아이",
+      "석상"
+    ],
+    "twist": "지하에 거대한 몸통이 숨어있었고, 등에는 문자까지 새겨져 있었다",
+    "summary": "모아이 석상은 머리뿐만 아니라 거대한 몸통도 가지고 있다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-003",
+    "category": "history",
+    "emoji": "🔺",
+    "question": "피라미드 건설에 노예가 사용되었을까?",
+    "hook": "영화에서 본 것처럼 채찍 맞는 노예들이 피라미드를 지었다면...",
+    "keywords": [
+      "피라미드",
+      "노예",
+      "이집트"
+    ],
+    "twist": "실제로는 정규직 근로자들이 월급을 받고 맥주까지 마시며 건설했다",
+    "summary": "피라미드는 노예가 아닌 정규직 근로자들이 건설했다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-004",
+    "category": "history",
+    "emoji": "🛡️",
+    "question": "바이킹이 정말 뿔 달린 투구를 썼을까?",
+    "hook": "바이킹 하면 떠오르는 뿔 달린 투구의 진실은...",
+    "keywords": [
+      "바이킹",
+      "투구",
+      "뿔"
+    ],
+    "twist": "실제로는 뿔이 없는 평범한 투구를 썼고, 뿔 투구는 19세기 오페라에서 만든 이미지다",
+    "summary": "바이킹의 뿔 달린 투구는 근현대 창작물의 허구적 이미지다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-005",
+    "category": "history",
+    "emoji": "🏰",
+    "question": "중세 기사들이 정말 여자를 위해 싸웠을까?",
+    "hook": "로맨틱한 중세 기사도의 실제 모습은...",
+    "keywords": [
+      "중세",
+      "기사도",
+      "여성"
+    ],
+    "twist": "실제로는 대부분 돈과 땅을 위해 싸웠고, 기사도 정신은 후대에 미화된 것이다",
+    "summary": "중세 기사들의 로맨틱한 이미지는 후대의 미화된 창작물이다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-006",
+    "category": "history",
+    "emoji": "🌊",
+    "question": "노아의 방주 이야기가 다른 문명에도 있다고?",
+    "hook": "성경의 노아의 방주와 똑같은 이야기가 다른 곳에서도...",
+    "keywords": [
+      "노아의방주",
+      "길가메시",
+      "홍수"
+    ],
+    "twist": "수메르의 길가메시 서사시에 거의 동일한 대홍수 이야기가 먼저 기록되어 있다",
+    "summary": "노아의 방주와 유사한 홍수 설화는 여러 고대 문명에 존재한다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-007",
+    "category": "history",
+    "emoji": "👑",
+    "question": "클레오파트라가 정말 절세미인이었을까?",
+    "hook": "절세미인으로 유명한 클레오파트라의 실제 모습은...",
+    "keywords": [
+      "클레오파트라",
+      "미인",
+      "이집트"
+    ],
+    "twist": "동전과 조각상을 보면 평범한 외모였고, 실제로는 뛰어난 지성과 정치력이 매력이었다",
+    "summary": "클레오파트라는 외모보다는 지성과 정치력으로 유명했다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-008",
+    "category": "history",
+    "emoji": "🏹",
+    "question": "몽골군이 정말 잔인하기만 했을까?",
+    "hook": "무자비한 정복자로만 알려진 몽골군의 숨겨진 면은...",
+    "keywords": [
+      "몽골",
+      "징기스칸",
+      "종교자유"
+    ],
+    "twist": "실제로는 종교의 자유를 보장하고 실크로드 무역을 활성화시킨 국제적 제국이었다",
+    "summary": "몽골 제국은 종교 관용과 무역 발전에도 크게 기여했다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-009",
+    "category": "history",
+    "emoji": "🍎",
+    "question": "뉴턴에게 사과가 정말 떨어졌을까?",
+    "hook": "만유인력의 법칙을 발견하게 해준 그 유명한 사과는...",
+    "keywords": [
+      "뉴턴",
+      "사과",
+      "만유인력"
+    ],
+    "twist": "뉴턴이 직접 언급한 적은 있지만, 머리에 떨어진 것은 후대의 각색이다",
+    "summary": "뉴턴의 사과 이야기는 일부만 사실이고 대부분 후대의 각색이다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-010",
+    "category": "history",
+    "emoji": "🚢",
+    "question": "콜럼버스가 정말 지구가 둥글다고 생각했을까?",
+    "hook": "콜럼버스가 지구는 둥글다고 주장해서 신대륙을 발견했다는데...",
+    "keywords": [
+      "콜럼버스",
+      "지구",
+      "신대륙"
+    ],
+    "twist": "당시 이미 대부분 사람들이 지구가 둥글다는 것을 알고 있었다",
+    "summary": "콜럼버스 시대에는 이미 지구가 둥글다는 것이 상식이었다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-011",
+    "category": "history",
+    "emoji": "🔥",
+    "question": "네로 황제가 정말 로마가 타는 걸 보며 연주했을까?",
+    "hook": "로마 대화재 당시 네로가 바이올린을 연주했다는 유명한 이야기는...",
+    "keywords": [
+      "네로",
+      "로마대화재",
+      "바이올린"
+    ],
+    "twist": "바이올린은 1500년 후에 발명됐고, 네로는 화재 진압에 적극 참여했다",
+    "summary": "네로가 로마 화재 때 연주했다는 이야기는 후대의 악의적 날조다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-012",
+    "category": "history",
+    "emoji": "🗽",
+    "question": "자유의 여신상이 원래 이집트로 갈 뻔했다고?",
+    "hook": "미국의 상징 자유의 여신상이 원래는...",
+    "keywords": [
+      "자유의여신상",
+      "이집트",
+      "수에즈운하"
+    ],
+    "twist": "이집트 수에즈 운하 입구에 세워질 예정이었지만 자금 부족으로 무산됐다",
+    "summary": "자유의 여신상은 원래 이집트에 세워질 계획이었다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-013",
+    "category": "history",
+    "emoji": "💰",
+    "question": "튤립 하나가 집값보다 비쌌던 시대가 있었다고?",
+    "hook": "17세기 네덜란드에서 튤립 구근 하나가...",
+    "keywords": [
+      "튤립버블",
+      "네덜란드",
+      "경제위기"
+    ],
+    "twist": "한 송이에 암스테르담 집 한 채 값을 호가하다가 하루만에 폭락했다",
+    "summary": "17세기 네덜란드 튤립 투기 열풍은 인류 최초의 경제 버블이었다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-014",
+    "category": "history",
+    "emoji": "🏺",
+    "question": "트로이 전쟁이 실제로 일어났던 일일까?",
+    "hook": "호메로스의 일리아드 속 트로이 전쟁은 그냥 신화라고 생각했는데...",
+    "keywords": [
+      "트로이전쟁",
+      "호메로스",
+      "고고학"
+    ],
+    "twist": "고고학자들이 터키에서 실제 트로이 유적을 발견하여 전쟁의 실존을 확인했다",
+    "summary": "트로이 전쟁은 신화가 아닌 실제 역사적 사건이었다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-015",
+    "category": "history",
+    "emoji": "🎭",
+    "question": "셰익스피어가 정말 존재했던 인물일까?",
+    "hook": "위대한 작가 셰익스피어에 대한 기록이 너무 적다면...",
+    "keywords": [
+      "셰익스피어",
+      "작가",
+      "정체성"
+    ],
+    "twist": "일부 학자들은 여러 명의 필명이거나 귀족의 가명일 가능성을 제기한다",
+    "summary": "셰익스피어의 정체성에 대해서는 여전히 학술적 논쟁이 계속되고 있다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-016",
+    "category": "history",
+    "emoji": "🍫",
+    "question": "아즈텍 황제가 초콜릿을 신의 음료라고 불렀다고?",
+    "hook": "현재 우리가 먹는 달콤한 초콜릿의 원조는...",
+    "keywords": [
+      "아즈텍",
+      "초콜릿",
+      "카카오"
+    ],
+    "twist": "원래는 쓰고 매운 음료였고, 카카오 원두는 화폐로도 사용되었다",
+    "summary": "초콜릿은 원래 아즈텍에서 신성한 쓴 음료이자 화폐였다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-017",
+    "category": "history",
+    "emoji": "🎲",
+    "question": "카이사르가 '주사위는 던져졌다'고 정말 말했을까?",
+    "hook": "루비콘 강을 건드릴 때 한 유명한 말은...",
+    "keywords": [
+      "카이사르",
+      "루비콘강",
+      "주사위"
+    ],
+    "twist": "실제로는 그리스어로 다른 말을 했고, 라틴어 번역 과정에서 바뀌었다",
+    "summary": "카이사르의 유명한 말은 후대 번역 과정에서 각색된 것이다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-018",
+    "category": "history",
+    "emoji": "🐎",
+    "question": "한니발이 코끼리를 타고 알프스를 넘었다고?",
+    "hook": "로마와 싸우기 위해 코끼리 부대를 이끌고 알프스를 넘은 한니발은...",
+    "keywords": [
+      "한니발",
+      "코끼리",
+      "알프스"
+    ],
+    "twist": "37마리로 시작해서 살아남은 것은 단 1마리뿐이었다",
+    "summary": "한니발의 코끼리 부대는 알프스 횡단으로 거의 전멸했다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-019",
+    "category": "history",
+    "emoji": "📚",
+    "question": "알렉산드리아 도서관이 정말 하루 만에 불탔을까?",
+    "hook": "고대 최대 도서관인 알렉산드리아 도서관의 멸망은...",
+    "keywords": [
+      "알렉산드리아도서관",
+      "화재",
+      "지식"
+    ],
+    "twist": "실제로는 수백 년에 걸쳐 서서히 쇠퇴했고, 특정한 한 번의 화재는 없었다",
+    "summary": "알렉산드리아 도서관은 급작스럽게 멸망한 것이 아니라 점진적으로 쇠퇴했다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-020",
+    "category": "history",
+    "emoji": "⚔️",
+    "question": "스파르타 300용사가 정말 혼자 싸웠을까?",
+    "hook": "레오니다스와 300명의 스파르타 용사가 혼자 페르시아와 싸웠다는데...",
+    "keywords": [
+      "스파르타",
+      "300용사",
+      "테르모필레"
+    ],
+    "twist": "실제로는 7000명 이상의 그리스 연합군과 함께 싸웠다",
+    "summary": "스파르타 300용사는 혼자가 아닌 대규모 그리스 연합군의 일부였다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-021",
+    "category": "history",
+    "emoji": "🎨",
+    "question": "미켈란젤로가 시스티나 성당 천장화를 누워서 그렸다고?",
+    "hook": "목과 팔이 아파서 고생했다는 시스티나 성당 천장화는...",
+    "keywords": [
+      "미켈란젤로",
+      "시스티나성당",
+      "천장화"
+    ],
+    "twist": "실제로는 서서 목을 뒤로 젖히고 그렸고, 이를 증명하는 자신의 스케치가 남아있다",
+    "summary": "미켈란젤로는 시스티나 성당 천장화를 누워서가 아닌 서서 그렸다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-022",
+    "category": "history",
+    "emoji": "🌍",
+    "question": "마젤란이 세계 최초로 지구를 한 바퀴 돌았다고?",
+    "hook": "세계 일주의 아버지라 불리는 마젤란은...",
+    "keywords": [
+      "마젤란",
+      "세계일주",
+      "엘카노"
+    ],
+    "twist": "필리핀에서 죽어서 실제 세계일주를 완성한 것은 부하 엘카노였다",
+    "summary": "마젤란은 세계일주를 완성하지 못했고 부하 엘카노가 완성했다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-023",
+    "category": "history",
+    "emoji": "🏴‍☠️",
+    "question": "해적들이 정말 보물을 땅에 묻었을까?",
+    "hook": "해적 영화에서 보는 것처럼 보물을 땅에 묻는 해적들은...",
+    "keywords": [
+      "해적",
+      "보물",
+      "매장"
+    ],
+    "twist": "실제로는 현금이 급해서 바로바로 썼고, 보물을 묻은 기록은 거의 없다",
+    "summary": "해적들이 보물을 땅에 묻었다는 것은 대부분 소설 속 이야기다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-024",
+    "category": "history",
+    "emoji": "🌙",
+    "question": "갈릴레이가 지동설로 화형당할 뻔했다고?",
+    "hook": "지동설을 주장해서 종교재판에 넘겨진 갈릴레이는...",
+    "keywords": [
+      "갈릴레이",
+      "지동설",
+      "종교재판"
+    ],
+    "twist": "실제로는 가택연금만 받았고, 교황과의 개인적 갈등이 더 큰 원인이었다",
+    "summary": "갈릴레이는 화형당하지 않았고 가택연금으로 처벌받았다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "history-025",
+    "category": "history",
+    "emoji": "🗼",
+    "question": "에펠탑이 원래 임시 건물이었다고?",
+    "hook": "파리의 상징이 된 에펠탑이 원래는...",
+    "keywords": [
+      "에펠탑",
+      "파리",
+      "임시건물"
+    ],
+    "twist": "1889년 만국박람회를 위한 20년 한정 임시 건물이었는데 너무 인기가 많아서 그대로 뒀다",
+    "summary": "에펠탑은 20년 한정 임시 건물로 지어졌다가 영구 보존되었다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-001",
+    "category": "body",
+    "emoji": "🧬",
+    "question": "왜 우리는 잠들 때 침을 흘릴까?",
+    "hook": "매일 밤 침대에 젖은 자국을 남기는 당신, 사실 이건 정상입니다!",
+    "keywords": [
+      "침",
+      "수면",
+      "근육이완"
+    ],
+    "twist": "침 흘림은 깊게 잠든 증거이자 건강한 신호",
+    "summary": "잠들면 입 근육이 이완되어 침이 흘러나오는 자연스러운 현상",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-002",
+    "category": "body",
+    "emoji": "👁️",
+    "question": "왜 손가락으로 눈을 비비면 이상한 무늬가 보일까?",
+    "hook": "어릴 때 누구나 해봤을 이 행동, 실제로는 위험할 수 있습니다!",
+    "keywords": [
+      "압박광시",
+      "망막",
+      "시각효과"
+    ],
+    "twist": "눈에 압력을 가하면 망막이 자극되어 환상의 빛을 만들어냄",
+    "summary": "눈 압박 시 망막 자극으로 인한 압박광시 현상",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-003",
+    "category": "body",
+    "emoji": "🦷",
+    "question": "치아는 뼈인데 왜 부러지면 재생되지 않을까?",
+    "hook": "뼈는 부러져도 아물지만, 치아는 한 번 손상되면 영원히 그대로입니다",
+    "keywords": [
+      "치아",
+      "에나멜",
+      "재생불가"
+    ],
+    "twist": "치아 표면 에나멜은 살아있는 세포가 없어 스스로 회복 불가능",
+    "summary": "치아 에나멜층은 생명체가 아니라 재생되지 않음",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-004",
+    "category": "body",
+    "emoji": "💓",
+    "question": "심장은 왜 멈추지 않고 평생 뛸 수 있을까?",
+    "hook": "태어나서 죽을 때까지 단 한 번도 쉬지 않는 근육이 있습니다",
+    "keywords": [
+      "심장",
+      "자동성",
+      "페이스메이커"
+    ],
+    "twist": "심장에는 전기를 스스로 만드는 특별한 세포가 있음",
+    "summary": "심장의 동방결절이 자동으로 전기신호를 생성해 평생 박동",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-005",
+    "category": "body",
+    "emoji": "🔥",
+    "question": "왜 매운 음식을 먹으면 혀가 아플까?",
+    "hook": "매운맛은 사실 맛이 아니라 고통입니다!",
+    "keywords": [
+      "캡사이신",
+      "통증수용체",
+      "TRPV1"
+    ],
+    "twist": "매운맛은 실제로는 화학적 화상과 같은 통증 반응",
+    "summary": "캡사이신이 통증수용체를 자극해 뜨거운 느낌을 유발",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-006",
+    "category": "body",
+    "emoji": "🤧",
+    "question": "재채기를 할 때 왜 눈을 감게 될까?",
+    "hook": "재채기할 때 눈을 뜨고 있으려 해보세요, 불가능합니다!",
+    "keywords": [
+      "재채기",
+      "반사작용",
+      "보호기전"
+    ],
+    "twist": "눈을 감는 것은 재채기 압력으로부터 눈을 보호하는 본능",
+    "summary": "재채기 시 자동으로 눈을 감아 높은 압력으로부터 안구 보호",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-007",
+    "category": "body",
+    "emoji": "🧠",
+    "question": "뇌는 왜 자기 자신을 느끼지 못할까?",
+    "hook": "온몸의 감각을 담당하는 뇌, 정작 자기는 아무것도 느끼지 못합니다",
+    "keywords": [
+      "뇌",
+      "무감각",
+      "수술"
+    ],
+    "twist": "뇌에는 통증 수용체가 전혀 없어서 뇌수술도 마취 없이 가능",
+    "summary": "뇌조직 자체에는 통증수용체가 없어 감각을 느끼지 못함",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-008",
+    "category": "body",
+    "emoji": "💤",
+    "question": "잠꼬대하는 사람은 정말 꿈 내용을 말하는 걸까?",
+    "hook": "잠꼬대로 비밀이 새어나간다고? 사실은 그렇지 않습니다!",
+    "keywords": [
+      "잠꼬대",
+      "REM수면",
+      "무의식"
+    ],
+    "twist": "잠꼬대는 대부분 꿈과 무관한 무의미한 소리나 단어",
+    "summary": "잠꼬대는 꿈 내용과 직접적 연관이 적은 무의식적 발성",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-009",
+    "category": "body",
+    "emoji": "🫁",
+    "question": "왜 폐는 두 개인데 심장은 하나일까?",
+    "hook": "생명에 가장 중요한 장기들, 그런데 개수가 다른 이유가 있습니다",
+    "keywords": [
+      "폐",
+      "이중화",
+      "진화",
+      "효율성"
+    ],
+    "twist": "심장은 4개의 방으로 나뉘어 사실상 두 개의 펌프 역할",
+    "summary": "폐는 백업용 이중화, 심장은 4실 구조로 이미 이중 시스템",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-010",
+    "category": "body",
+    "emoji": "🍎",
+    "question": "목에 뭔가 걸린 것 같은 느낌은 왜 생길까?",
+    "hook": "아무것도 먹지 않았는데 목에 뭔가 있는 것 같다면 이것일 수도 있습니다",
+    "keywords": [
+      "인후이물감",
+      "스트레스",
+      "히스테리볼"
+    ],
+    "twist": "실제로는 아무것도 없는데 스트레스가 만들어낸 착각",
+    "summary": "스트레스나 불안으로 인한 목 근육 긴장이 만드는 착각",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-011",
+    "category": "body",
+    "emoji": "👂",
+    "question": "왜 높은 곳에 가면 귀가 먹먹해질까?",
+    "hook": "비행기나 높은 산에 올라가면 귀가 이상해지는 이유",
+    "keywords": [
+      "기압",
+      "고막",
+      "유스타키오관"
+    ],
+    "twist": "고막 안팎 압력 차이를 맞추려는 몸의 자연스러운 반응",
+    "summary": "고도 변화로 인한 기압 차이가 고막에 영향을 미침",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-012",
+    "category": "body",
+    "emoji": "🦴",
+    "question": "뼈는 돌처럼 단단한데 어떻게 혈액이 만들어질까?",
+    "hook": "딱딱한 뼈 안에서 부드러운 혈액이 탄생하는 신비",
+    "keywords": [
+      "골수",
+      "조혈",
+      "혈액생성"
+    ],
+    "twist": "뼈 속 골수는 혈액세포를 만드는 거대한 공장",
+    "summary": "뼈 내부 골수에서 모든 혈액세포가 생산됨",
+    "difficulty": "medium",
+    "used": true,
+    "used_date": "2026-03-12"
+  },
+  {
+    "id": "body-013",
+    "category": "body",
+    "emoji": "😴",
+    "question": "왜 팔을 베고 자면 손이 저릴까?",
+    "hook": "잘못 자고 일어나면 손이 남의 손 같이 느껴지는 이유",
+    "keywords": [
+      "혈액순환",
+      "신경압박",
+      "저림"
+    ],
+    "twist": "혈관과 신경이 동시에 눌려서 생기는 일시적 마비",
+    "summary": "압박으로 인한 혈액순환 장애와 신경전달 차단",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-014",
+    "category": "body",
+    "emoji": "🧬",
+    "question": "DNA는 왜 나선 모양일까?",
+    "hook": "생명의 설계도 DNA가 꼬불꼬불한 모양인 특별한 이유",
+    "keywords": [
+      "DNA",
+      "이중나선",
+      "안정성"
+    ],
+    "twist": "나선구조가 정보를 보호하면서도 쉽게 복사할 수 있는 최적 형태",
+    "summary": "이중나선 구조는 정보 보존과 복제에 가장 효율적인 형태",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-015",
+    "category": "body",
+    "emoji": "👀",
+    "question": "왜 밤에는 색깔을 구분하기 어려울까?",
+    "hook": "낮에는 화려하던 세상이 밤이 되면 흑백영화 같아지는 이유",
+    "keywords": [
+      "간상세포",
+      "원추세포",
+      "야간시력"
+    ],
+    "twist": "밤에는 색깔 담당 세포가 쉬고 명암만 보는 세포가 일함",
+    "summary": "어둠에서는 간상세포만 활동해 흑백으로만 세상을 인식",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-016",
+    "category": "body",
+    "emoji": "🤔",
+    "question": "생각을 많이 하면 정말 뇌가 지칠까?",
+    "hook": "공부하고 나면 몸은 안 움직였는데도 피곤한 이유",
+    "keywords": [
+      "뇌",
+      "포도당",
+      "에너지소모"
+    ],
+    "twist": "뇌는 체중의 2%인데 전체 에너지의 20%를 소모하는 대식가",
+    "summary": "뇌는 무게 대비 에너지 소모가 가장 큰 장기",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-017",
+    "category": "body",
+    "emoji": "🫀",
+    "question": "심장은 언제부터 뛰기 시작할까?",
+    "hook": "태어나기 전부터 이미 뛰고 있던 심장의 첫 박동",
+    "keywords": [
+      "심장발달",
+      "태아",
+      "임신"
+    ],
+    "twist": "임신 3주차부터 심장이 뛰기 시작해 평생 멈추지 않음",
+    "summary": "임신 초기부터 시작된 심장박동이 평생 지속됨",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-018",
+    "category": "body",
+    "emoji": "🦷",
+    "question": "치아가 썩는 진짜 원인은 설탕일까?",
+    "hook": "단것을 먹으면 충치가 생긴다고? 진짜 범인은 따로 있습니다",
+    "keywords": [
+      "충치",
+      "세균",
+      "산성",
+      "치태"
+    ],
+    "twist": "설탕 자체가 아니라 세균이 설탕을 분해하며 만드는 산이 원인",
+    "summary": "구강 내 세균이 당분을 산으로 바꿔 치아를 녹이는 것이 충치",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-019",
+    "category": "body",
+    "emoji": "💨",
+    "question": "방귀는 왜 냄새가 날까?",
+    "hook": "모든 사람이 하루 평균 14번 뀌는 방귀, 냄새의 정체는?",
+    "keywords": [
+      "방귀",
+      "황화수소",
+      "장내세균"
+    ],
+    "twist": "방귀의 99%는 무취이고 1%의 황 화합물이 모든 냄새 담당",
+    "summary": "장내 세균이 만드는 황 화합물이 방귀 냄새의 주범",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "body-020",
+    "category": "body",
+    "emoji": "🧠",
+    "question": "기억은 뇌 어디에 저장될까?",
+    "hook": "수많은 추억들이 저장된 뇌, 그런데 하드디스크처럼 한 곳에 있지 않습니다",
+    "keywords": [
+      "기억",
+      "신경망",
+      "해마",
+      "분산저장"
+    ],
+    "twist": "기억은 특정 장소에 있지 않고 뇌 전체 신경망에 분산 저장됨",
+    "summary": "기억은 뇌 전반에 걸친 신경연결망으로 분산 저장됨",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-001",
+    "category": "geography",
+    "emoji": "🇦🇺",
+    "question": "호주는 정말 대륙일까요?",
+    "hook": "호주를 대륙이라고 부르는데, 사실 섬입니다!",
+    "keywords": [
+      "호주",
+      "대륙",
+      "섬",
+      "오세아니아"
+    ],
+    "twist": "세계에서 가장 큰 섬이면서 동시에 가장 작은 대륙",
+    "summary": "호주는 세계 최대 섬이자 최소 대륙의 이중 정체성",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-002",
+    "category": "geography",
+    "emoji": "🏔️",
+    "question": "에베레스트산이 실제로는 바다 밑바닥이었다고요?",
+    "hook": "세계 최고봉 에베레스트 정상에서 바다 화석이 발견됩니다!",
+    "keywords": [
+      "에베레스트",
+      "화석",
+      "바다",
+      "지각변동"
+    ],
+    "twist": "4억년 전 테티스해 바닥이 융기해서 만들어진 산",
+    "summary": "에베레스트는 고대 바다가 솟아올라 만들어진 산",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-003",
+    "category": "geography",
+    "emoji": "🌊",
+    "question": "바다가 실제로 파란색이 아니라고요?",
+    "hook": "바닷물을 컵에 담으면 투명한데 왜 바다는 파랗게 보일까요?",
+    "keywords": [
+      "바다",
+      "파란색",
+      "빛",
+      "산란"
+    ],
+    "twist": "파란 빛의 산란과 반사로 인한 착시 현상",
+    "summary": "바다의 파란색은 빛의 산란 현상으로 만들어진 착시",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-004",
+    "category": "geography",
+    "emoji": "🏜️",
+    "question": "사하라 사막에 눈이 내린다고요?",
+    "hook": "세계 최대 열사막인 사하라에 하얀 눈이 쌓였습니다!",
+    "keywords": [
+      "사하라",
+      "사막",
+      "눈",
+      "기후변화"
+    ],
+    "twist": "40년만에 내린 눈으로 전세계가 충격받은 사건",
+    "summary": "사하라 사막도 겨울에는 기온이 급격히 떨어져 눈이 내림",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-005",
+    "category": "geography",
+    "emoji": "🌋",
+    "question": "화산이 지구를 식혔다고요?",
+    "hook": "화산 폭발이 오히려 지구 온도를 2도나 떨어뜨렸습니다!",
+    "keywords": [
+      "화산",
+      "기온",
+      "냉각",
+      "에어로졸"
+    ],
+    "twist": "화산재가 햇빛을 차단해 소빙하기를 만든 역설",
+    "summary": "대규모 화산 폭발은 화산재로 햇빛을 차단해 지구를 냉각",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-006",
+    "category": "geography",
+    "emoji": "🏝️",
+    "question": "새로운 섬이 하루아침에 생긴다고요?",
+    "hook": "어제까지 없던 섬이 오늘 갑자기 바다에 나타났습니다!",
+    "keywords": [
+      "화산섬",
+      "생성",
+      "바다",
+      "용암"
+    ],
+    "twist": "해저 화산 폭발로 하루만에 새 섬이 탄생하는 현상",
+    "summary": "해저 화산 활동으로 새로운 섬들이 실시간으로 생성됨",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-007",
+    "category": "geography",
+    "emoji": "🌍",
+    "question": "아프리카가 두 개로 나뉘고 있다고요?",
+    "hook": "아프리카 대륙이 지금 이 순간 쪼개지고 있습니다!",
+    "keywords": [
+      "아프리카",
+      "대륙",
+      "분열",
+      "균열"
+    ],
+    "twist": "1000만년 후면 아프리카가 완전히 두 대륙으로 분리",
+    "summary": "동아프리카 대지구대로 인해 아프리카가 서서히 분열 중",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-008",
+    "category": "geography",
+    "emoji": "💎",
+    "question": "다이아몬드가 비 내리는 행성이 있다고요?",
+    "hook": "해왕성에서는 다이아몬드 비가 쏟아집니다!",
+    "keywords": [
+      "해왕성",
+      "다이아몬드",
+      "비",
+      "압력"
+    ],
+    "twist": "극한 압력으로 메탄이 다이아몬드로 변하는 현상",
+    "summary": "해왕성의 높은 압력이 탄소를 다이아몬드로 변화시킴",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-009",
+    "category": "geography",
+    "emoji": "🌡️",
+    "question": "남극이 북극보다 더 춥다고요?",
+    "hook": "똑같이 얼음덩어리인데 남극이 북극보다 40도나 더 춥습니다!",
+    "keywords": [
+      "남극",
+      "북극",
+      "온도",
+      "고도"
+    ],
+    "twist": "남극은 대륙이라 고도가 높아 북극보다 훨씬 추움",
+    "summary": "남극은 높은 고도와 대륙성 기후로 북극보다 극한 추위",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-010",
+    "category": "geography",
+    "emoji": "🌊",
+    "question": "바다에도 강이 흐른다고요?",
+    "hook": "바다 한가운데 거대한 강물이 흐르고 있습니다!",
+    "keywords": [
+      "해류",
+      "걸프스트림",
+      "바다",
+      "온도"
+    ],
+    "twist": "염분과 온도 차이로 만들어지는 바다 속 강 해류",
+    "summary": "바다에는 온도와 염분 차이로 형성된 거대한 해류가 존재",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-011",
+    "category": "geography",
+    "emoji": "🏔️",
+    "question": "산이 매년 자란다고요?",
+    "hook": "에베레스트가 매년 4mm씩 더 높아지고 있습니다!",
+    "keywords": [
+      "에베레스트",
+      "성장",
+      "지각변동",
+      "높이"
+    ],
+    "twist": "인도판과 유라시아판의 충돌로 지금도 계속 성장 중",
+    "summary": "지각 충돌로 인해 히말라야 산맥이 현재도 성장하고 있음",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-012",
+    "category": "geography",
+    "emoji": "🌪️",
+    "question": "토네이도가 물을 거슬러 올라간다고요?",
+    "hook": "토네이도가 강물을 하늘로 빨아들여 물고기가 비처럼 떨어집니다!",
+    "keywords": [
+      "토네이도",
+      "물",
+      "흡입",
+      "물고기"
+    ],
+    "twist": "수상 토네이도가 물과 생물을 하늘로 끌어올리는 현상",
+    "summary": "토네이도의 강력한 흡입력이 물과 생물을 공중으로 날림",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-013",
+    "category": "geography",
+    "emoji": "🏛️",
+    "question": "피사의 사탑이 계속 기울어진다고요?",
+    "hook": "피사의 사탑이 매년 1mm씩 더 기울어지고 있습니다!",
+    "keywords": [
+      "피사",
+      "사탑",
+      "기울음",
+      "지반"
+    ],
+    "twist": "연약한 점토 지반 때문에 건설 당시부터 기울어진 건물",
+    "summary": "연약한 지반으로 인해 피사의 사탑은 건설 때부터 계속 기울어짐",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-014",
+    "category": "geography",
+    "emoji": "💧",
+    "question": "강물이 거꾸로 흐른다고요?",
+    "hook": "시카고 강이 180도 방향을 바꿔 거꾸로 흐르기 시작했습니다!",
+    "keywords": [
+      "시카고강",
+      "역류",
+      "인공",
+      "운하"
+    ],
+    "twist": "인간이 강의 흐름을 완전히 바꿔버린 세계 유일 사례",
+    "summary": "인위적 공사로 시카고 강의 흐름 방향이 완전히 바뀜",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-015",
+    "category": "geography",
+    "emoji": "🏔️",
+    "question": "지구에서 가장 높은 산이 에베레스트가 아니라고요?",
+    "hook": "바다 밑에서 측정하면 하와이의 마우나케아가 더 높습니다!",
+    "keywords": [
+      "마우나케아",
+      "에베레스트",
+      "높이",
+      "해저"
+    ],
+    "twist": "해저면부터 재면 마우나케아가 에베레스트보다 1km 더 높음",
+    "summary": "해저면 기준으로는 마우나케아가 세계에서 가장 높은 산",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-016",
+    "category": "geography",
+    "emoji": "🌊",
+    "question": "바닷물이 담수가 된다고요?",
+    "hook": "남극에서는 바닷물이 저절로 담수로 변합니다!",
+    "keywords": [
+      "남극",
+      "바닷물",
+      "담수",
+      "얼음"
+    ],
+    "twist": "바닷물이 얼 때 염분이 빠져나와 순수한 얼음이 됨",
+    "summary": "바닷물이 얼면서 염분이 분리되어 담수 얼음이 만들어짐",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-017",
+    "category": "geography",
+    "emoji": "🌋",
+    "question": "바다 밑 화산이 육지보다 더 많다고요?",
+    "hook": "전 세계 화산의 80%가 바다 밑에 숨어있습니다!",
+    "keywords": [
+      "해저화산",
+      "화산",
+      "바다",
+      "폭발"
+    ],
+    "twist": "보이지 않는 바다 밑에서 끊임없이 화산이 폭발 중",
+    "summary": "대부분의 화산 활동은 인간이 모르는 해저에서 일어남",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-018",
+    "category": "geography",
+    "emoji": "🧭",
+    "question": "나침반이 가리키는 북쪽이 진짜 북쪽이 아니라고요?",
+    "hook": "나침반의 북쪽과 실제 북극점이 400km나 떨어져 있습니다!",
+    "keywords": [
+      "나침반",
+      "자북",
+      "진북",
+      "자기극"
+    ],
+    "twist": "지구 자기장의 북극과 지리적 북극이 다른 위치",
+    "summary": "나침반이 가리키는 자북과 실제 지리적 북극은 다름",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-019",
+    "category": "geography",
+    "emoji": "🏜️",
+    "question": "사막에서 홍수가 난다고요?",
+    "hook": "비가 거의 안 오는 사막에서 갑작스런 대홍수가 발생합니다!",
+    "keywords": [
+      "사막",
+      "홍수",
+      "침수",
+      "배수"
+    ],
+    "twist": "메마른 땅이 물을 흡수하지 못해 순식간에 홍수 발생",
+    "summary": "사막의 굳은 땅은 빗물 흡수 능력이 떨어져 홍수 위험",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "geography-020",
+    "category": "geography",
+    "emoji": "🌍",
+    "question": "지구가 실제로는 둥글지 않다고요?",
+    "hook": "지구는 완전한 구가 아니라 찌그러진 공 모양입니다!",
+    "keywords": [
+      "지구",
+      "모양",
+      "타원체",
+      "자전"
+    ],
+    "twist": "자전으로 인한 원심력 때문에 적도가 불룩한 타원체",
+    "summary": "지구 자전의 원심력으로 적도 부분이 부풀어진 타원 모양",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-001",
+    "category": "food",
+    "emoji": "🍕",
+    "question": "피자에 파인애플을 올리는 것이 왜 이렇게 논란이 될까?",
+    "hook": "전 세계를 둘로 나눈 음식 조합이 있다",
+    "keywords": [
+      "피자",
+      "파인애플",
+      "하와이안피자"
+    ],
+    "twist": "사실 하와이안 피자는 하와이가 아닌 캐나다에서 만들어졌다",
+    "summary": "하와이안 피자는 캐나다 발명품",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-002",
+    "category": "food",
+    "emoji": "🍯",
+    "question": "꿀은 정말 썩지 않을까?",
+    "hook": "3000년 된 꿀이 아직도 먹을 수 있다고?",
+    "keywords": [
+      "꿀",
+      "보존",
+      "항균작용"
+    ],
+    "twist": "꿀의 낮은 수분함량과 산성도가 세균 번식을 막아준다",
+    "summary": "꿀은 자연의 완벽한 방부제",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-003",
+    "category": "food",
+    "emoji": "🥕",
+    "question": "당근이 원래 주황색이 아니었다고?",
+    "hook": "당근의 원래 색깔을 보면 깜짝 놀랄 것",
+    "keywords": [
+      "당근",
+      "색깔",
+      "네덜란드"
+    ],
+    "twist": "원래 당근은 보라색이었고, 주황색은 네덜란드 왕가를 기리기 위해 개량된 것",
+    "summary": "당근은 정치적 이유로 주황색이 되었다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-004",
+    "category": "food",
+    "emoji": "🌶️",
+    "question": "매운맛을 느끼는 것은 사실 맛이 아니라고?",
+    "hook": "매운 것을 먹을 때 혀가 아픈 진짜 이유",
+    "keywords": [
+      "매운맛",
+      "캡사이신",
+      "통각"
+    ],
+    "twist": "매운맛은 미각이 아닌 통각으로, 뇌가 '뜨거움'으로 인식한다",
+    "summary": "매운맛은 실제로는 고통의 신호",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-005",
+    "category": "food",
+    "emoji": "🧀",
+    "question": "치즈는 어떻게 처음 만들어졌을까?",
+    "hook": "4000년 전 상인의 실수가 만든 기적의 음식",
+    "keywords": [
+      "치즈",
+      "발견",
+      "우연"
+    ],
+    "twist": "양의 위로 만든 물주머니에 우유를 넣고 여행하다가 우연히 발견됐다",
+    "summary": "치즈는 우연한 실수로 탄생했다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-006",
+    "category": "food",
+    "emoji": "🍌",
+    "question": "바나나가 멸종 위기라는 게 사실일까?",
+    "hook": "우리가 먹는 바나나는 모두 복제품이다",
+    "keywords": [
+      "바나나",
+      "멸종",
+      "캐번디시"
+    ],
+    "twist": "현재 바나나는 유전적으로 모두 동일해서 질병에 매우 취약하다",
+    "summary": "바나나는 유전 다양성 부족으로 위험하다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-007",
+    "category": "food",
+    "emoji": "🍎",
+    "question": "사과를 깎으면 왜 갈색으로 변할까?",
+    "hook": "사과가 '녹슨다'는 표현이 과학적으로 맞다",
+    "keywords": [
+      "사과",
+      "갈변",
+      "산화"
+    ],
+    "twist": "사과의 효소가 공기 중 산소와 반응해서 실제로 산화되는 것",
+    "summary": "사과 갈변은 실제 산화 현상",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-008",
+    "category": "food",
+    "emoji": "☕",
+    "question": "커피가 원래 음료가 아니었다고?",
+    "hook": "커피의 첫 번째 용도를 들으면 놀랄 것",
+    "keywords": [
+      "커피",
+      "역사",
+      "에티오피아"
+    ],
+    "twist": "처음엔 커피 열매를 직접 씹어먹거나 와인을 만드는 데 사용했다",
+    "summary": "커피는 처음엔 음료가 아니었다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-009",
+    "category": "food",
+    "emoji": "🍿",
+    "question": "팝콘은 언제부터 영화관 음식이 되었을까?",
+    "hook": "대공황이 팝콘을 영화관의 왕으로 만들었다",
+    "keywords": [
+      "팝콘",
+      "영화관",
+      "대공황"
+    ],
+    "twist": "경제적으로 저렴한 팝콘이 대공황 시기 영화관의 구원자가 되었다",
+    "summary": "팝콘은 대공황 덕분에 영화관 대표 음식이 되었다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-010",
+    "category": "food",
+    "emoji": "🥜",
+    "question": "땅콩이 사실 콩이 아니라고?",
+    "hook": "땅콩의 진짜 정체를 알면 깜짝 놀랄 것",
+    "keywords": [
+      "땅콩",
+      "견과류",
+      "콩과식물"
+    ],
+    "twist": "땅콩은 견과류가 아니라 완두콩과 같은 콩과 식물이다",
+    "summary": "땅콩은 콩과식물이지 견과류가 아니다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-011",
+    "category": "food",
+    "emoji": "🍓",
+    "question": "딸기 씨가 겉에 있는 이유가 뭘까?",
+    "hook": "딸기는 사실 진짜 열매가 아니다",
+    "keywords": [
+      "딸기",
+      "씨앗",
+      "가짜열매"
+    ],
+    "twist": "딸기의 빨간 부분은 꽃받침이 커진 것이고, 겉의 씨들이 진짜 열매다",
+    "summary": "딸기는 가짜 열매이고 씨가 진짜 열매다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-012",
+    "category": "food",
+    "emoji": "🧄",
+    "question": "마늘을 먹으면 왜 입냄새가 날까?",
+    "hook": "마늘 냄새는 입이 아닌 폐에서 나온다",
+    "keywords": [
+      "마늘",
+      "황화합물",
+      "폐"
+    ],
+    "twist": "마늘의 황화합물이 혈액을 통해 폐로 가서 호흡으로 나온다",
+    "summary": "마늘 냄새는 폐에서 나오는 것",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-013",
+    "category": "food",
+    "emoji": "🍋",
+    "question": "레몬이 비타민C 최고라는 건 착각일까?",
+    "hook": "레몬보다 비타민C가 많은 의외의 음식들",
+    "keywords": [
+      "레몬",
+      "비타민C",
+      "키위"
+    ],
+    "twist": "키위, 브로콜리, 딸기가 레몬보다 비타민C가 더 많다",
+    "summary": "레몬은 비타민C 왕이 아니다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-014",
+    "category": "food",
+    "emoji": "🥥",
+    "question": "코코넛은 과연 견과류일까?",
+    "hook": "코코넛의 진짜 정체가 충격적이다",
+    "keywords": [
+      "코코넛",
+      "핵과",
+      "견과류"
+    ],
+    "twist": "코코넛은 견과류도 과일도 아닌 핵과류이고, 씨앗에 가깝다",
+    "summary": "코코넛은 거대한 씨앗이다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-015",
+    "category": "food",
+    "emoji": "🍆",
+    "question": "가지가 원래 하얗다고?",
+    "hook": "가지라는 이름의 진짜 이유를 알면 놀랄 것",
+    "keywords": [
+      "가지",
+      "색깔",
+      "달걀"
+    ],
+    "twist": "원래 가지는 하얀색이었고, 달걀을 닮아서 'eggplant'라고 불린다",
+    "summary": "가지는 원래 달걀처럼 하얬다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-016",
+    "category": "food",
+    "emoji": "🍇",
+    "question": "포도에 하얀 가루가 묻어있는 이유는?",
+    "hook": "포도의 하얀 가루는 세척해도 없어지지 않는다",
+    "keywords": [
+      "포도",
+      "블룸",
+      "왁스"
+    ],
+    "twist": "포도가 자연적으로 분비하는 왁스층으로 수분 증발을 막고 세균을 차단한다",
+    "summary": "포도의 하얀 가루는 자연 보호막",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-017",
+    "category": "food",
+    "emoji": "🥨",
+    "question": "프레즐의 독특한 모양에 숨겨진 의미가 있다고?",
+    "hook": "프레즐 모양이 종교적 상징이었다는 놀라운 사실",
+    "keywords": [
+      "프레즐",
+      "기도",
+      "수도사"
+    ],
+    "twist": "프레즐의 세 개 구멍은 기도하는 팔 모양을 본떠 만든 것",
+    "summary": "프레즐은 기도하는 모습을 형상화한 것",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-018",
+    "category": "food",
+    "emoji": "🍊",
+    "question": "오렌지가 오렌지색이어서 오렌지일까?",
+    "hook": "색깔 이름과 과일 이름 중 뭐가 먼저였을까?",
+    "keywords": [
+      "오렌지",
+      "색깔",
+      "어원"
+    ],
+    "twist": "과일 이름이 먼저이고, 색깔 이름은 나중에 생겼다",
+    "summary": "오렌지색은 오렌지 과일에서 따온 이름",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-019",
+    "category": "food",
+    "emoji": "🌽",
+    "question": "옥수수를 생으로 먹으면 안 되는 이유가 있을까?",
+    "hook": "옥수수의 숨겨진 독성 성분이 있다",
+    "keywords": [
+      "옥수수",
+      "렉틴",
+      "소화"
+    ],
+    "twist": "생옥수수의 렉틴 성분이 소화를 방해하고 영양소 흡수를 막는다",
+    "summary": "생옥수수는 소화에 해로운 성분이 있다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "food-020",
+    "category": "food",
+    "emoji": "🥑",
+    "question": "아보카도는 과일인가 채소인가?",
+    "hook": "아보카도의 정체성 위기가 법정까지 갔다",
+    "keywords": [
+      "아보카도",
+      "과일",
+      "베리"
+    ],
+    "twist": "식물학적으로는 베리류 과일이지만, 요리에서는 채소로 취급된다",
+    "summary": "아보카도는 베리류 과일이다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-001",
+    "category": "invention",
+    "emoji": "💡",
+    "question": "전구를 발명한 에디슨이 실제로 가장 많이 실패한 실험은?",
+    "hook": "에디슨이 1만번 실패했다고? 사실은...",
+    "keywords": [
+      "에디슨",
+      "전구",
+      "실패"
+    ],
+    "twist": "전구가 아니라 축음기 개발에서 더 많이 실패했다",
+    "summary": "에디슨의 진짜 실패작은 전구가 아닌 축음기였다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-002",
+    "category": "invention",
+    "emoji": "📱",
+    "question": "세계 최초의 휴대폰 통화는 누구에게 걸었을까?",
+    "hook": "첫 휴대폰 통화의 상대방이 충격적이다",
+    "keywords": [
+      "휴대폰",
+      "모토로라",
+      "경쟁사"
+    ],
+    "twist": "경쟁 회사인 벨 연구소에 자랑하려고 전화했다",
+    "summary": "최초 휴대폰 통화는 경쟁사에게 자랑 전화였다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-003",
+    "category": "invention",
+    "emoji": "🎮",
+    "question": "슈퍼마리오가 원래 어떤 직업이었는지 알고 있나요?",
+    "hook": "마리오가 배관공이 아니었다고?",
+    "keywords": [
+      "마리오",
+      "닌텐도",
+      "직업"
+    ],
+    "twist": "원래는 목수였고, 동키콩에서 처음 등장했다",
+    "summary": "마리오는 원래 목수 설정이었다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-004",
+    "category": "invention",
+    "emoji": "🍫",
+    "question": "초콜릿 칩 쿠키는 어떻게 탄생했을까?",
+    "hook": "세계적 디저트가 실수로 만들어졌다니!",
+    "keywords": [
+      "쿠키",
+      "초콜릿",
+      "실수"
+    ],
+    "twist": "초콜릿이 떨어져서 우연히 만들어진 실수작이었다",
+    "summary": "초콜릿 칩 쿠키는 우연한 실수로 탄생했다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-005",
+    "category": "invention",
+    "emoji": "🔧",
+    "question": "드라이버는 왜 '드라이버'라고 불릴까?",
+    "hook": "나사 돌리는 도구가 운전과 무슨 관계?",
+    "keywords": [
+      "드라이버",
+      "도구",
+      "어원"
+    ],
+    "twist": "나사를 '몰아넣는다(drive)'는 의미에서 나왔다",
+    "summary": "드라이버는 나사를 몰아넣는다는 뜻에서 유래",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-006",
+    "category": "invention",
+    "emoji": "🎵",
+    "question": "CD는 왜 74분짜리로 만들어졌을까?",
+    "hook": "CD 용량이 딱 74분인 숨겨진 이유",
+    "keywords": [
+      "CD",
+      "베토벤",
+      "음반"
+    ],
+    "twist": "베토벤 9번 교향곡이 들어가도록 맞췄다",
+    "summary": "CD는 베토벤 9교향곡 기준으로 용량을 정했다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-007",
+    "category": "invention",
+    "emoji": "🚗",
+    "question": "자동차 앞유리에 와이퍼를 누가 발명했을까?",
+    "hook": "남성들이 무시한 여성의 아이디어가...",
+    "keywords": [
+      "와이퍼",
+      "여성",
+      "발명가"
+    ],
+    "twist": "여성이 발명했지만 남성들이 위험하다며 거부했다",
+    "summary": "와이퍼는 여성이 발명했지만 초기엔 거부당했다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-008",
+    "category": "invention",
+    "emoji": "🥤",
+    "question": "코카콜라는 원래 무엇으로 만들어졌을까?",
+    "hook": "세계 1위 음료의 충격적인 원재료",
+    "keywords": [
+      "코카콜라",
+      "약",
+      "코카인"
+    ],
+    "twist": "기침약으로 개발되었고 코카인이 들어있었다",
+    "summary": "코카콜라는 원래 코카인 함유 기침약이었다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-009",
+    "category": "invention",
+    "emoji": "📺",
+    "question": "TV 리모컨은 왜 발명되었을까?",
+    "hook": "리모컨 탄생의 놀라운 이유",
+    "keywords": [
+      "리모컨",
+      "광고",
+      "채널"
+    ],
+    "twist": "광고를 피해서 채널을 바꾸려는 사람들 때문이었다",
+    "summary": "리모컨은 광고 회피용으로 발명되었다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-010",
+    "category": "invention",
+    "emoji": "🎪",
+    "question": "서커스에서 그네 아래 안전망을 누가 발명했을까?",
+    "hook": "공중그네 안전망의 의외한 발명가",
+    "keywords": [
+      "서커스",
+      "안전망",
+      "가족"
+    ],
+    "twist": "어린 딸을 잃은 아버지가 다른 아이들을 위해 만들었다",
+    "summary": "안전망은 딸을 잃은 아버지가 발명했다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-011",
+    "category": "invention",
+    "emoji": "🍕",
+    "question": "피자 배달은 누가 처음 시작했을까?",
+    "hook": "피자 배달의 놀라운 기원",
+    "keywords": [
+      "피자",
+      "배달",
+      "왕족"
+    ],
+    "twist": "이탈리아 왕비를 위해 궁전까지 배달한 게 시초다",
+    "summary": "피자 배달은 왕비를 위한 궁전 배달이 시초",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-012",
+    "category": "invention",
+    "emoji": "🎲",
+    "question": "주사위는 왜 6면체로 만들어졌을까?",
+    "hook": "주사위가 6면인 수학적 이유",
+    "keywords": [
+      "주사위",
+      "확률",
+      "게임"
+    ],
+    "twist": "6이 가장 많은 약수를 가져서 공정한 확률을 만들기 때문",
+    "summary": "주사위는 6의 약수 특성 때문에 6면체가 되었다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-013",
+    "category": "invention",
+    "emoji": "🎨",
+    "question": "크레용은 어떤 용도로 처음 만들어졌을까?",
+    "hook": "아이들 장난감이 원래는...",
+    "keywords": [
+      "크레용",
+      "공장",
+      "표시"
+    ],
+    "twist": "공장에서 양이나 목재에 표시하는 산업용이었다",
+    "summary": "크레용은 원래 산업용 표시도구였다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-014",
+    "category": "invention",
+    "emoji": "⏰",
+    "question": "알람시계는 누구를 위해 발명되었을까?",
+    "hook": "알람시계 발명의 특별한 이유",
+    "keywords": [
+      "알람",
+      "시계",
+      "수도원"
+    ],
+    "twist": "수도원 승려들이 새벽 기도시간을 놓치지 않기 위해서",
+    "summary": "알람시계는 수도원 새벽 기도용으로 발명됐다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-015",
+    "category": "invention",
+    "emoji": "🚪",
+    "question": "회전문은 왜 발명되었을까?",
+    "hook": "회전문의 진짜 발명 이유가 충격적",
+    "keywords": [
+      "회전문",
+      "에너지",
+      "절약"
+    ],
+    "twist": "난방비를 아끼기 위해 찬바람 차단용으로 만들어졌다",
+    "summary": "회전문은 난방비 절약을 위해 발명되었다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-016",
+    "category": "invention",
+    "emoji": "🎯",
+    "question": "다트게임은 어디서 시작되었을까?",
+    "hook": "술집 게임의 무시무시한 기원",
+    "keywords": [
+      "다트",
+      "무기",
+      "훈련"
+    ],
+    "twist": "중세 군인들이 창 던지기 훈련을 위해 시작했다",
+    "summary": "다트는 군인들의 창 던지기 훈련이 기원이다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-017",
+    "category": "invention",
+    "emoji": "🧊",
+    "question": "아이스크림은 누가 처음 발명했을까?",
+    "hook": "아이스크림 발명가의 정체가 놀랍다",
+    "keywords": [
+      "아이스크림",
+      "중국",
+      "황제"
+    ],
+    "twist": "중국 당나라 황제가 우유와 얼음을 섞어 만들었다",
+    "summary": "아이스크림은 중국 황제가 최초로 발명했다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-018",
+    "category": "invention",
+    "emoji": "🎪",
+    "question": "풍선껌은 어떻게 발명되었을까?",
+    "hook": "풍선껌 발명의 달콤한 실수",
+    "keywords": [
+      "풍선껌",
+      "실수",
+      "실험"
+    ],
+    "twist": "껌 연구원이 실수로 만든 실패작이 대박이 났다",
+    "summary": "풍선껌은 실험 실수로 우연히 발명되었다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-019",
+    "category": "invention",
+    "emoji": "🔒",
+    "question": "자물쇠와 열쇠는 누가 먼저 발명했을까?",
+    "hook": "자물쇠 vs 열쇠, 누가 먼저일까?",
+    "keywords": [
+      "자물쇠",
+      "열쇠",
+      "이집트"
+    ],
+    "twist": "이집트에서 나무 자물쇠가 먼저, 금속 열쇠는 나중에 발명됐다",
+    "summary": "자물쇠가 열쇠보다 1000년 먼저 발명되었다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "invention-020",
+    "category": "invention",
+    "emoji": "🎭",
+    "question": "립스틱은 원래 누가 사용했을까?",
+    "hook": "립스틱 사용자의 충격적인 정체",
+    "keywords": [
+      "립스틱",
+      "남성",
+      "지위"
+    ],
+    "twist": "고대에는 남성 귀족들이 지위를 나타내기 위해 사용했다",
+    "summary": "립스틱은 원래 남성 귀족의 지위 상징이었다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-001",
+    "category": "animal",
+    "emoji": "🐧",
+    "question": "펭귄은 왜 추운 곳에서만 살까?",
+    "hook": "펭귄이 더위를 못 견디는 진짜 이유는 깃털이 아니다",
+    "keywords": [
+      "펭귄",
+      "체온조절",
+      "깃털"
+    ],
+    "twist": "실제로는 혈관 구조 때문에 열을 못 배출해서",
+    "summary": "펭귄은 특수한 혈관 구조로 인해 더위에 취약하다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-002",
+    "category": "animal",
+    "emoji": "🦒",
+    "question": "기린의 목이 긴 진짜 이유는?",
+    "hook": "기린의 긴 목은 높은 잎을 먹기 위해서가 아니었다",
+    "keywords": [
+      "기린",
+      "진화",
+      "목"
+    ],
+    "twist": "실제로는 수컷끼리 목 싸움을 하기 위해 진화했다",
+    "summary": "기린의 긴 목은 먹이가 아닌 경쟁을 위해 진화했다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-003",
+    "category": "animal",
+    "emoji": "🦅",
+    "question": "독수리는 정말 높이 날 수 있을까?",
+    "hook": "독수리가 비행기보다 높이 난다는 게 사실이다",
+    "keywords": [
+      "독수리",
+      "비행",
+      "고도"
+    ],
+    "twist": "11,000미터까지 올라가서 제트기와 충돌사고도 일어난다",
+    "summary": "독수리는 상상을 초월하는 고도까지 비행이 가능하다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-004",
+    "category": "animal",
+    "emoji": "🐙",
+    "question": "문어는 몇 개의 뇌를 가지고 있을까?",
+    "hook": "문어는 인간보다 뇌가 8배 많다",
+    "keywords": [
+      "문어",
+      "뇌",
+      "지능"
+    ],
+    "twist": "총 9개의 뇌를 가지고 있어서 각 다리가 독립적으로 사고한다",
+    "summary": "문어는 9개의 뇌로 독립적인 사고가 가능하다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-005",
+    "category": "animal",
+    "emoji": "🦘",
+    "question": "캥거루는 뒤로 걸을 수 있을까?",
+    "hook": "캥거루가 절대 할 수 없는 단 하나가 있다",
+    "keywords": [
+      "캥거루",
+      "보행",
+      "신체구조"
+    ],
+    "twist": "꼬리와 다리 구조상 물리적으로 뒤로 걷는 게 불가능하다",
+    "summary": "캥거루는 신체구조상 뒤로 걷는 것이 불가능하다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-006",
+    "category": "animal",
+    "emoji": "🐨",
+    "question": "코알라는 하루에 몇 시간을 잘까?",
+    "hook": "코알라는 인간보다 3배 더 많이 잔다",
+    "keywords": [
+      "코알라",
+      "수면",
+      "유칼립투스"
+    ],
+    "twist": "22시간을 자는데 유칼립투스가 독성이라 에너지 보존이 필수",
+    "summary": "코알라는 독성 식물 때문에 하루 22시간을 잔다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-007",
+    "category": "animal",
+    "emoji": "🦈",
+    "question": "상어는 정말 암을 걸리지 않을까?",
+    "hook": "상어가 암에 걸리지 않는다는 건 완전한 거짓말이다",
+    "keywords": [
+      "상어",
+      "암",
+      "연골"
+    ],
+    "twist": "실제로는 상어도 암에 걸리고 연골 때문이라는 설도 틀렸다",
+    "summary": "상어 암 면역설은 잘못된 속설이다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-008",
+    "category": "animal",
+    "emoji": "🐘",
+    "question": "코끼리는 정말 기억력이 좋을까?",
+    "hook": "코끼리가 절대 잊지 않는 건 기억이 아니다",
+    "keywords": [
+      "코끼리",
+      "기억력",
+      "해마"
+    ],
+    "twist": "실제로는 물의 위치를 수십 년간 기억해서 가뭄에 생존한다",
+    "summary": "코끼리의 뛰어난 기억력은 생존을 위한 진화다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-009",
+    "category": "animal",
+    "emoji": "🐢",
+    "question": "거북이는 정말 오래 살까?",
+    "hook": "가장 오래 산 거북이는 인간보다 2배 더 살았다",
+    "keywords": [
+      "거북이",
+      "수명",
+      "대사"
+    ],
+    "twist": "189세까지 산 기록이 있고 느린 대사율이 비결이다",
+    "summary": "거북이는 느린 대사로 인해 극도로 오래 산다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-010",
+    "category": "animal",
+    "emoji": "🦋",
+    "question": "나비는 자신의 날개를 볼 수 있을까?",
+    "hook": "나비는 인간이 볼 수 없는 색을 본다",
+    "keywords": [
+      "나비",
+      "시각",
+      "자외선"
+    ],
+    "twist": "자외선을 볼 수 있어서 날개의 숨겨진 무늬도 인식한다",
+    "summary": "나비는 자외선으로 자신의 진짜 모습을 본다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-011",
+    "category": "animal",
+    "emoji": "🦇",
+    "question": "박쥐는 정말 장님일까?",
+    "hook": "박쥐가 장님이라는 건 완전히 틀렸다",
+    "keywords": [
+      "박쥐",
+      "시각",
+      "초음파"
+    ],
+    "twist": "시력이 멀쩡하고 일부는 인간보다 훨씬 잘 본다",
+    "summary": "박쥐는 멀쩡한 시력과 초음파를 동시에 사용한다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-012",
+    "category": "animal",
+    "emoji": "🐍",
+    "question": "뱀은 어떻게 다리 없이 빨리 움직일까?",
+    "hook": "뱀이 인간보다 빠르게 달릴 수 있다는 게 사실이다",
+    "keywords": [
+      "뱀",
+      "이동",
+      "근육"
+    ],
+    "twist": "배의 비늘과 근육을 이용해 시속 32km까지 낼 수 있다",
+    "summary": "뱀은 특수한 근육 구조로 놀라운 속도를 낸다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-013",
+    "category": "animal",
+    "emoji": "🦉",
+    "question": "올빼미는 목을 몇 도까지 돌릴 수 있을까?",
+    "hook": "올빼미의 목은 인간의 상식을 완전히 뒤엎는다",
+    "keywords": [
+      "올빼미",
+      "목",
+      "혈관"
+    ],
+    "twist": "270도까지 돌려도 혈관이 끊어지지 않는 특수 구조를 가졌다",
+    "summary": "올빼미는 특수 혈관 구조로 목을 270도 돌린다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-014",
+    "category": "animal",
+    "emoji": "🐧",
+    "question": "황제펭귄 아빠는 얼마나 굶을까?",
+    "hook": "황제펭귄 아빠는 4개월 동안 아무것도 먹지 않는다",
+    "keywords": [
+      "황제펭귄",
+      "육아",
+      "단식"
+    ],
+    "twist": "알을 품는 동안 체중의 45%를 잃으면서도 새끼를 지킨다",
+    "summary": "황제펭귄 수컷은 극한의 희생으로 새끼를 키운다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-015",
+    "category": "animal",
+    "emoji": "🐠",
+    "question": "물고기도 물에 빠져 죽을 수 있을까?",
+    "hook": "물고기가 물에서 익사한다는 게 말이 된다",
+    "keywords": [
+      "물고기",
+      "호흡",
+      "아가미"
+    ],
+    "twist": "산소가 부족한 물에서는 아가미로 호흡할 수 없어 익사한다",
+    "summary": "물고기도 산소 부족 시 익사할 수 있다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-016",
+    "category": "animal",
+    "emoji": "🦔",
+    "question": "고슴도치는 왜 가시가 있을까?",
+    "hook": "고슴도치 가시는 방어용이 아니라 낙하산이다",
+    "keywords": [
+      "고슴도치",
+      "가시",
+      "방어"
+    ],
+    "twist": "높은 곳에서 떨어질 때 가시가 충격을 흡수하는 에어백 역할",
+    "summary": "고슴도치 가시는 방어와 충격흡수 이중 기능이다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-017",
+    "category": "animal",
+    "emoji": "🐸",
+    "question": "개구리는 물을 마실 수 있을까?",
+    "hook": "개구리는 평생 한 번도 물을 마시지 않는다",
+    "keywords": [
+      "개구리",
+      "수분흡수",
+      "피부"
+    ],
+    "twist": "입으로 마시는 대신 피부로 물을 흡수한다",
+    "summary": "개구리는 피부로만 수분을 흡수한다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-018",
+    "category": "animal",
+    "emoji": "🦏",
+    "question": "코뿔소의 뿔은 정말 뿔일까?",
+    "hook": "코뿔소 뿔은 실제로는 뿔이 아니다",
+    "keywords": [
+      "코뿔소",
+      "뿔",
+      "케라틴"
+    ],
+    "twist": "머리카락과 같은 케라틴이 뭉쳐진 것으로 뼈가 아니다",
+    "summary": "코뿔소 뿔은 머리카락 성분이 뭉친 것이다",
+    "difficulty": "medium",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-019",
+    "category": "animal",
+    "emoji": "🐧",
+    "question": "펭귄은 무릎이 있을까?",
+    "hook": "펭귄이 다리를 굽히지 못한다고 생각하면 큰 오산이다",
+    "keywords": [
+      "펭귄",
+      "무릎",
+      "골격"
+    ],
+    "twist": "무릎이 몸 안쪽에 숨어있어서 보이지 않을 뿐이다",
+    "summary": "펭귄은 숨겨진 무릎을 가지고 있다",
+    "difficulty": "hard",
+    "used": false,
+    "used_date": null
+  },
+  {
+    "id": "animal-020",
+    "category": "animal",
+    "emoji": "🦆",
+    "question": "오리는 물에 젖지 않는 비밀은?",
+    "hook": "오리가 비 맞아도 전혀 젖지 않는 마법같은 이유",
+    "keywords": [
+      "오리",
+      "방수",
+      "기름샘"
+    ],
+    "twist": "꼬리 부근 기름샘에서 나온 기름을 깃털에 발라 완벽 방수",
+    "summary": "오리는 천연 기름으로 깃털을 방수 처리한다",
+    "difficulty": "easy",
+    "used": false,
+    "used_date": null
+  }
+]

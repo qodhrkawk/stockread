@@ -120,13 +120,11 @@ MARKET_CONTEXT = {
         "intro": "어젯밤 미국 증시를 요약해줘.",
         "flag": "🇺🇸",
         "label": "미국 증시",
-        "price_basis": "미국 정규장 마감 종가 기준",
     },
     "KR": {
         "intro": "오늘 한국 증시를 요약해줘.",
         "flag": "🇰🇷",
         "label": "한국 증시",
-        "price_basis": "한국 정규장(15:30) 마감 종가 기준",
     },
 }
 
@@ -221,7 +219,7 @@ async def generate_shorts_script(
     stock_texts = [format_stock_data(item, market) for item in filtered]
 
     # ===== STEP 1: TTS 나레이션 생성 =====
-    step1_system = STEP1_SYSTEM + f"\n\n## 이번 영상\n{ctx['flag']} {ctx['intro']}\n{ctx['label']} 데이터만 다뤄.\n📌 모든 가격은 {ctx['price_basis']}이야. hook이나 detail에서 자연스럽게 한 번 언급해줘."
+    step1_system = STEP1_SYSTEM + f"\n\n## 이번 영상\n{ctx['flag']} {ctx['intro']}\n{ctx['label']} 데이터만 다뤄."
 
     step1_user = f"""오늘 날짜: {target_date.isoformat()}
 
