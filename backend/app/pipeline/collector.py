@@ -4,7 +4,10 @@ import json
 from datetime import datetime
 
 from app.db import queries as db
-from .fmp import fetch_us_quote, fetch_us_history, fetch_us_news
+from .fmp import (
+    fetch_us_quote, fetch_us_history,
+    fetch_market_news, filter_news_for_ticker, clear_market_news_cache,
+)
 from .krx import fetch_kr_quote, fetch_kr_history, fetch_kr_disclosures
 from .technical import calculate_indicators
 from .news import fetch_news, build_news_query
@@ -31,20 +34,26 @@ async def collect_stock_data(ticker: str, name_ko: str, market: str) -> dict | N
     # 2. 기술 지표
     indicators = calculate_indicators(history) if history else {}
 
-    # 3. 뉴스 — 미국: FMP 뉴스(메인) + Brave(보조), 한국: Brave
+    # 3. 뉴스 수집 — 두 소스 합치기
     news = []
     if market == "US":
-        news = await fetch_us_news(ticker, limit=5)
-        if len(news) < 3:
-            # FMP 부족하면 Brave로 보충
-            news_query = build_news_query(ticker, name_ko, market)
-            brave_news = await fetch_news(news_query, count=5)
-            # 중복 제거 (제목 기준)
-            existing_titles = {n["title"].lower() for n in news}
-            for bn in brave_news:
-                if bn["title"].lower() not in existing_titles:
-                    news.append(bn)
-            news = news[:5]
+        # A) FMP 시장 전체 뉴스에서 해당 종목 필터링
+        market_news = await fetch_market_news(limit=50)
+        fmp_news = filter_news_for_ticker(market_news, ticker, name_ko, limit=5)
+
+        # B) Brave Search로 종목별 직접 검색
+        news_query = build_news_query(ticker, name_ko, market)
+        brave_news = await fetch_news(news_query, count=5)
+
+        # 합치기: FMP 먼저 + Brave 보충 (중복 제거)
+        news = list(fmp_news)
+        existing_titles = {n["title"].lower().strip() for n in news}
+        for bn in brave_news:
+            if bn["title"].lower().strip() not in existing_titles:
+                news.append(bn)
+                existing_titles.add(bn["title"].lower().strip())
+
+        news = news[:7]  # 최대 7개 (소스 다양화)
     else:
         news_query = build_news_query(ticker, name_ko, market)
         news = await fetch_news(news_query, count=5)
@@ -84,7 +93,10 @@ async def collect_stock_data(ticker: str, name_ko: str, market: str) -> dict | N
     today = datetime.now().strftime("%Y-%m-%d")
     await db.save_price(ticker, today, json.dumps(result, ensure_ascii=False))
 
-    print(f"  ✅ {name_ko} | {quote['price']:,} ({quote['change_pct']:+.2f}%) | RSI: {indicators.get('rsi_14', 'N/A')} | 뉴스: {len(news)}건")
+    fmp_count = len(fmp_news) if market == "US" else 0
+    brave_count = len(news) - fmp_count if market == "US" else len(news)
+    src = f"FMP:{fmp_count}+Brave:{brave_count}" if market == "US" else f"Brave:{brave_count}"
+    print(f"  ✅ {name_ko} | {quote['price']:,} ({quote['change_pct']:+.2f}%) | RSI: {indicators.get('rsi_14', 'N/A')} | 뉴스: {len(news)}건 ({src})")
     return result
 
 
@@ -92,6 +104,9 @@ async def collect_all_stocks() -> list[dict]:
     """MVP 전체 종목 데이터 수집"""
     stocks = await db.get_all_stocks()
     results = []
+
+    # 새 사이클: FMP 시장 뉴스 캐시 초기화
+    clear_market_news_cache()
 
     print(f"🔄 {len(stocks)}개 종목 데이터 수집 시작")
     print()
