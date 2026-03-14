@@ -11,6 +11,25 @@ client = AsyncOpenAI(
 MODEL = "claude-opus-4-6"
 
 
+def _strip_markdown(text: str) -> str:
+    """LLM 출력에서 마크다운 포맷을 제거"""
+    import re as _re
+    # Remove heading markers (# ## ### etc)
+    text = _re.sub(r'^#{1,6}\s*', '', text, flags=_re.MULTILINE)
+    # Remove horizontal rules (--- or ***)
+    text = _re.sub(r'^[-*]{3,}$', '', text, flags=_re.MULTILINE)
+    # Remove bold **text** or __text__
+    text = _re.sub(r'\*\*([^*]+)\*\*', r'\\1', text)
+    text = _re.sub(r'__([^_]+)__', r'\\1', text)
+    # Remove italic *text* or _text_ (careful not to touch emoji)
+    text = _re.sub(r'(?<!\w)\*([^*]+)\*(?!\w)', r'\\1', text)
+    # Remove backticks
+    text = _re.sub(r'`([^`]+)`', r'\\1', text)
+    # Clean up 3+ blank lines to 2
+    text = _re.sub(r'\n{3,}', '\\n\\n', text)
+    return text.strip()
+
+
 SYSTEM_PROMPT = """너는 "주읽이"라는 서비스의 AI 투자 해석 도우미야.
 주식 초보자(주린이)를 위해 종목에 무슨 일이 있었고, 그게 주가에 어떤 영향을 줬는지 쉽게 풀어줘.
 
@@ -30,19 +49,31 @@ SYSTEM_PROMPT = """너는 "주읽이"라는 서비스의 AI 투자 해석 도우
 - 공격형(🔥): 적극적. 기회 강조, 단기 모멘텀 언급
 
 ## 출력 형식
-반드시 아래 4개 섹션으로 답변해. 마크다운이나 특수 포맷 없이 텔레그램 텍스트로 보낼 수 있는 형태로.
+반드시 아래 4개 섹션으로 답변해. 텔레그램 일반 텍스트로 보내는 거라 마크다운 금지.
+별도 제목/헤더 없이 바로 1️⃣부터 시작해.
 
 1️⃣ 지금 어디쯤이에요?
-• (현재가, 등락률, 52주 고점 대비 위치를 한두 줄로)
+현재가, 등락률, 52주 고점 대비 위치를 한두 줄로 간결하게.
 
 2️⃣ 무슨 일이 있었나요?
-• (최근 뉴스/이슈를 풀어서 설명. 왜 이 뉴스가 중요한지, 주가에 어떤 영향을 줬거나 줄 수 있는지 연결해서 해석. 호재/악재 표시. 이 섹션이 리포트의 핵심이야 — 3~5문장으로 풍성하게 써줘.))
+뉴스/이슈를 호재·악재별로 분리해서 불릿 포인트로 작성해. 형식:
+
+🟢 호재 헤드라인
+→ 왜 중요한지 한 줄 설명
+
+🔴 악재 헤드라인
+→ 주가에 어떤 영향인지 한 줄 설명
+
+🟡 주의 헤드라인
+→ 체크 포인트 한 줄
+
+호재끼리, 악재끼리 모아서 배치. 각 항목 사이 빈 줄. 벽 텍스트 금지, 각 설명 1~2문장.
 
 3️⃣ 차트는 이렇대요
-• (RSI, 이평선 위치를 초보자가 이해할 수 있게 한두 줄로 짧게. 보조 지표일 뿐이라는 뉘앙스로.)
+RSI, 이평선 위치를 초보자가 이해할 수 있게 한두 줄로 짧게. 보조 지표일 뿐이라는 뉘앙스로.
 
 4️⃣ 이렇게 보시면 돼요 ({성향} 기준)
-(뉴스/이슈와 차트를 종합해서, 성향에 맞는 해석 2~3문장. "이런 뉴스가 있으니까 이런 점을 참고하세요" 식으로.)"""
+뉴스/이슈와 차트를 종합해서, 성향에 맞는 해석 2~3문장."""
 
 
 def _build_user_prompt(data: dict, risk_type: str) -> str:
@@ -129,7 +160,7 @@ async def generate_report(data: dict, risk_type: str) -> str:
         temperature=0.7,
     )
 
-    return response.choices[0].message.content
+    return _strip_markdown(response.choices[0].message.content)
 
 
 def format_report_message(
@@ -176,7 +207,7 @@ def format_report_message(
         f"📊 {today} 주읽이 리포트\n"
         f"\n"
         f"━━━━━━━━━━━━━━━\n"
-        f"{color} {data['name_ko']} ({data['ticker']})\n"
+        f"{color} {data['name_ko']} ({data['ticker']}) · {risk_emoji} {risk_label}\n"
         f"{flag} {price_str}\n"
         f"━━━━━━━━━━━━━━━\n"
         f"\n"
