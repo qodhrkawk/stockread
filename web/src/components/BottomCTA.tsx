@@ -1,3 +1,5 @@
+import { ArrowRight } from "lucide-react";
+
 const BOT_URL = "https://t.me/StockRead_bot";
 
 export default function BottomCTA() {
@@ -20,7 +22,7 @@ export default function BottomCTA() {
         className="flex items-center justify-center gap-2 w-full h-[52px] bg-green text-bg text-base font-bold rounded-xl hover:brightness-110 transition"
       >
         <span>무료로 시작하기</span>
-        <span className="text-lg">→</span>
+        <ArrowRight className="w-5 h-5" />
       </a>
     </section>
   );

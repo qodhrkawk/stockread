@@ -10,6 +10,19 @@ import {
   type RiskKey,
   type LandingData,
 } from "@/lib/report-data";
+import {
+  MapPin,
+  ChartLine,
+  Newspaper,
+  Lightbulb,
+  AlertTriangle,
+  Shield,
+  Scale,
+  Flame,
+  type LucideIcon,
+} from "lucide-react";
+
+const riskIconMap: Record<string, LucideIcon> = { Shield, Scale, Flame };
 
 function useDragScroll() {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,10 +48,10 @@ function useDragScroll() {
   return { ref, onMouseDown, onMouseMove, onMouseUp, onMouseLeave: onMouseUp };
 }
 
-const sectionMeta = [
-  { key: "section1", emoji: "📍", title: "지금 어디쯤이에요?" },
-  { key: "section2", emoji: "📐", title: "차트가 말해주는 것" },
-  { key: "section3", emoji: "📰", title: "무슨 일이 있었나요?" },
+const sectionMeta: { key: string; icon: LucideIcon; title: string }[] = [
+  { key: "section1", icon: MapPin, title: "지금 어디쯤이에요?" },
+  { key: "section2", icon: ChartLine, title: "차트가 말해주는 것" },
+  { key: "section3", icon: Newspaper, title: "무슨 일이 있었나요?" },
 ];
 
 export default function ReportPreview() {
@@ -101,6 +114,7 @@ export default function ReportPreview() {
               className={`shrink-0 px-3 py-[6px] rounded-lg text-xs font-medium border transition-all ${
                 key === risk ? `${m.bg} ${m.border} ${m.color}` : "border-border text-text-secondary hover:bg-border-inner hover:border-text-dim hover:text-text"
               }`}>
+              {(() => { const Icon = riskIconMap[m.icon]; return Icon ? <Icon className="w-3 h-3 inline-block mr-1" /> : null; })()}
               {m.label}
             </button>
           );
@@ -134,20 +148,20 @@ export default function ReportPreview() {
               52주 고점 대비 <span className="text-text font-semibold">{stock.high52}</span>
             </span>
             <span className="bg-border-inner rounded-md px-[10px] py-1 text-[11px] text-text-secondary">
-              {rm.emoji} {rm.name}
+              {(() => { const Icon = riskIconMap[rm.icon]; return Icon ? <Icon className="w-3 h-3 inline-block mr-[2px]" /> : null; })()}{rm.name}
             </span>
           </div>
         </div>
 
         {/* 본문 */}
         <div className="px-5 py-5">
-          {sectionMeta.map(({ key, emoji, title }) => {
+          {sectionMeta.map(({ key, icon: SectionIcon, title }) => {
             const text = sec[key as keyof typeof sec];
             if (!text) return null;
             return (
               <div key={key} className="mb-4">
                 <div className="flex items-center gap-[6px] mb-[6px]">
-                  <span className="text-sm">{emoji}</span>
+                  <SectionIcon className="w-[14px] h-[14px] text-text-secondary" />
                   <span className="text-[13px] font-semibold text-text-secondary">{title}</span>
                 </div>
                 <p className="text-sm leading-[22px] text-neutral-300 pl-[22px] whitespace-pre-line">{text}</p>
@@ -159,8 +173,8 @@ export default function ReportPreview() {
           {sec.interpret && (
             <div className="p-4 bg-green/5 rounded-xl border border-green/10">
               <div className="flex items-center gap-[6px] mb-[6px]">
-                <span className="text-sm">💡</span>
-                <span className="text-[13px] font-semibold text-green">이렇게 보시면 돼요 ({rm.emoji} {rm.name})</span>
+                <Lightbulb className="w-[14px] h-[14px] text-green" />
+                <span className="text-[13px] font-semibold text-green">이렇게 보시면 돼요 ({(() => { const Icon = riskIconMap[rm.icon]; return Icon ? <Icon className="w-3 h-3 inline-block mr-[2px]" /> : null; })()}{rm.name})</span>
               </div>
               <p className="text-sm leading-[22px] text-neutral-300 pl-[22px] whitespace-pre-line">{sec.interpret}</p>
             </div>
@@ -169,7 +183,10 @@ export default function ReportPreview() {
 
         {/* 면책 */}
         <div className="px-5 py-3 bg-bg-footer border-t border-border-inner">
-          <p className="text-[11px] text-text-muted">⚠️ 이 리포트는 참고용이에요. 투자 판단은 본인이 직접 해주세요!</p>
+          <p className="text-[11px] text-text-muted flex items-start gap-1">
+            <AlertTriangle className="w-3 h-3 shrink-0 mt-[1px]" />
+            이 리포트는 참고용이에요. 투자 판단은 본인이 직접 해주세요!
+          </p>
         </div>
       </div>
     </section>

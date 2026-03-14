@@ -1,3 +1,5 @@
+import { ArrowRight } from "lucide-react";
+
 const BOT_URL = "https://t.me/StockRead_bot";
 
 export default function Hero() {
@@ -35,7 +37,7 @@ export default function Hero() {
         className="flex items-center justify-center gap-2 w-full h-[52px] bg-green text-bg text-base font-bold rounded-xl hover:brightness-110 transition"
       >
         <span>텔레그램에서 무료로 시작</span>
-        <span className="text-lg">→</span>
+        <ArrowRight className="w-5 h-5" />
       </a>
 
       {/* 하단 텍스트 */}
