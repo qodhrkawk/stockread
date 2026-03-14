@@ -151,8 +151,19 @@ async def generate_and_save():
                 rrow = await cursor.fetchone()
                 if rrow:
                     report_data = json.loads(rrow[0])
-                    text = report_data.get("text", "")
-                    stock_entry["sections"][risk_key] = _parse_report_sections(text)
+                    # 새 JSON 구조 (position, news, chart, advice)
+                    if "position" in report_data and "news" in report_data:
+                        from app.report.generator import _format_news_section
+                        stock_entry["sections"][risk_key] = {
+                            "section1": report_data.get("position", ""),
+                            "section2": _format_news_section(report_data.get("news", [])),
+                            "section3": report_data.get("chart", ""),
+                            "interpret": report_data.get("advice", ""),
+                        }
+                    else:
+                        # 레거시 텍스트 구조
+                        text = report_data.get("text", "")
+                        stock_entry["sections"][risk_key] = _parse_report_sections(text)
                     print(f"  ✅ {price_data['name_ko']} ({risk_ko})")
                 else:
                     stock_entry["sections"][risk_key] = {
